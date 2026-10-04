@@ -3,100 +3,202 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
 /* =========================================================================
-   CELESTIAL ARCHIVE / BAROQUE EDITORIAL — GLASS & CHROME SURFACES
+   "GOLDEN DOVES AMONG SUNSET CLOUDS" CRISP ATMOSPHERIC DESIGN SYSTEM
+   Exact Palette from Master Oil Painting:
+   - Sunlit Golden Yellow: #F6B51F
+   - Radiant Golden Amber: #E99A18
+   - Burning Sunset Orange / Terracotta: #B96535
+   - Dusk Sky & Mountain Slate: #2B4457 / #397EAC
+   - Deep Cloud Plum / Aubergine: #3A2031 / #49313E
+   - Night Twilight Canvas: #1A1017 / #22131E
+   - Warm Luminous Ivory: #FFF1D9
+   - Soft Sunset Peach: #E9AD83
    ========================================================================= */
 
-/* Capsule Floating Navigation & Glass Surfaces */
-.glass-pill {
-  background: rgba(30, 20, 20, 0.48);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(229, 169, 60, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(10, 5, 4, 0.6);
+/* Solid Crisp Floating Navigation Pill (Zero blur, zero frosted effect) */
+.sunset-nav-pill {
+  background: #24141E;
+  border: 1px solid rgba(233, 154, 24, 0.45);
+  box-shadow: 0 12px 36px -4px rgba(10, 5, 8, 0.65), 0 0 20px -2px rgba(246, 181, 31, 0.18);
 }
 
-.glass-pill:hover {
-  background: rgba(45, 25, 23, 0.65);
-  border-color: rgba(229, 169, 60, 0.38);
+.sunset-nav-pill-light {
+  background: #2D1826;
+  border: 1px solid rgba(246, 181, 31, 0.5);
+  box-shadow: 0 12px 36px -4px rgba(10, 5, 8, 0.7), 0 0 24px -2px rgba(246, 181, 31, 0.22);
 }
 
-.glass-card {
-  background: rgba(37, 25, 23, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(229, 169, 60, 0.16);
+/* Backward-compatible aliases without any blur */
+.glass-sunset-pill {
+  background: #24141E;
+  border: 1px solid rgba(233, 154, 24, 0.45);
+  box-shadow: 0 12px 36px -4px rgba(10, 5, 8, 0.65);
 }
 
-.glass-card-hover {
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+.glass-sunset-pill-dark {
+  background: #1E1119;
+  border: 1px solid rgba(246, 181, 31, 0.4);
+  box-shadow: 0 12px 36px -4px rgba(10, 5, 8, 0.75);
 }
 
-.glass-card-hover:hover {
-  background: rgba(45, 25, 23, 0.88);
-  border-color: rgba(229, 169, 60, 0.42);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -15px rgba(10, 5, 4, 0.7), 0 0 25px -5px rgba(229, 169, 60, 0.18);
+/* Primary Sunset Gold Button */
+.btn-sunset-gold {
+  background: linear-gradient(135deg, #F6B51F 0%, #E99A18 100%);
+  color: #1A1017;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 20px -4px rgba(233, 154, 24, 0.45);
 }
 
-/* Ghost CTAs (Pill-shaped action triggers with dark bronze fill & hairline borders) */
+.btn-sunset-gold:hover {
+  background: linear-gradient(135deg, #FFC94A 0%, #F6B51F 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 28px -4px rgba(246, 181, 31, 0.6);
+}
+
+/* Burnt Orange Action Button */
+.btn-sunset-orange {
+  background: linear-gradient(135deg, #B96535 0%, #9B4F23 100%);
+  color: #FFF1D9;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 20px -4px rgba(185, 101, 53, 0.4);
+}
+
+.btn-sunset-orange:hover {
+  background: linear-gradient(135deg, #D4723B 0%, #B96535 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 28px -4px rgba(185, 101, 53, 0.55);
+}
+
+/* Dusk Sky Blue Action Button */
+.btn-sky-blue {
+  background: linear-gradient(135deg, #397EAC 0%, #255C82 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 20px -4px rgba(57, 126, 172, 0.4);
+}
+
+.btn-sky-blue:hover {
+  background: linear-gradient(135deg, #4A93C4 0%, #397EAC 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 28px -4px rgba(57, 126, 172, 0.55);
+}
+
+/* Crisp Solid Ghost Buttons (No blur, crisp edges) */
+.btn-sunset-ghost-light {
+  background: #2D1A27;
+  border: 1px solid rgba(233, 154, 24, 0.4);
+  color: #FFF1D9;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-sunset-ghost-light:hover {
+  background: #3B2233;
+  border-color: #F6B51F;
+  color: #F6B51F;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -4px rgba(233, 154, 24, 0.3);
+}
+
+.btn-sunset-ghost-dark {
+  background: #24141E;
+  border: 1px solid rgba(246, 181, 31, 0.35);
+  color: #FFF1D9;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-sunset-ghost-dark:hover {
+  background: #351C2C;
+  border-color: #F6B51F;
+  color: #F6B51F;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -4px rgba(246, 181, 31, 0.35);
+}
+
+/* Backward compatibility aliases */
+.btn-primary-gold {
+  @apply btn-sunset-gold;
+}
+
 .btn-ghost-pill {
-  background: rgba(45, 25, 23, 0.5);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  @apply btn-sunset-ghost-dark;
 }
 
-.btn-ghost-pill:hover {
-  background: rgba(60, 32, 28, 0.75);
-  border-color: rgba(229, 169, 60, 0.65);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(229, 169, 60, 0.25);
-}
-
-/* Circular Icon Control (40px round button with backdrop blur) */
+/* Crisp Solid Icon Control (Zero blur) */
 .btn-circle-control {
   width: 40px;
   height: 40px;
   border-radius: 9999px;
-  background: rgba(22, 11, 10, 0.45);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #24141E;
+  border: 1px solid rgba(233, 154, 24, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #FFF1D9;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px -2px rgba(10, 5, 8, 0.4);
 }
 
 .btn-circle-control:hover {
-  background: rgba(45, 25, 23, 0.75);
-  border-color: rgba(229, 169, 60, 0.4);
-  transform: scale(1.05);
+  background: #351C2C;
+  border-color: #F6B51F;
+  color: #F6B51F;
+  transform: scale(1.06);
 }
 
-/* Typography & Shadow Treatment */
+/* Atmospheric Glows & Shadows */
 .headline-shadow {
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.65);
+  text-shadow: 0 4px 28px rgba(42, 28, 36, 0.35);
 }
 
-.text-glow {
-  text-shadow: 0 0 25px rgba(243, 210, 162, 0.35);
+.headline-shadow-dark {
+  text-shadow: 0 4px 30px rgba(10, 5, 8, 0.7);
 }
 
-.text-glow-amber {
-  text-shadow: 0 0 20px rgba(229, 169, 60, 0.45);
+.text-glow-sunset {
+  text-shadow: 0 0 24px rgba(246, 181, 31, 0.45);
+}
+
+.text-glow-peach {
+  text-shadow: 0 0 20px rgba(233, 173, 131, 0.4);
+}
+
+.text-glow-sky {
+  text-shadow: 0 0 20px rgba(57, 126, 172, 0.35);
 }
 
 .watermark-text {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+  background: linear-gradient(180deg, rgba(246, 181, 31, 0.12) 0%, rgba(57, 126, 172, 0.02) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Vertical Chapter Deck Animation Curves & Snap Locking */
+/* Atmospheric Clouds Background Utilities */
+.bg-sunset-atmosphere {
+  background: radial-gradient(circle at 50% 20%, rgba(246, 181, 31, 0.18) 0%, rgba(233, 173, 131, 0.1) 40%, rgba(57, 126, 172, 0.08) 80%, transparent 100%);
+}
+
+.bg-twilight-wash {
+  background: linear-gradient(180deg, #2D1D26 0%, #392833 35%, #2B4257 70%, #1E3142 100%);
+}
+
+.bg-golden-sky-wash {
+  background: linear-gradient(180deg, #FFF1D9 0%, #FAF4EB 40%, #EBF3F8 100%);
+}
+
+/* Snap and transitions */
 .deck-transition {
   transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
 }
@@ -106,20 +208,20 @@
   scroll-snap-stop: always;
 }
 
-/* Custom Baroque Espresso scrollbar */
+/* Custom Sunset Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #160B0A;
+  background: #1A1017;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #251917;
+  background: #B96535;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #E5A93C;
+  background: #F6B51F;
 }

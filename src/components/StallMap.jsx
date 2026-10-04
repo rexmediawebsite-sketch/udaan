@@ -17,75 +17,71 @@ export default function StallMap({ onSelectStallForBooking }) {
 
   const getStatusColor = (status, isSelected) => {
     if (isSelected) {
-      return "bg-[#E5A93C] text-[#160B0A] border-[#FAF6F0] shadow-[0_0_20px_rgba(229,169,60,0.6)] scale-[1.03] z-20 font-semibold";
+      return "bg-[#F6B51F] text-[#2A1C24] border-2 border-white shadow-[0_0_24px_rgba(246,181,31,0.5)] scale-[1.03] z-20 font-bold";
     }
     switch (status) {
       case "AVAILABLE":
-        return "bg-[#251917] text-[#F3D2A2] border-[#E5A93C]/45 hover:border-[#E5A93C] hover:bg-[#2e1d1b]";
+        return "bg-white/95 text-[#2A1C24] border border-[#E9AD83]/40 hover:border-[#F6B51F] hover:bg-white shadow-sm";
       case "BOOKED":
-        return "bg-[#160B0A] text-[#C2B8B5]/30 border-white/5 cursor-not-allowed opacity-55";
+        return "bg-[#1B1117] text-[#754633]/50 border-white/5 cursor-not-allowed opacity-50";
       case "RESERVED":
-        return "bg-[#1C110F] text-[#E5A93C]/80 border-[#E5A93C]/25 cursor-not-allowed";
+        return "bg-[#49313E] text-[#E9AD83] border border-[#E9AD83]/25 cursor-not-allowed";
       default:
-        return "bg-[#251917] text-[#FAF6F0]/70 border-white/10";
+        return "bg-[#2D1D26] text-[#FFF1D9]/70 border-white/10";
     }
   };
 
   const statusLegend = [
-    { label: "AVAILABLE", color: "bg-[#251917] border-[#E5A93C]/60 text-[#F3D2A2]", dot: "bg-[#E5A93C]" },
-    { label: "SELECTED", color: "bg-[#E5A93C] text-[#160B0A]", dot: "bg-white" },
-    { label: "RESERVED", color: "bg-[#1C110F] border-[#E5A93C]/25 text-[#E5A93C]/80", dot: "bg-[#E5A93C]/70" },
-    { label: "BOOKED", color: "bg-[#160B0A] border-white/10 text-[#C2B8B5]/30", dot: "bg-white/30" },
+    { label: "AVAILABLE", color: "bg-white border-[#E9AD83]/40 text-[#2A1C24]", dot: "bg-[#2A1C24]" },
+    { label: "SELECTED", color: "bg-[#F6B51F] text-[#2A1C24]", dot: "bg-white" },
+    { label: "RESERVED", color: "bg-[#49313E] border-[#E9AD83]/30 text-[#E9AD83]", dot: "bg-[#E9AD83]" },
+    { label: "BOOKED", color: "bg-[#1B1117] border-white/10 text-[#754633]/60", dot: "bg-white/20" },
   ];
 
   return (
-    <section id="stall-map" className="relative py-24 md:py-32 bg-[#251917] overflow-hidden border-t border-[#E5A93C]/20">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#E5A93C]/5 blur-[160px] rounded-full pointer-events-none" />
-
+    <section id="stall-map" className="relative py-24 md:py-32 bg-gradient-to-b from-[#180E15] via-[#22131D] to-[#180E15] overflow-hidden border-t border-[#E9AD83]/15">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#E5A93C]/25 bg-[#1C110F]/70 text-[11px] font-sans font-medium tracking-[0.25em] text-[#F3D2A2] uppercase mb-4 backdrop-blur-md">
-            <Layers size={12} className="text-[#E5A93C]" />
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#E99A18]/40 bg-[#251520] text-[11px] font-sans font-medium tracking-[0.25em] text-[#F6B51F] uppercase mb-4 shadow-sm">
+            <Layers size={12} className="text-[#F6B51F]" />
             <span>INTERACTIVE SELECTION</span>
           </div>
 
-          <h2 className="font-serif font-normal text-4xl sm:text-5xl md:text-6xl text-[#FAF6F0] tracking-[0.05em] leading-tight headline-shadow">
-            Exhibition <span className="italic font-light text-[#E5A93C]">Stall Map</span>
+          <h2 className="font-serif font-normal text-4xl sm:text-5xl md:text-6xl text-[#FFF1D9] tracking-[0.02em] leading-tight">
+            Exhibition <span className="italic font-light text-[#F6B51F]">Stall Map</span>
           </h2>
           
-          <p className="mt-4 text-[#C2B8B5] text-sm sm:text-base font-sans font-light leading-relaxed">
+          <p className="mt-4 text-[#E9AD83] text-sm sm:text-base font-sans font-light leading-relaxed">
             Explore the architectural layout of Tangerine Grand at Lemon Tree Premier. Select an available stall to inspect its dimensions, location, and apply for immediate allotment.
           </p>
 
-          {/* Sample Data Disclaimer required by prompt */}
-          <div className="mt-3 inline-flex items-center space-x-1.5 text-[11px] tracking-wider text-[#C2B8B5]/60 bg-white/5 px-3.5 py-1 rounded-full border border-white/10 font-sans">
-            <Info size={11} className="text-[#E5A93C]" />
+          <div className="mt-3 inline-flex items-center space-x-1.5 text-[11px] tracking-wider text-[#FFF1D9]/75 bg-[#251520] px-3.5 py-1 rounded-full border border-[#E9AD83]/25 font-sans">
+            <Info size={11} className="text-[#F6B51F]" />
             <span>Stall layout schematic representation. Allotment subject to final curation review.</span>
           </div>
         </div>
 
         {/* Status Legend & Filters Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-black/40 border border-white/10 mb-8 backdrop-blur-md">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#24141F] border border-[#E9AD83]/25 mb-8 shadow-xl">
           {/* Legend */}
           <div className="flex flex-wrap items-center gap-4 text-xs font-sans tracking-wider">
             {statusLegend.map((leg) => (
               <div key={leg.label} className="flex items-center space-x-2">
                 <span className={`w-3 h-3 rounded-sm border ${leg.color} ${leg.dot}`} />
-                <span className="text-[11px] font-medium text-[#F4ECE1]/80">{leg.label}</span>
+                <span className="text-[11px] font-medium text-[#FFF1D9]/90">{leg.label}</span>
               </div>
             ))}
           </div>
 
           {/* Quick Filter */}
           <div className="flex items-center space-x-2 text-xs">
-            <span className="text-white/50 tracking-wider text-[11px]">FILTER:</span>
+            <span className="text-[#E9AD83] tracking-wider text-[11px]">FILTER:</span>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-[#1C120D] border border-white/20 text-[#FCE7B8] rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-[#E5A93C]"
+              className="bg-[#38232F] border border-[#E9AD83]/35 text-[#F6B51F] rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-[#F6B51F]"
             >
               <option value="ALL">All Statuses</option>
               <option value="AVAILABLE">Available Only</option>
@@ -99,11 +95,11 @@ export default function StallMap({ onSelectStallForBooking }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Main Floor Plan Grid (Left 8 Cols) */}
-          <div className="lg:col-span-8 p-6 md:p-8 rounded-3xl bg-[#1C110F]/90 border border-[#E5A93C]/20 shadow-2xl backdrop-blur-md">
+          <div className="lg:col-span-8 p-6 md:p-8 rounded-3xl bg-[#20141B] border border-[#E9AD83]/25 shadow-2xl">
             
             {/* Grand Entrance Banner in Hall */}
-            <div className="text-center py-2.5 mb-6 border-b border-white/10">
-              <span className="text-[10px] tracking-[0.35em] text-[#E5A93C] uppercase font-semibold font-sans">
+            <div className="text-center py-2.5 mb-6 border-b border-[#E9AD83]/20">
+              <span className="text-[10px] tracking-[0.35em] text-[#F6B51F] uppercase font-semibold font-sans">
                 ▲ MAIN ENTRANCE & VIP RECEPTION (GROUND FLOOR) ▲
               </span>
             </div>
@@ -112,8 +108,6 @@ export default function StallMap({ onSelectStallForBooking }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
               {filteredStalls.map((stall) => {
                 const isSelected = selectedStallId === stall.id;
-                const isBooked = stall.status === "BOOKED";
-                const isReserved = stall.status === "RESERVED";
 
                 return (
                   <button
@@ -129,7 +123,7 @@ export default function StallMap({ onSelectStallForBooking }) {
                         {stall.id}
                       </span>
                       <span className={`text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded tracking-widest font-semibold uppercase ${
-                        isSelected ? 'bg-black text-white' : 'bg-black/30'
+                        isSelected ? 'bg-[#2A1C24] text-[#F6B51F]' : 'bg-black/30'
                       }`}>
                         {stall.status}
                       </span>
@@ -139,14 +133,14 @@ export default function StallMap({ onSelectStallForBooking }) {
                       <div className="text-[10px] sm:text-[11px] font-sans font-medium truncate">
                         {stall.type}
                       </div>
-                      <div className="text-[9px] text-[#C2B8B5]/70 font-sans mt-0.5">
+                      <div className="text-[9px] text-[#6B5860] font-sans mt-0.5">
                         {stall.size}
                       </div>
                     </div>
 
                     {/* Exhibitor Name if Booked */}
                     {stall.exhibitor && (
-                      <div className="text-[9px] text-[#E5A93C] truncate font-serif italic">
+                      <div className="text-[9px] text-[#B96535] truncate font-serif italic">
                         {stall.exhibitor}
                       </div>
                     )}
@@ -156,7 +150,7 @@ export default function StallMap({ onSelectStallForBooking }) {
             </div>
 
             {/* Hall Stages Legend at bottom */}
-            <div className="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-[10px] tracking-wider text-[#C2B8B5]/60 font-sans">
+            <div className="mt-8 pt-4 border-t border-[#E9AD83]/20 flex flex-wrap items-center justify-between text-[10px] tracking-wider text-[#E9AD83]/80 font-sans">
               <span>◄ NORTH LOUNGE (FASHION PREVIEWS)</span>
               <span>CENTRAL TANGERINE BOULEVARD</span>
               <span>SOUTH PAVILION (GOURMET & LIVING) ►</span>
@@ -165,60 +159,60 @@ export default function StallMap({ onSelectStallForBooking }) {
 
           {/* Selected Stall Details Drawer (Right 4 Cols) */}
           <div className="lg:col-span-4 sticky top-28">
-            <div className="p-6 md:p-8 rounded-3xl bg-[#1C110F] border border-[#E5A93C]/40 shadow-2xl relative overflow-hidden">
+            <div className="p-6 md:p-8 rounded-3xl bg-[#2E1828] border border-[#E9AD83]/30 shadow-2xl relative overflow-hidden">
               {/* Subtle gold badge */}
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] tracking-[0.25em] text-[#E5A93C] uppercase font-semibold font-sans">
+                <span className="text-[10px] tracking-[0.25em] text-[#F6B51F] uppercase font-semibold font-sans">
                   STALL INSPECTOR
                 </span>
                 <span className={`text-[9px] tracking-[0.2em] px-2.5 py-1 rounded-full uppercase font-bold font-sans ${
                   selectedStall.status === "AVAILABLE"
-                    ? "bg-[#E5A93C]/20 text-[#F3D2A2] border border-[#E5A93C]/40"
+                    ? "bg-[#F6B51F]/20 text-[#F6B51F] border border-[#E99A18]/40"
                     : selectedStall.status === "RESERVED"
-                    ? "bg-amber-900/40 text-[#F3D2A2] border border-amber-500/30"
-                    : "bg-white/10 text-[#C2B8B5]/60"
+                    ? "bg-[#251A22] text-[#E9AD83] border border-[#E9AD83]/30"
+                    : "bg-[#251A22] text-[#9A8790]"
                 }`}>
                   {selectedStall.status}
                 </span>
               </div>
 
               {/* Stall ID & Type */}
-              <h3 className="font-serif font-bold text-3xl text-[#FAF6F0]">
+              <h3 className="font-serif font-bold text-3xl text-[#FFF1D9]">
                 Stall {selectedStall.id}
               </h3>
-              <p className="font-serif italic text-lg text-[#E5A93C] mt-0.5">
+              <p className="font-serif italic text-lg text-[#F6B51F] mt-0.5">
                 {selectedStall.type}
               </p>
 
               {/* Specs Table */}
-              <div className="mt-6 space-y-3.5 text-xs border-t border-b border-white/10 py-5 font-sans">
+              <div className="mt-6 space-y-3.5 text-xs border-t border-b border-[#E9AD83]/20 py-5 font-sans">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#C2B8B5]/70">Dimensions / Size</span>
-                  <span className="font-semibold text-[#FAF6F0]">{selectedStall.size}</span>
+                  <span className="text-[#E9AD83]">Dimensions / Size</span>
+                  <span className="font-semibold text-[#FFF1D9]">{selectedStall.size}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#C2B8B5]/70">Hall Placement</span>
-                  <span className="font-semibold text-[#FAF6F0]">{selectedStall.location}</span>
+                  <span className="text-[#E9AD83]">Hall Placement</span>
+                  <span className="font-semibold text-[#FFF1D9]">{selectedStall.location}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#C2B8B5]/70">Recommended Category</span>
-                  <span className="font-semibold text-[#FAF6F0]">{selectedStall.category}</span>
+                  <span className="text-[#E9AD83]">Recommended Category</span>
+                  <span className="font-semibold text-[#FFF1D9]">{selectedStall.category}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#C2B8B5]/70">Included Amenities</span>
-                  <span className="font-semibold text-[#F3D2A2]">Fascia, 2 Spots, Power</span>
+                  <span className="text-[#E9AD83]">Included Amenities</span>
+                  <span className="font-semibold text-[#F6B51F]">Fascia, 2 Spots, Power</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#C2B8B5]/70">Commercial Tariff</span>
-                  <span className="font-semibold text-[#E5A93C]">Price on Request</span>
+                  <span className="text-[#E9AD83]">Commercial Tariff</span>
+                  <span className="font-semibold text-[#F6B51F]">Price on Request</span>
                 </div>
               </div>
 
               {/* Exhibitor info if already taken */}
               {selectedStall.exhibitor && (
-                <div className="mt-4 p-3 rounded-xl bg-white/5 border border-white/10 text-xs">
-                  <span className="text-[#C2B8B5]/60 block text-[10px] tracking-wider uppercase font-sans">ALLOTTED BRAND</span>
-                  <span className="font-serif text-sm text-[#F3D2A2] font-medium">{selectedStall.exhibitor}</span>
+                <div className="mt-4 p-3 rounded-xl bg-[#251A22] border border-[#E9AD83]/25 text-xs">
+                  <span className="text-[#E9AD83] block text-[10px] tracking-wider uppercase font-sans">ALLOTTED BRAND</span>
+                  <span className="font-serif text-sm text-[#F6B51F] font-medium">{selectedStall.exhibitor}</span>
                 </div>
               )}
 
@@ -227,7 +221,7 @@ export default function StallMap({ onSelectStallForBooking }) {
                 {selectedStall.status === "AVAILABLE" ? (
                   <button
                     onClick={() => onSelectStallForBooking(selectedStall)}
-                    className="w-full py-3.5 rounded-full bg-[#E5A93C] text-[#160B0A] font-semibold text-xs tracking-[0.22em] uppercase hover:bg-[#F3D2A2] transition-colors shadow-lg flex items-center justify-center space-x-2"
+                    className="btn-sunset-gold w-full py-3.5 rounded-full text-xs font-sans tracking-[0.22em] uppercase shadow-lg flex items-center justify-center space-x-2"
                   >
                     <span>Book Stall {selectedStall.id}</span>
                     <ArrowRight size={13} />
@@ -235,14 +229,14 @@ export default function StallMap({ onSelectStallForBooking }) {
                 ) : (
                   <button
                     onClick={() => onSelectStallForBooking({ ...selectedStall, requestWaitlist: true })}
-                    className="btn-ghost-pill w-full py-3.5 rounded-full text-[#FAF6F0] hover:text-[#E5A93C] text-xs font-sans tracking-[0.22em] uppercase transition-colors"
+                    className="btn-sunset-ghost-dark w-full py-3.5 rounded-full text-[#FFF1D9] hover:text-[#F6B51F] text-xs font-sans tracking-[0.22em] uppercase transition-colors"
                   >
                     Join Waitlist for {selectedStall.id}
                   </button>
                 )}
               </div>
 
-              <p className="mt-4 text-[10px] text-[#C2B8B5]/50 text-center leading-normal font-sans">
+              <p className="mt-4 text-[10px] text-[#E9AD83]/70 text-center leading-normal font-sans">
                 Instant reservation hold for 48 hours following review by the curation team.
               </p>
             </div>

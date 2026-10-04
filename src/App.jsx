@@ -38,8 +38,8 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-[#1b0607] text-[#ece5d8] relative flex flex-col justify-between selection:bg-amber-900/60 selection:text-[#fbf9f4]">
-        {/* Centered Floating Glass Navigation Pill mirroring Reference */}
+      <div className="min-h-screen bg-[#180E15] text-[#FFF1D9] relative flex flex-col justify-between selection:bg-[#F6B51F]/30 selection:text-[#FFF1D9]">
+        {/* Centered Floating Crisp Navigation Pill */}
         <Navigation onOpenBooking={() => handleOpenBooking()} />
 
         {/* Dynamic Multi-Page Routes */}

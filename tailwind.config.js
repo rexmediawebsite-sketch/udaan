@@ -7,63 +7,66 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Deep Canvases
+        // "Golden Doves Among Sunset Clouds" Master Palette
+        sunset: {
+          gold: '#F6B51F',         // Sunlit golden yellow
+          amber: '#E99A18',        // Golden amber
+          orange: '#B96535',       // Burnt orange
+          blue: '#397EAC',         // Dusty sky blue
+          'blue-light': '#EBF3F8', // Soft dusty blue wash
+          'blue-mid': '#5C96BE',   // Medium sky blue
+          'blue-dark': '#234C68',  // Deep twilight blue
+          plum: '#49313E',         // Deep cloud plum
+          'plum-dark': '#2D1D26',  // Twilight shadow plum
+          'plum-light': '#F4EDF1', // Very soft plum tint
+          brown: '#754633',        // Warm cloud brown
+          'brown-dark': '#4D2A1D', // Dark cloud earth
+          peach: '#E9AD83',        // Soft peach / apricot
+          'peach-light': '#FDF5EE',// Light peach cream
+          ivory: '#FFF1D9',        // Warm sunlit ivory
+          cream: '#FAF4EB',        // Soft warm cream background
+          sand: '#F3ECE2',         // Muted sand / parchment
+          ink: '#2A1C24',          // Plum-tinted charcoal text
+          'ink-muted': '#6B5860',  // Muted secondary text
+          'ink-subtle': '#99848D', // Low priority / inactive text
+        },
+
+        // Semantic convenience aliases
         canvas: {
-          espresso: '#1C110F',
-          shadow: '#251917',
-          abyssal: '#160B0A',
+          light: '#FAF4EB',
+          ivory: '#FFF1D9',
+          cream: '#FAF4EB',
+          peach: '#FDF5EE',
+          blue: '#EBF3F8',
+          plum: '#2D1D26',
+          dark: '#1F141B',
         },
-        // Divine Highlights
-        divine: {
-          amber: '#E5A93C',
-          ochre: '#C7852B',
-          peach: '#F3D2A2',
-        },
-        // Cool Contrast
-        celestial: {
-          azure: '#2B6C9E',
-          slate: '#3F586B',
-        },
-        // Editorial Inks
-        ink: {
-          parchment: '#FAF6F0',
-          dust: '#C2B8B5',
-        },
-        // Oxblood & Burgundy legacy mappings
-        oxblood: {
-          950: '#160B0A',
-          900: '#1C110F',
-          850: '#230809',
-          800: '#251917',
-          700: '#3d1214',
-        },
-        parchment: {
-          100: '#FAF6F0',
-          200: '#FAF6F0',
-          300: '#C2B8B5',
-        },
-        udaan: {
-          gold: '#E5A93C',
-          'gold-light': '#F3D2A2',
-          'gold-dark': '#C7852B',
-          amber: '#E5A93C',
-          azure: '#2B6C9E',
+        dove: {
+          white: '#FFFFFF',
+          wing: '#FFFBF5',
+          ivory: '#FFF1D9',
         }
       },
       fontFamily: {
         serif: ['"Cormorant Garamond"', '"EB Garamond"', 'Georgia', 'serif'],
-        cormorant: ['"Cormorant Garamond"', '"EB Garamond"', 'Georgia', 'serif'],
-        garamond: ['"EB Garamond"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+        cormorant: ['"Cormorant Garamond"', 'serif'],
+        garamond: ['"EB Garamond"', 'serif'],
         cinzel: ['"Cinzel"', 'serif'],
-        sans: ['"Plus Jakarta Sans"', '"Montserrat"', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         syne: ['"Syne"', 'sans-serif'],
         devanagari: ['"Noto Serif Devanagari"', 'serif']
       },
       letterSpacing: {
-        'tight-title': '0.08em',
-        'wide-label': '0.18em',
+        'tight-title': '0.04em',
+        'wide-label': '0.2em',
         'widest-xl': '0.25em',
         'widest-2xl': '0.35em',
+      },
+      boxShadow: {
+        'sunset': '0 12px 36px -8px rgba(233, 154, 24, 0.25)',
+        'plum': '0 16px 40px -10px rgba(45, 29, 38, 0.45)',
+        'sky': '0 12px 30px -8px rgba(57, 126, 172, 0.2)',
+        'soft-warm': '0 8px 30px -4px rgba(117, 70, 51, 0.08)',
       },
       transitionTimingFunction: {
         'celestial': 'cubic-bezier(0.65, 0, 0.35, 1)',
