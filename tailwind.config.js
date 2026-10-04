@@ -52,9 +52,11 @@ export default {
         cormorant: ['"Cormorant Garamond"', 'serif'],
         garamond: ['"EB Garamond"', 'serif'],
         cinzel: ['"Cinzel"', 'serif'],
+        cinzelDeco: ['"Cinzel Decorative"', 'serif'],
+        rozha: ['"Rozha One"', '"Noto Serif Devanagari"', 'serif'],
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         syne: ['"Syne"', 'sans-serif'],
-        devanagari: ['"Noto Serif Devanagari"', 'serif']
+        devanagari: ['"Rozha One"', '"Noto Serif Devanagari"', 'serif']
       },
       letterSpacing: {
         'tight-title': '0.04em',

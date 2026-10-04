@@ -80,12 +80,12 @@ export default function Hero({ onOpenBooking }) {
           </span>
         </div>
 
-        {/* Hero Title: UDAAN & महिलाओं की नई पहचान */}
+        {/* Hero Title: Cinzel for UDAAN & Rozha One for महिलाओं की नई पहचान */}
         <div className="flex flex-col items-center justify-center leading-none">
-          <h1 className="font-serif font-normal text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#FFF1D9] tracking-[0.08em] leading-[0.88] headline-shadow-dark text-glow-sunset uppercase select-text">
+          <h1 className="font-cinzel font-medium text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#FFF1D9] tracking-[0.14em] leading-[0.9] headline-shadow-dark text-glow-sunset uppercase select-text">
             UDAAN
           </h1>
-          <h2 className="font-devanagari font-medium sm:font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#FFF1D9] tracking-wide leading-tight headline-shadow-dark text-glow-sunset select-text mt-3 sm:mt-4 md:mt-5">
+          <h2 className="font-rozha font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#FFF1D9] tracking-wide leading-normal headline-shadow-dark text-glow-sunset select-text mt-3 sm:mt-4 md:mt-5">
             महिलाओं की नई पहचान
           </h2>
         </div>
