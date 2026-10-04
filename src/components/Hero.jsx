@@ -72,7 +72,7 @@ export default function Hero({ onOpenBooking }) {
         <div className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full border border-[#F6B51F]/40 bg-[#1E121B]/75 mb-5 shadow-2xl backdrop-blur-sm">
           <Sparkles className="w-3.5 h-3.5 text-[#F6B51F] animate-pulse" />
           <span className="text-[11px] font-sans font-bold tracking-[0.25em] text-[#F6B51F] uppercase">
-            UDAAN PRESENTS
+            GLAMOUR GALA
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#397EAC]" />
           <span className="text-[10px] font-sans tracking-[0.2em] text-[#FFF1D9] font-medium">
@@ -80,13 +80,13 @@ export default function Hero({ onOpenBooking }) {
           </span>
         </div>
 
-        {/* Hero Title: Cormorant Garamond & Syne Typography */}
+        {/* Hero Title: UDAAN & महिलाओं की नई पहचान */}
         <div className="flex flex-col items-center justify-center leading-none">
           <h1 className="font-serif font-normal text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#FFF1D9] tracking-[0.08em] leading-[0.88] headline-shadow-dark text-glow-sunset uppercase select-text">
-            GLAMOUR
+            UDAAN
           </h1>
-          <h2 className="font-syne font-extrabold uppercase text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#FFF1D9] tracking-[-0.02em] leading-[0.92] headline-shadow-dark select-text -mt-1 sm:-mt-2 md:-mt-3">
-            GALA
+          <h2 className="font-devanagari font-medium sm:font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#FFF1D9] tracking-wide leading-tight headline-shadow-dark text-glow-sunset select-text mt-3 sm:mt-4 md:mt-5">
+            महिलाओं की नई पहचान
           </h2>
         </div>
 
