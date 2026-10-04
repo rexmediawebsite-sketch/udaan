@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth h-full overflow-hidden" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Digital Archive — StudioWorks Exhibits</title>
+<!-- Google Fonts: Cormorant Garamond & Montserrat -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            oxblood: {
+              950: '#150204',
+              900: '#1b0607',
+              850: '#230809',
+              800: '#2d0c0e',
+              700: '#3d1214',
+            },
+            parchment: {
+              100: '#fbf9f4',
+              200: '#ece5d8',
+              300: '#ded4c3',
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Montserrat', 'system-ui', 'sans-serif'],
+          },
+          letterSpacing: {
+            'widest-xl': '0.25em',
+            'widest-2xl': '0.35em',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Atmospheric & Visual Fidelity -->
+<style data-purpose="custom-typography">
+    .font-cormorant {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .headline-shadow {
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+    }
+    .text-glow {
+      text-shadow: 0 0 25px rgba(255, 235, 200, 0.25);
+    }
+  </style>
+<style data-purpose="visual-effects">
+    .glass-pill {
+      background: rgba(35, 8, 9, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    .glass-pill:hover {
+      background: rgba(58, 20, 23, 0.65);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+    }
+    .watermark-text {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.005) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Scroll container snap & silky easing */
+    .slides-container {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+    .slide-section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    /* Atmospheric subtle slow floating drift */
+    @keyframes subtleDrift {
+      0%, 100% {
+        transform: scale(1.04) translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: scale(1.08) translateY(-14px) rotate(0.4deg);
+      }
+    }
+    .animate-drift-slow {
+      animation: subtleDrift 22s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    @keyframes doveFlight {
+      0%, 100% {
+        transform: translateY(0px) translateX(0px);
+      }
+      50% {
+        transform: translateY(-8px) translateX(5px);
+      }
+    }
+    .animate-dove {
+      animation: doveFlight 8s ease-in-out infinite alternate;
+    }
+
+    /* Editorial Entrance Reveal Transitions */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .is-active .reveal-item {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-100 { transition-delay: 100ms; }
+    .delay-200 { transition-delay: 200ms; }
+    .delay-300 { transition-delay: 300ms; }
+    .delay-400 { transition-delay: 400ms; }
+    .delay-500 { transition-delay: 500ms; }
+
+    /* Indicator glow active styling */
+    .indicator-dot {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .indicator-dot.active {
+      height: 28px;
+      background-color: #fbf9f4;
+      box-shadow: 0 0 12px rgba(251, 249, 244, 0.8);
+      border-radius: 9999px;
+    }
+    .indicator-dot:not(.active):hover {
+      background-color: rgba(251, 249, 244, 0.6);
+      transform: scale(1.2);
+    }
+
+    /* Custom hidden scrollbars */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-oxblood-950 text-parchment-200 font-sans antialiased h-full overflow-hidden selection:bg-amber-900 selection:text-white">
+<!-- BEGIN: Sticky Floating Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex items-center justify-between pointer-events-none" data-purpose="site-navigation-header">
+<!-- Left round back button -->
+<div class="pointer-events-auto">
+<button aria-label="Previous Slide" class="w-11 h-11 rounded-full bg-black/40 border border-white/20 text-parchment-200 flex items-center justify-center backdrop-blur-md hover:bg-black/60 hover:border-white/40 hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg" onclick="navigateSlide(-1)">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Center capsule navigation pill -->
+<nav class="pointer-events-auto" data-purpose="capsule-menu">
+<div class="glass-pill rounded-full px-7 py-2.5 flex items-center space-x-6 sm:space-x-8 text-[11px] tracking-widest-xl uppercase font-sans font-medium text-parchment-100 shadow-2xl transition-all duration-300">
+<a class="nav-item hover:text-amber-200 transition-colors duration-300" data-index="0" href="#hero">Gallery</a>
+<a class="nav-item hover:text-amber-200 transition-colors duration-300" data-index="1" href="#statement">Talents</a>
+<!-- Center Emblem / Butterfly Logo -->
+<a aria-label="Home" class="mx-1 text-parchment-100 hover:text-amber-200 hover:rotate-6 transition-all duration-300" href="#hero" onclick="goToSlide(0)">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M12 14c-.6 0-1.1-.3-1.5-.7C9.3 12 8 10 5.5 10c-2.5 0-4 1.8-4 4 0 3 2.5 5.5 6 5.5 1.5 0 3-.5 4.5-1.5 1.5 1 3 1.5 4.5 1.5 3.5 0 6-2.5 6-5.5 0-2.2-1.5-4-4-4-2.5 0-3.8 2-5 3.3-.4.4-.9.7-1.5.7zm0-4c.6 0 1.1-.3 1.5-.7C14.7 8 16 6 18.5 6c2.5 0 4 1.8 4 4 0 3-2.5 5.5-6 5.5-1.5 0-3-.5-4.5-1.5-1.5 1-3 1.5-4.5 1.5-3.5 0-6-2.5-6-5.5 0-2.2 1.5-4 4-4 2.5 0 3.8 2 5 3.3.4.4.9.7 1.5.7z"></path>
+</svg>
+</a>
+<a class="nav-item hover:text-amber-200 transition-colors duration-300" data-index="2" href="#interview">Journal</a>
+<a class="nav-item hover:text-amber-200 transition-colors duration-300" data-index="3" href="#narrative">Story</a>
+</div>
+</nav>
+<!-- Right top label / action indicator -->
+<div class="pointer-events-auto hidden md:block">
+<div class="glass-pill rounded-full px-5 py-2.5 text-[10px] tracking-widest-xl uppercase text-parchment-300 font-sans shadow-lg">
+<span>Appreciation For</span>
+</div>
+</div>
+</header>
+<!-- END: Sticky Floating Navigation Bar -->
+<!-- BEGIN: Vertical Slide Pagination Indicator -->
+<div aria-label="Slide Indicator" class="fixed right-6 sm:right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center space-y-4 pointer-events-auto hidden sm:flex">
+<button aria-label="Slide 1 - Digital Archive" class="indicator-dot w-2 h-2 rounded-full bg-parchment-300/40 cursor-pointer active" data-slide-indicator="0" onclick="goToSlide(0)"></button>
+<button aria-label="Slide 2 - Still Frame" class="indicator-dot w-2 h-2 rounded-full bg-parchment-300/40 cursor-pointer" data-slide-indicator="1" onclick="goToSlide(1)"></button>
+<button aria-label="Slide 3 - Q&amp;A Interview" class="indicator-dot w-2 h-2 rounded-full bg-parchment-300/40 cursor-pointer" data-slide-indicator="2" onclick="goToSlide(2)"></button>
+<button aria-label="Slide 4 - Story Narrative" class="indicator-dot w-2 h-2 rounded-full bg-parchment-300/40 cursor-pointer" data-slide-indicator="3" onclick="goToSlide(3)"></button>
+</div>
+<!-- END: Vertical Slide Pagination Indicator -->
+<!-- BEGIN: Fullscreen Smooth Slides Container -->
+<main class="slides-container h-full w-full overflow-y-scroll overflow-x-hidden no-scrollbar" id="slides-container">
+<!-- SLIDE 1: Hero Section (Frame 4) -->
+<section class="slide-section relative h-screen w-full flex items-center justify-center overflow-hidden bg-oxblood-900 is-active" data-purpose="hero-cover" id="hero">
+<!-- Renaissance Oil Painting Backdrop with Golden Clouds & Flying Doves -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+<img alt="Baroque illuminated golden sky with soaring white doves" class="w-full h-full object-cover object-center filter brightness-95 contrast-105 animate-drift-slow pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl8y_ETky4xgcyfoKclB0x0oLK7xhgch8625j4sfnH_G_tnJXUY7XqIDKOdPSniNyzV_wyf_Wzn6k-1LRgMlH5L2MIhH217BOMntNIpOph9uMQQAuT3DB0ZO2P-G06-kZtrXp5Fbeg_s5m3t6JwFHqGFa_Q9wEN4wDAoFB039Y4tM0u-VvER17Cd5NGQZ7SD-YT38SO-hNf_HY3Gn-MQhpB77fpCHSqDfnsiIZ4XjbXir-ddV99OpMMax_zwLA8zzYWw"/>
+<!-- Subtle top and bottom gradient fades for smooth transitions -->
+<div class="absolute inset-0 bg-gradient-to-t from-oxblood-950 via-oxblood-900/30 to-black/50 mix-blend-multiply"></div>
+<div class="absolute bottom-0 left-0 right-0 h-44 bg-gradient-to-b from-transparent via-oxblood-950/60 to-oxblood-950"></div>
+</div>
+<!-- Hero Content Overlay -->
+<div class="relative z-10 text-center max-w-4xl mx-auto px-6 pt-16 flex flex-col items-center">
+<!-- Eyebrow Subtitle -->
+<div class="mb-4 reveal-item delay-100">
+<p class="text-[11px] md:text-[12px] uppercase tracking-widest-2xl font-sans text-amber-100/90 font-medium headline-shadow">
+          Studioworks Exhibits
+        </p>
+</div>
+<!-- Main Display Title -->
+<h1 class="font-cormorant text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-parchment-100 tracking-tight leading-[0.92] headline-shadow uppercase font-light reveal-item delay-200">
+        Digital<br/>
+<span class="italic font-normal tracking-wide text-parchment-100">Archive</span>
+</h1>
+<!-- Atmospheric Statement -->
+<p class="mt-8 max-w-xl text-base md:text-lg font-cormorant italic text-parchment-200 leading-relaxed headline-shadow opacity-95 reveal-item delay-300">
+        A showcase honoring the makers, visionaries and creators who turned a hard season into something rare.
+      </p>
+<!-- Pill Button Action -->
+<div class="mt-10 reveal-item delay-400">
+<a class="glass-pill inline-block px-9 py-3 rounded-full text-[11px] tracking-widest-2xl uppercase text-parchment-100 font-sans transition-all duration-300 hover:scale-105" href="#statement" onclick="event.preventDefault(); goToSlide(1)">
+          Enter Gallery
+        </a>
+</div>
+</div>
+</section>
+<!-- END: Hero Section -->
+<!-- SLIDE 2: Editorial Statement Section (Frame 3) -->
+<section class="slide-section relative h-screen w-full flex items-center justify-center overflow-hidden bg-oxblood-950" data-purpose="editorial-statement" id="statement">
+<!-- Painterly Background Silhouettes & Lone Dove -->
+<div class="absolute inset-0 z-0 opacity-80 pointer-events-none overflow-hidden">
+<img alt="Dramatic dark burgundy painterly sky with solitary dove" class="w-full h-full object-cover object-center mix-blend-screen animate-drift-slow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiSFwcpRqw2HaljwbRW9bKCNjnqMKJAOFpP8LI71Kc3dWA8e1H2hsvX8nNw5L_RK3lcRGVshV7JSaLtG80g_i_-TWHLNTzC1t0SBe6Mrt5HX32nuLuEkUOtlWdWbJF6L2sG5cM2jud3MHiiAPQRi6swTWJMgMyfDzobcqdolO9yNCHTeD57r-iGuGQ7CBHfzO9IYvVa7KcyrJkeEORt4FRjn_ZUtu6IjNvOBxgIBwqrZ2P7ZSmrIogEUFNC63JRm0i6w"/>
+<div class="absolute inset-0 bg-oxblood-950/60 backdrop-blur-[2px]"></div>
+<div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-oxblood-950 to-transparent"></div>
+<div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-oxblood-950 to-transparent"></div>
+</div>
+<!-- Editorial Central Content -->
+<div class="relative z-10 text-center max-w-3xl mx-auto px-6 py-12 flex flex-col items-center">
+<!-- Grand Serif Header -->
+<h2 class="font-cormorant text-5xl sm:text-6xl md:text-7xl font-normal text-parchment-100 leading-none mb-6 reveal-item delay-100 headline-shadow">
+        Still Frame
+      </h2>
+<!-- Poetic Statement -->
+<p class="font-cormorant text-2xl sm:text-3xl md:text-4xl text-parchment-200/90 font-light leading-snug max-w-xl mx-auto mb-10 reveal-item delay-200 headline-shadow">
+        gave the world beauty born from the silence of empty studios.
+      </p>
+<!-- View Archive Button -->
+<div class="reveal-item delay-300">
+<a class="glass-pill inline-block px-8 py-3 rounded-full text-[11px] tracking-widest-2xl uppercase text-parchment-200 font-sans transition-all duration-300 hover:text-white hover:scale-105" href="#interview" onclick="event.preventDefault(); goToSlide(2)">
+          View Their Archive
+        </a>
+</div>
+</div>
+</section>
+<!-- END: Editorial Statement Section -->
+<!-- SLIDE 3: Q&A Interview Section (Frame 2) -->
+<section class="slide-section relative h-screen w-full flex items-center bg-oxblood-950 py-20 px-6 sm:px-12 lg:px-24 overflow-hidden" data-purpose="interview-feature" id="interview">
+<!-- Visual Backdrop Texture & Watermark -->
+<div class="absolute inset-0 z-0">
+<img alt="Rich dark oxblood canvas background" class="w-full h-full object-cover object-center opacity-40 mix-blend-color-dodge animate-drift-slow pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANUA_VdEGd4IqJLG8qpYptPGZNh7gT0Nw6u3IDm27ozSpNmqXx4q6xWKqsZuZ1GlKuWxCQm-2nzRCp3shohqciO-YmLFszlnq68TEYlFjEjVE7YdFyY1VtB-rh9uRpA3f5Il7vIssVQ_E3T2DDbkSXjZenfSFgTquMfx9NJw87hKYFKfhQU-cdbKZRhJo8r0rcgAYVuY86ScnjVcDddZpdqVxi-vzMkiIc4t4wZNZBZclmpCsSFIHMV2EW291jaeInGw"/>
+<!-- Dramatic Oversized Watermark "Q&A" -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
+<span class="font-cormorant italic text-[16rem] sm:text-[22rem] md:text-[28rem] font-light watermark-text leading-none block">
+          Q&amp;A
+        </span>
+</div>
+<div class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-oxblood-950 to-transparent"></div>
+<div class="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-oxblood-950 to-transparent"></div>
+</div>
+<!-- Editorial 2-Column Grid -->
+<div class="relative z-10 max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-14 lg:gap-24">
+<!-- Left Column: Origins & Starting Process -->
+<div class="space-y-8 sm:space-y-10" data-purpose="interview-column-left">
+<!-- Question 1 -->
+<div class="space-y-3 reveal-item delay-100">
+<h3 class="font-cormorant text-xl md:text-2xl font-semibold tracking-wide text-parchment-100 uppercase">
+            Welcome Maren. So how did Still Frame begin its journey?
+          </h3>
+<p class="font-sans text-xs md:text-sm text-parchment-300/80 leading-relaxed font-light text-justify">
+            Less than a year into launching the gallery, everything shut down. I had to close our doors, cancel every exhibit, and rethink it all. But I never stopped curating because I was so determined not to let the artists’ momentum die. We hit the ground running to build a digital space, and we’ve been evolving since.
+          </p>
+</div>
+<!-- Question 2 -->
+<div class="space-y-3 reveal-item delay-200">
+<h3 class="font-cormorant text-xl md:text-2xl font-semibold tracking-wide text-parchment-100 uppercase">
+            How did you know where to begin?
+          </h3>
+<p class="font-sans text-xs md:text-sm text-parchment-300/80 leading-relaxed font-light text-justify">
+            I didn't wait until we had the perfect platform, I saw artists struggling, isolated, uninspired, overwhelmed, and set to the task of creating ways to share their work with the world as quickly as possible.
+          </p>
+</div>
+</div>
+<!-- Right Column: Reaction & Connection -->
+<div class="space-y-8 sm:space-y-10 md:pt-10" data-purpose="interview-column-right">
+<!-- Question 3 -->
+<div class="space-y-3 reveal-item delay-300">
+<h3 class="font-cormorant text-xl md:text-2xl font-semibold tracking-wide text-parchment-100 uppercase">
+            What was the initial reaction?
+          </h3>
+<p class="font-sans text-xs md:text-sm text-parchment-300/80 leading-relaxed font-light text-justify">
+            We had so many people writing and reaching out that the online exhibits and archived works saved them in isolation. The atmosphere was so intimate, and it was really powerful to have people connecting through art, even though we were all in our own rooms, in different cities.
+          </p>
+</div>
+<!-- Decorative quote accentuation -->
+<div class="pt-6 border-t border-white/10 reveal-item delay-400">
+<p class="font-cormorant italic text-lg sm:text-xl text-parchment-200/95 leading-normal">
+            "Art wasn't an escape from reality—it became our only truthful anchor to each other."
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Q&A Interview Section -->
+<!-- SLIDE 4: Narrative Cloud Panorama Section (Frame 1) -->
+<section class="slide-section relative h-screen w-full flex flex-col justify-between overflow-hidden bg-oxblood-950" data-purpose="narrative-reflection" id="narrative">
+<!-- Cloud Panorama Layer -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+<img alt="Cumulus cloud bank in classical oil painting style with crimson sky" class="w-full h-full object-cover object-bottom filter contrast-105 animate-drift-slow pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRIHCw7XSRr5jxhzufIXfHL95dXqNuNwsaPLW3_g10yAqOQmywF4GCoMrnnP7WxpOtCokBS0fbugkdiHY2wRtxcA7qzWmTQFvxX7J8_GpeCb9xflyu3Oq1g8GHuWzuppcbz2N25-y8Z652eaeeQytnt_eDu_3kGziCTlTjiRiYognZB8gblhYNPTUfK5Tm9IRbseZPGUXdUQEfNfaDV5XRurRa_OtJbG0EDL-RyPS3rlmoRRB2T72gmrCCmlXC6GrT5w"/>
+<div class="absolute inset-0 bg-gradient-to-b from-oxblood-950/80 via-transparent to-oxblood-950/90"></div>
+</div>
+<!-- Narrative Floating Excerpts -->
+<div class="relative z-10 max-w-7xl mx-auto w-full px-6 sm:px-12 pt-28 pb-12 my-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-28">
+<!-- Excerpt 1 (Top Left) -->
+<div class="max-w-md bg-black/40 backdrop-blur-md p-7 rounded-2xl border border-white/10 shadow-2xl reveal-item delay-100" data-purpose="narrative-quote-left">
+<p class="font-sans text-xs md:text-sm text-parchment-200/90 leading-relaxed font-light">
+          We were one of the first galleries to launch a virtual exhibition after the shutdown. I think that, they saw how hard we fought for them, they trusted us while we continued to refine the digital experience.
+        </p>
+</div>
+<!-- Excerpt 2 (Right Floating Callout) -->
+<div class="max-w-md md:ml-auto bg-black/40 backdrop-blur-md p-7 rounded-2xl border border-white/10 shadow-2xl reveal-item delay-200" data-purpose="narrative-quote-right">
+<p class="font-sans text-xs md:text-sm text-parchment-200/90 leading-relaxed font-light">
+          There’s a feeling of urgency like — this is our one life, our one chance, we don’t have time to be indifferent anymore. We’re gonna create like there’s no tomorrow, we’re gonna create to reclaim our voice in this life, and we’re gonna create because we deserve to feel beauty and wonder.
+        </p>
+</div>
+</div>
+<!-- BEGIN: Site Footer (Integrated docked at Slide 4 base) -->
+<footer class="relative z-20 w-full bg-oxblood-950/80 backdrop-blur-md border-t border-white/10 px-8 py-4 text-parchment-300 text-[10px] uppercase tracking-widest-xl font-sans" data-purpose="site-footer">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+<!-- Footer Left: Social Media Glyphs & Privacy Notice -->
+<div class="flex items-center space-x-6">
+<!-- Social Icons -->
+<div class="flex items-center space-x-3 text-parchment-300 hover:text-white transition-colors">
+<!-- Facebook/Generic Icon -->
+<a aria-label="Facebook" class="hover:opacity-80 transition-opacity" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"></path></svg>
+</a>
+<!-- Twitter/X Icon -->
+<a aria-label="Twitter" class="hover:opacity-80 transition-opacity" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+</a>
+<!-- LinkedIn Icon -->
+<a aria-label="LinkedIn" class="hover:opacity-80 transition-opacity" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.2a1.64 1.64 0 0 0-1.66 1.64c0 .91.74 1.65 1.66 1.65.9 0 1.65-.74 1.65-1.65A1.65 1.65 0 0 0 7.83 6.2z"></path></svg>
+</a>
+</div>
+<a class="hover:text-parchment-100 transition-colors" href="#privacy">Privacy Notice</a>
+</div>
+<!-- Footer Right: Terms & Policies + Logo Emblem -->
+<div class="flex items-center space-x-6">
+<a class="hover:text-parchment-100 transition-colors" href="#terms">Terms &amp; Policies</a>
+<!-- Gallery Monogram Icon -->
+<span aria-label="Gallery Identity" class="inline-flex items-center space-x-1.5 opacity-80">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M4 4h7v7H4zm9 0h7v7h-7zm0 9h7v7h-7zM4 13h7v7H4z"></path>
+</svg>
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"></path>
+</svg>
+</span>
+</div>
+</div>
+</footer>
+<!-- END: Site Footer -->
+</section>
+<!-- END: Narrative Cloud Panorama Section -->
+</main>
+<!-- END: Fullscreen Smooth Slides Container -->
+<!-- Slide Interaction & Keyboard / Wheel Controller -->
+<script>
+  const container = document.getElementById('slides-container');
+  const sections = Array.from(document.querySelectorAll('.slide-section'));
+  const indicators = Array.from(document.querySelectorAll('[data-slide-indicator]'));
+  const navLinks = Array.from(document.querySelectorAll('.nav-item'));
+  let currentIndex = 0;
+  let isThrottled = false;
+
+  function updateActiveState(index) {
+    if (index < 0 || index >= sections.length) return;
+    currentIndex = index;
+
+    // Update section active state for CSS entrance animations
+    sections.forEach((sec, idx) => {
+      if (idx === index) {
+        sec.classList.add('is-active');
+      } else {
+        sec.classList.remove('is-active');
+      }
+    });
+
+    // Update vertical slide indicator dots
+    indicators.forEach((dot, idx) => {
+      if (idx === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+
+    // Update capsule navbar active state
+    navLinks.forEach((link, idx) => {
+      if (idx === index) {
+        link.classList.add('text-amber-200');
+        link.classList.remove('text-parchment-100');
+      } else {
+        link.classList.remove('text-amber-200');
+        link.classList.add('text-parchment-100');
+      }
+    });
+  }
+
+  function goToSlide(index) {
+    if (index < 0 || index >= sections.length) return;
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+    updateActiveState(index);
+  }
+
+  function navigateSlide(direction) {
+    const target = currentIndex + direction;
+    if (target >= 0 && target < sections.length) {
+      goToSlide(target);
+    }
+  }
+
+  // Intercept navigation links
+  navLinks.forEach((link, idx) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToSlide(idx);
+    });
+  });
+
+  // IntersectionObserver for tracking slide arrival smoothly during scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        const index = sections.indexOf(entry.target);
+        if (index !== -1) {
+          updateActiveState(index);
+        }
+      }
+    });
+  }, {
+    root: container,
+    threshold: 0.5
+  });
+
+  sections.forEach(sec => observer.observe(sec));
+
+  // Wheel gliding handler with silky debounce throttle
+  let wheelTimeout;
+  window.addEventListener('wheel', (e) => {
+    // Only glide if scroll container is targeted
+    if (Math.abs(e.deltaY) < 30) return;
+    if (isThrottled) return;
+
+    if (e.deltaY > 0) {
+      if (currentIndex < sections.length - 1) {
+        isThrottled = true;
+        navigateSlide(1);
+        setTimeout(() => { isThrottled = false; }, 850);
+      }
+    } else {
+      if (currentIndex > 0) {
+        isThrottled = true;
+        navigateSlide(-1);
+        setTimeout(() => { isThrottled = false; }, 850);
+      }
+    }
+  }, { passive: true });
+
+  // Keyboard navigation (Arrow keys / PageUp / PageDown / Space)
+  window.addEventListener('keydown', (e) => {
+    if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+      e.preventDefault();
+      navigateSlide(1);
+    } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+      e.preventDefault();
+      navigateSlide(-1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goToSlide(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goToSlide(sections.length - 1);
+    }
+  });
+
+  // Initialize
+  updateActiveState(0);
+</script>
+</body></html>

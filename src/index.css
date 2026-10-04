@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+/* =========================================================================
+   CELESTIAL ARCHIVE / BAROQUE EDITORIAL — GLASS & CHROME SURFACES
+   ========================================================================= */
+
+/* Capsule Floating Navigation & Glass Surfaces */
+.glass-pill {
+  background: rgba(30, 20, 20, 0.48);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 169, 60, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(10, 5, 4, 0.6);
+}
+
+.glass-pill:hover {
+  background: rgba(45, 25, 23, 0.65);
+  border-color: rgba(229, 169, 60, 0.38);
+}
+
+.glass-card {
+  background: rgba(37, 25, 23, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 169, 60, 0.16);
+}
+
+.glass-card-hover {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  background: rgba(45, 25, 23, 0.88);
+  border-color: rgba(229, 169, 60, 0.42);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(10, 5, 4, 0.7), 0 0 25px -5px rgba(229, 169, 60, 0.18);
+}
+
+/* Ghost CTAs (Pill-shaped action triggers with dark bronze fill & hairline borders) */
+.btn-ghost-pill {
+  background: rgba(45, 25, 23, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-ghost-pill:hover {
+  background: rgba(60, 32, 28, 0.75);
+  border-color: rgba(229, 169, 60, 0.65);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(229, 169, 60, 0.25);
+}
+
+/* Circular Icon Control (40px round button with backdrop blur) */
+.btn-circle-control {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: rgba(22, 11, 10, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-circle-control:hover {
+  background: rgba(45, 25, 23, 0.75);
+  border-color: rgba(229, 169, 60, 0.4);
+  transform: scale(1.05);
+}
+
+/* Typography & Shadow Treatment */
+.headline-shadow {
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.65);
+}
+
+.text-glow {
+  text-shadow: 0 0 25px rgba(243, 210, 162, 0.35);
+}
+
+.text-glow-amber {
+  text-shadow: 0 0 20px rgba(229, 169, 60, 0.45);
+}
+
+.watermark-text {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Vertical Chapter Deck Animation Curves & Snap Locking */
+.deck-transition {
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.snap-chapter-slide {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Custom Baroque Espresso scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #160B0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #251917;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E5A93C;
+}

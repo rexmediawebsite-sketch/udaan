@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth h-full overflow-hidden" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Digital Archive — StudioWorks Exhibits</title>
+<!-- Google Fonts: Cormorant Garamond & Montserrat -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            oxblood: {
+              900: '#1b0607',
+              850: '#230809',
+              800: '#2d0c0e',
+              700: '#3d1214',
+            },
+            parchment: {
+              100: '#fbf9f4',
+              200: '#ece5d8',
+              300: '#ded4c3',
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Montserrat', 'system-ui', 'sans-serif'],
+          },
+          letterSpacing: {
+            'widest-xl': '0.25em',
+            'widest-2xl': '0.35em',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Atmospheric & Visual Fidelity -->
+<style data-purpose="custom-typography">
+    .font-cormorant {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .headline-shadow {
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+    }
+    .text-glow {
+      text-shadow: 0 0 25px rgba(255, 235, 200, 0.25);
+    }
+  </style>
+<style data-purpose="visual-effects">
+    .glass-pill {
+      background: rgba(43, 14, 16, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .glass-pill:hover {
+      background: rgba(58, 20, 23, 0.55);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    .watermark-text {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.01) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Deck presentation slide animations */
+    .deck-container {
+      transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform;
+    }
+
+    .slide-panel {
+      transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .slide-panel:not(.active) {
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .slide-panel.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Staggered content reveal animations on active slide */
+    .slide-content-stagger {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide-panel.active .slide-content-stagger {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-panel.active .delay-1 { transition-delay: 0.18s; }
+    .slide-panel.active .delay-2 { transition-delay: 0.32s; }
+    .slide-panel.active .delay-3 { transition-delay: 0.46s; }
+    .slide-panel.active .delay-4 { transition-delay: 0.6s; }
+  </style>
+</head>
+<body class="bg-oxblood-900 text-parchment-200 font-sans antialiased h-screen w-screen overflow-hidden selection:bg-amber-900 selection:text-white select-none">
+<!-- BEGIN: Sticky Floating Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex items-center justify-between pointer-events-none" data-purpose="site-navigation-header">
+<!-- Left round back button -->
+<div class="pointer-events-auto">
+<button aria-label="Previous Slide" class="w-11 h-11 rounded-full bg-black/40 border border-white/20 text-parchment-200 flex items-center justify-center backdrop-blur-md hover:bg-black/60 hover:border-white/40 hover:scale-105 active:scale-95 transition-all duration-300" onclick="prevSlide()">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Center capsule navigation pill -->
+<nav class="pointer-events-auto" data-purpose="capsule-menu">
+<div class="glass-pill rounded-full px-7 py-2.5 flex items-center space-x-6 sm:space-x-8 text-[11px] tracking-widest-xl uppercase font-sans font-medium text-parchment-100 shadow-2xl transition-all duration-300">
+<button class="hover:text-amber-200 transition-colors duration-200 focus:outline-none text-amber-200 font-semibold" id="nav-btn-0" onclick="goToSlide(0)">Gallery</button>
+<button class="hover:text-amber-200 transition-colors duration-200 focus:outline-none opacity-80 hover:opacity-100" id="nav-btn-1" onclick="goToSlide(1)">Talents</button>
+<!-- Center Emblem / Butterfly Logo -->
+<button aria-label="Cover Slide" class="mx-1 text-parchment-100 hover:text-amber-200 transition-transform duration-300 hover:scale-110 focus:outline-none" onclick="goToSlide(0)">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M12 14c-.6 0-1.1-.3-1.5-.7C9.3 12 8 10 5.5 10c-2.5 0-4 1.8-4 4 0 3 2.5 5.5 6 5.5 1.5 0 3-.5 4.5-1.5 1.5 1 3 1.5 4.5 1.5 3.5 0 6-2.5 6-5.5 0-2.2-1.5-4-4-4-2.5 0-3.8 2-5 3.3-.4.4-.9.7-1.5.7zm0-4c.6 0 1.1-.3 1.5-.7C14.7 8 16 6 18.5 6c2.5 0 4 1.8 4 4 0 3-2.5 5.5-6 5.5-1.5 0-3-.5-4.5-1.5-1.5 1-3 1.5-4.5 1.5-3.5 0-6-2.5-6-5.5 0-2.2 1.5-4 4-4 2.5 0 3.8 2 5 3.3.4.4.9.7 1.5.7z"></path>
+</svg>
+</button>
+<button class="hover:text-amber-200 transition-colors duration-200 focus:outline-none opacity-80 hover:opacity-100" id="nav-btn-2" onclick="goToSlide(2)">Journal</button>
+<button class="hover:text-amber-200 transition-colors duration-200 focus:outline-none opacity-80 hover:opacity-100" id="nav-btn-3" onclick="goToSlide(3)">Story</button>
+</div>
+</nav>
+<!-- Right top label / action indicator -->
+<div class="pointer-events-auto hidden md:block">
+<div class="glass-pill rounded-full px-5 py-2 text-[10px] tracking-widest-xl uppercase text-parchment-300 font-sans flex items-center gap-2">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400/80 animate-pulse"></span>
+<span id="slide-indicator-label">Appreciation For</span>
+</div>
+</div>
+</header>
+<!-- END: Sticky Floating Navigation Bar -->
+<!-- BEGIN: Right Side Deck Navigation Dots -->
+<aside aria-label="Slide Deck Navigation" class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-4 py-3 px-2 rounded-full glass-pill backdrop-blur-md pointer-events-auto shadow-2xl">
+<button aria-label="Go to Slide 1" class="deck-dot group relative flex items-center justify-center p-1.5" onclick="goToSlide(0)">
+<span class="w-2.5 h-2.5 rounded-full border border-amber-200/50 bg-amber-200 scale-125 transition-all duration-300"></span>
+<span class="absolute right-8 px-2 py-0.5 rounded text-[9px] tracking-widest-xl uppercase font-sans bg-black/80 text-parchment-200 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">01 Gallery</span>
+</button>
+<button aria-label="Go to Slide 2" class="deck-dot group relative flex items-center justify-center p-1.5" onclick="goToSlide(1)">
+<span class="w-2 h-2 rounded-full border border-white/40 bg-transparent hover:border-amber-200 transition-all duration-300"></span>
+<span class="absolute right-8 px-2 py-0.5 rounded text-[9px] tracking-widest-xl uppercase font-sans bg-black/80 text-parchment-200 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">02 Statement</span>
+</button>
+<button aria-label="Go to Slide 3" class="deck-dot group relative flex items-center justify-center p-1.5" onclick="goToSlide(2)">
+<span class="w-2 h-2 rounded-full border border-white/40 bg-transparent hover:border-amber-200 transition-all duration-300"></span>
+<span class="absolute right-8 px-2 py-0.5 rounded text-[9px] tracking-widest-xl uppercase font-sans bg-black/80 text-parchment-200 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">03 Q&amp;A</span>
+</button>
+<button aria-label="Go to Slide 4" class="deck-dot group relative flex items-center justify-center p-1.5" onclick="goToSlide(3)">
+<span class="w-2 h-2 rounded-full border border-white/40 bg-transparent hover:border-amber-200 transition-all duration-300"></span>
+<span class="absolute right-8 px-2 py-0.5 rounded text-[9px] tracking-widest-xl uppercase font-sans bg-black/80 text-parchment-200 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">04 Epilogue</span>
+</button>
+</aside>
+<!-- END: Right Side Deck Navigation Dots -->
+<!-- BEGIN: Main Slide Deck Wrapper -->
+<main class="relative w-full h-full overflow-hidden" id="deck-wrapper">
+<div class="deck-container w-full h-full flex flex-col" id="deck-container">
+<!-- SLIDE 1: Hero Exhibition Cover -->
+<section class="slide-panel active relative w-full h-screen flex-shrink-0 flex items-center justify-center overflow-hidden" data-purpose="hero-cover" id="slide-0">
+<!-- Renaissance Oil Painting Backdrop with Golden Clouds & Flying Doves -->
+<div class="absolute inset-0 z-0">
+<img alt="Baroque illuminated golden sky with soaring white doves" class="w-full h-full object-cover object-center filter brightness-95 contrast-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQPoCfgnIxWiFjdiH9sB1c2TWRbrhRGiCm5Fzag8P1vxFgyEUHFvs-fWn5Uy_BKCIn_5Hn0J4_hb-NrJw3gkuoMegQ6PvVO0IbvfSbVY0xB5j9Qa59ruqgwGokFMQhMC6m-6YVblKIlKNKq41zlTxeASFs-3QSs0VDSNFIljKftdSMFMhDNU31qkVFiueQWyHx_4CuC_3Ph1keFq36l6GeRhjnl0tfjrDDBIV_KPDiTmpi_qTM2D_-wwuMoN83TGQN-Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-oxblood-900/60 via-transparent to-black/40 mix-blend-multiply"></div>
+<div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-oxblood-900/80"></div>
+</div>
+<!-- Hero Content Overlay -->
+<div class="relative z-10 text-center max-w-4xl mx-auto px-6 pt-16 flex flex-col items-center">
+<!-- Eyebrow Subtitle -->
+<div class="mb-4 slide-content-stagger delay-1">
+<p class="text-[11px] md:text-[12px] uppercase tracking-widest-2xl font-sans text-amber-100/90 font-medium headline-shadow">
+            Studioworks Exhibits
+          </p>
+</div>
+<!-- Main Display Title -->
+<h1 class="slide-content-stagger delay-2 font-cormorant text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-parchment-100 tracking-tight leading-[0.92] headline-shadow uppercase font-light">
+          Digital<br/>
+<span class="italic font-normal tracking-wide">Archive</span>
+</h1>
+<!-- Atmospheric Statement -->
+<p class="slide-content-stagger delay-3 mt-7 max-w-xl text-base md:text-lg font-cormorant italic text-parchment-200 leading-relaxed headline-shadow opacity-95">
+          A showcase honoring the makers, visionaries and creators who turned a hard season into something rare.
+        </p>
+<!-- Pill Button Action -->
+<div class="slide-content-stagger delay-4 mt-9">
+<button class="glass-pill inline-block px-9 py-3 rounded-full text-[11px] tracking-widest-2xl uppercase text-parchment-100 font-sans transition-all duration-300 hover:scale-105 hover:border-amber-200/50 shadow-xl cursor-pointer" onclick="goToSlide(1)">
+            Enter Gallery
+          </button>
+</div>
+</div>
+</section>
+<!-- SLIDE 2: Editorial Statement Section -->
+<section class="slide-panel relative w-full h-screen flex-shrink-0 flex items-center justify-center overflow-hidden bg-oxblood-850" data-purpose="editorial-statement" id="slide-1">
+<!-- Painterly Background Silhouettes & Lone Dove -->
+<div class="absolute inset-0 z-0">
+<img alt="Dramatic dark burgundy painterly sky with solitary dove" class="w-full h-full object-cover object-center filter contrast-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3nmL_WjwqavFpGsqZOoZKH5fOUwRQPgpbhxsSFVVeCGNRsH33lfQt8nJg5USCzPWAIBXvabiXKoen9a1mZ7ASxu3FseRZiJ8B4ImuPw4qw7m5pMkPoY0hQNFl3ZYw7mNpM0A1YcyHCFyJWYRTbg8s1eeDmxobw5R0m-v4tJNNKyyahdSz6VoVG8mOHtN-x-msB7DpVmGgJWhabjMVxaYY6hgw8gYG33ywdeim_ZJUTz13X42vT7ggSIqr-UQttoDqhQ"/>
+<div class="absolute inset-0 bg-oxblood-850/40 mix-blend-multiply"></div>
+</div>
+<!-- Editorial Central Content -->
+<div class="relative z-10 text-center max-w-3xl mx-auto px-6 py-20 flex flex-col items-center">
+<!-- Grand Serif Header -->
+<h2 class="slide-content-stagger delay-1 font-cormorant text-6xl sm:text-7xl md:text-8xl font-normal text-parchment-100 leading-none mb-6 headline-shadow tracking-tight">
+          Still Frame
+        </h2>
+<!-- Poetic Statement -->
+<p class="slide-content-stagger delay-2 font-cormorant text-2xl sm:text-3xl md:text-4xl text-parchment-200/90 font-light leading-snug max-w-xl mx-auto mb-10 headline-shadow">
+          gave the world beauty born from the silence of empty studios.
+        </p>
+<!-- View Archive Button -->
+<div class="slide-content-stagger delay-3">
+<button class="glass-pill inline-block px-8 py-3 rounded-full text-[11px] tracking-widest-2xl uppercase text-parchment-200 font-sans transition-all duration-300 hover:text-white hover:scale-105 hover:border-amber-200/50 shadow-xl cursor-pointer" onclick="goToSlide(2)">
+            View Their Archive
+          </button>
+</div>
+</div>
+</section>
+<!-- SLIDE 3: Q&A Interview Section -->
+<section class="slide-panel relative w-full h-screen flex-shrink-0 flex items-center justify-center bg-oxblood-850 px-6 sm:px-12 lg:px-24 overflow-hidden" data-purpose="interview-feature" id="slide-2">
+<!-- Visual Backdrop Texture & Watermark -->
+<div class="absolute inset-0 z-0">
+<img alt="Rich dark oxblood canvas background" class="w-full h-full object-cover object-center filter contrast-105 brightness-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp1h3X5PW_0OMHFyfa_xVBiwjxBuCqMU0r77_z1M3hyuUVyPYI8uTHip-VaH_ozVczeypSIRtgQiFVpRbZAApWIzS4ITmKxWGyMlVZDR_lS7aMRrg2gO88iKktg66kal01D2pdnfeh1y11e_tlJAQn5U28VZc-u9UTqf80ipxGzxcVlpZwPmrGeEW7VFRSPQ0x_mCmcVa0EAvgo2VSkFw1qX8l_PdJhPaks_8I5wXirrfpxC6WzGMe2UBP8Cp7_4XPPg"/>
+<div class="absolute inset-0 bg-oxblood-900/50 mix-blend-multiply"></div>
+<!-- Dramatic Oversized Watermark "Q&A" -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
+<span class="font-cormorant italic text-[16rem] md:text-[24rem] font-light watermark-text leading-none block opacity-30">
+            Q&amp;A
+          </span>
+</div>
+</div>
+<!-- Editorial 2-Column Grid -->
+<div class="relative z-10 max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 pt-16 pb-12">
+<!-- Left Column: Origins & Starting Process -->
+<div class="space-y-10 slide-content-stagger delay-1" data-purpose="interview-column-left">
+<!-- Question 1 -->
+<div class="space-y-3">
+<h3 class="font-cormorant text-xl md:text-2xl font-semibold tracking-wide text-parchment-100 uppercase headline-shadow">
+              Welcome Maren. So how did Still Frame begin its journey?
+            </h3>
+<p class="font-sans text-xs md:text-sm text-parchment-300/85 leading-relaxed font-light text-justify">
+              Less than a year into launching the gallery, everything shut down. I had to close our doors, cancel every exhibit, and rethink it all. But I never stopped curating because I was so determined not to let the artists’ momentum die. We hit the ground running to build a digital space, and we’ve been evolving since.
+            </p>
+</div>
+<!-- Question 2 -->
+<div class="space-y-3">
+<h3 class="font-cormorant text-xl md:text-2xl font-semibold tracking-wide text-parchment-100 uppercase headline-shadow">
+              How did you know where to begin?
+            </h3>
+<p class="font-sans text-xs md:text-sm text-parchment-300/85 leading-relaxed font-light text-justify">
+              I didn't wait until we had the perfect platform, I saw artists struggling, isolated, uninspired, overwhelmed, and set to the task of creating ways to share their work with the world as quickly as possible.
+            </p>
+</div>
+</div>
+<!-- Right Column: Reaction & Connection -->
+<div class="space-y-10 md:pt-14 slide-content-stagger delay-2" data-purpose="interview-column-right">
+<!-- Question 3 -->
+<div class="space-y-3">
+<h3 class="font-cormorant text-xl md:text-2xl font-semibold tracking-wide text-parchment-100 uppercase headline-shadow">
+              What was the initial reaction?
+            </h3>
+<p class="font-sans text-xs md:text-sm text-parchment-300/85 leading-relaxed font-light text-justify">
+              We had so many people writing and reaching out that the online exhibits and archived works saved them in isolation. The atmosphere was so intimate, and it was really powerful to have people connecting through art, even though we were all in our own rooms, in different cities.
+            </p>
+</div>
+<!-- Decorative quote accentuation -->
+<div class="pt-6 border-t border-white/15">
+<p class="font-cormorant italic text-lg md:text-xl text-parchment-200 leading-normal headline-shadow">
+              "Art wasn't an escape from reality—it became our only truthful anchor to each other."
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- SLIDE 4: Narrative Cloud Panorama Section & Epilogue -->
+<section class="slide-panel relative w-full h-screen flex-shrink-0 flex flex-col justify-between overflow-hidden bg-oxblood-900" data-purpose="narrative-reflection" id="slide-3">
+<!-- Cloud Panorama Layer -->
+<div class="absolute inset-0 z-0">
+<img alt="Cumulus cloud bank in classical oil painting style with crimson sky" class="w-full h-full object-cover object-bottom filter contrast-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOxc5cTgESqtJSLWNoB7yTaZSoAB96h81PXKapSZQDBxTkjXCJsZohcJSDPjSrlLqmpSdYvP09wuTWY-iJl0QKvX7Q0-vwIXfYwV5RFL3zesNxE0BKBwXFxdx7fXUySTuMI78D3cOOpa77lJfKUv9T_WPbKdoAErLw80cnWaE5NgjZKMRIuTyXZs4vbgtBOeLeGaQSxgHHGhlVF-zEQe9nLPR9wugL0HENScEWtrtJEHLuzyEo5UL10xapMfOchBavWA"/>
+<div class="absolute inset-0 bg-gradient-to-b from-oxblood-900/70 via-transparent to-oxblood-900/60"></div>
+</div>
+<!-- Narrative Floating Excerpts -->
+<div class="relative z-10 max-w-7xl mx-auto w-full px-6 sm:px-12 pt-32 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-24 my-auto">
+<!-- Excerpt 1 (Top Left) -->
+<div class="max-w-md bg-black/35 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl slide-content-stagger delay-1" data-purpose="narrative-quote-left">
+<p class="font-sans text-xs md:text-sm text-parchment-200 leading-relaxed font-light">
+            We were one of the first galleries to launch a virtual exhibition after the shutdown. I think that, they saw how hard we fought for them, they trusted us while we continued to refine the digital experience.
+          </p>
+</div>
+<!-- Excerpt 2 (Right Floating Callout) -->
+<div class="max-w-md md:ml-auto bg-black/35 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl slide-content-stagger delay-2" data-purpose="narrative-quote-right">
+<p class="font-sans text-xs md:text-sm text-parchment-200 leading-relaxed font-light">
+            There’s a feeling of urgency like — this is our one life, our one chance, we don’t have time to be indifferent anymore. We’re gonna create for a better world, we’re gonna create to reclaim our voice in this life, and we’re gonna create because we deserve to feel beauty and wonder.
+          </p>
+</div>
+</div>
+<!-- Return to start action indicator -->
+<div class="relative z-10 text-center pb-2 slide-content-stagger delay-3">
+<button class="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest-2xl text-parchment-300 hover:text-amber-200 transition-colors" onclick="goToSlide(0)">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          Return to Gallery Cover
+        </button>
+</div>
+</section>
+</div>
+</main>
+<!-- END: Main Slide Deck Wrapper -->
+<!-- BEGIN: Site Footer (Always docked at viewport bottom) -->
+<footer class="fixed bottom-0 left-0 z-30 w-full bg-oxblood-900/80 backdrop-blur-md border-t border-white/10 px-8 py-4 text-parchment-300 text-[10px] uppercase tracking-widest-xl font-sans pointer-events-auto" data-purpose="site-footer">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+<!-- Footer Left: Social Media Glyphs & Privacy Notice -->
+<div class="flex items-center space-x-6">
+<!-- Social Icons -->
+<div class="flex items-center space-x-3 text-parchment-300 hover:text-white transition-colors">
+<!-- Facebook Icon -->
+<a aria-label="Social Link" class="hover:opacity-80" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"></path></svg>
+</a>
+<!-- Twitter/X Icon -->
+<a aria-label="Twitter" class="hover:opacity-80" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+</a>
+<!-- LinkedIn Icon -->
+<a aria-label="LinkedIn" class="hover:opacity-80" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.2a1.64 1.64 0 0 0-1.66 1.64c0 .91.74 1.65 1.66 1.65.9 0 1.65-.74 1.65-1.65A1.65 1.65 0 0 0 7.83 6.2z"></path></svg>
+</a>
+</div>
+<a class="hover:text-parchment-100 transition-colors" href="#privacy">Privacy Notice</a>
+</div>
+<!-- Footer Right: Terms & Policies + Logo Emblem -->
+<div class="flex items-center space-x-6">
+<a class="hover:text-parchment-100 transition-colors" href="#terms">Terms &amp; Policies</a>
+<!-- Gallery Monogram Icon -->
+<span aria-label="Gallery Identity" class="inline-flex items-center space-x-1.5 opacity-80">
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M4 4h7v7H4zm9 0h7v7h-7zm0 9h7v7h-7zM4 13h7v7H4z"></path>
+</svg>
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"></path>
+</svg>
+</span>
+</div>
+</div>
+</footer>
+<!-- END: Site Footer -->
+<!-- Slide Deck Interactive Script -->
+<script>
+  let currentSlide = 0;
+  const totalSlides = 4;
+  let isThrottled = false;
+  const slideLabels = [
+    'Appreciation For',
+    'Curatorial Statement',
+    'Artist Dialogue',
+    'Reflective Horizon'
+  ];
+
+  const container = document.getElementById('deck-container');
+  const slides = document.querySelectorAll('.slide-panel');
+  const dots = document.querySelectorAll('.deck-dot');
+  const indicatorLabel = document.getElementById('slide-indicator-label');
+
+  function updateSlideUI() {
+    // 1. Move container vertically
+    container.style.transform = `translateY(-${currentSlide * 100}vh)`;
+
+    // 2. Update slide panels active state
+    slides.forEach((slide, index) => {
+      if (index === currentSlide) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
+    });
+
+    // 3. Update top nav pills styling
+    for (let i = 0; i < totalSlides; i++) {
+      const navBtn = document.getElementById(`nav-btn-${i}`);
+      if (navBtn) {
+        if (i === currentSlide) {
+          navBtn.classList.remove('opacity-80');
+          navBtn.classList.add('text-amber-200', 'font-semibold');
+        } else {
+          navBtn.classList.remove('text-amber-200', 'font-semibold');
+          navBtn.classList.add('opacity-80');
+        }
+      }
+    }
+
+    // 4. Update right sidebar dots
+    dots.forEach((dot, index) => {
+      const dotInner = dot.querySelector('span');
+      if (index === currentSlide) {
+        dotInner.className = 'w-2.5 h-2.5 rounded-full border border-amber-200/50 bg-amber-200 scale-125 transition-all duration-300';
+      } else {
+        dotInner.className = 'w-2 h-2 rounded-full border border-white/40 bg-transparent hover:border-amber-200 transition-all duration-300';
+      }
+    });
+
+    // 5. Update header badge text
+    if (indicatorLabel && slideLabels[currentSlide]) {
+      indicatorLabel.textContent = slideLabels[currentSlide];
+    }
+  }
+
+  function goToSlide(index) {
+    if (index < 0 || index >= totalSlides) return;
+    currentSlide = index;
+    updateSlideUI();
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides - 1) {
+      goToSlide(currentSlide + 1);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      goToSlide(currentSlide - 1);
+    }
+  }
+
+  // Wheel handling with smooth threshold & debounce
+  window.addEventListener('wheel', (e) => {
+    if (isThrottled) return;
+    if (Math.abs(e.deltaY) < 28) return;
+
+    if (e.deltaY > 0) {
+      if (currentSlide < totalSlides - 1) {
+        nextSlide();
+        isThrottled = true;
+        setTimeout(() => { isThrottled = false; }, 950);
+      }
+    } else {
+      if (currentSlide > 0) {
+        prevSlide();
+        isThrottled = true;
+        setTimeout(() => { isThrottled = false; }, 950);
+      }
+    }
+  }, { passive: true });
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+      e.preventDefault();
+      nextSlide();
+    } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+      e.preventDefault();
+      prevSlide();
+    }
+  });
+
+  // Touch swipe handling for mobile presentation
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (isThrottled) return;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diff = touchStartY - touchEndY;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+      isThrottled = true;
+      setTimeout(() => { isThrottled = false; }, 900);
+    }
+  }, { passive: true });
+
+  // Initial setup
+  updateSlideUI();
+</script>
+</body></html>
