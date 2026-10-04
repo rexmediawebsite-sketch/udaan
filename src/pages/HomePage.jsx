@@ -55,13 +55,13 @@ export default function HomePage({ onOpenBooking, onSelectStall }) {
   }, []);
 
   return (
-    <div className="relative bg-[#180E15] text-[#FFF1D9] overflow-hidden">
+    <div className="relative bg-[#FAF4EB] text-[#2A1C24] overflow-hidden">
       {/* =========================================================================
-          RIGHT-ANCHORED VERTICAL CHAPTER PILL PAGINATION (Solid dark capsule - zero blur)
+          RIGHT-ANCHORED VERTICAL CHAPTER PILL PAGINATION (Solid ivory capsule - zero blur)
           ========================================================================= */}
       <aside
         aria-label="Chapter Deck Navigation"
-        className="fixed right-5 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center gap-3.5 py-4 px-2 rounded-full bg-[#24141F] border border-[#E9AD83]/25 shadow-2xl pointer-events-auto"
+        className="fixed right-5 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center gap-3.5 py-4 px-2 rounded-full bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-lg pointer-events-auto"
       >
         {chapters.map((ch, idx) => {
           const isActive = activeChapter === idx;
@@ -75,11 +75,11 @@ export default function HomePage({ onOpenBooking, onSelectStall }) {
               <span
                 className={`rounded-full transition-all duration-300 ${
                   isActive
-                    ? 'w-2.5 h-2.5 bg-[#F6B51F] border border-[#180E15] scale-125 shadow-[0_0_10px_#F6B51F]'
-                    : 'w-2 h-2 bg-[#E9AD83]/30 border border-[#E9AD83]/20 hover:border-[#F6B51F] hover:bg-[#F6B51F]/60'
+                    ? 'w-2.5 h-2.5 bg-[#B96535] border border-[#FAF4EB] scale-125 shadow-[0_0_8px_#B96535]'
+                    : 'w-2 h-2 bg-[#E9AD83]/50 border border-[#E9AD83]/40 hover:border-[#B96535] hover:bg-[#B96535]'
                 }`}
               />
-              <span className="absolute right-8 px-2.5 py-1 rounded text-[9px] tracking-[0.2em] uppercase font-sans font-medium bg-[#1F111B] text-[#FFF1D9] border border-[#E9AD83]/30 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap shadow-xl">
+              <span className="absolute right-8 px-2.5 py-1 rounded text-[9px] tracking-[0.2em] uppercase font-sans font-medium bg-[#2A1C24] text-[#FFF1D9] border border-[#E9AD83]/30 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap shadow-xl">
                 {ch.label}
               </span>
             </button>

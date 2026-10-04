@@ -38,7 +38,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-[#180E15] text-[#FFF1D9] relative flex flex-col justify-between selection:bg-[#F6B51F]/30 selection:text-[#FFF1D9]">
+      <div className="min-h-screen bg-[#FAF4EB] text-[#2A1C24] relative flex flex-col justify-between selection:bg-[#F6B51F]/30 selection:text-[#2A1C24]">
         {/* Centered Floating Crisp Navigation Pill */}
         <Navigation onOpenBooking={() => handleOpenBooking()} />
 

@@ -1,138 +1,132 @@
 import React from 'react';
-import { Calendar, Clock, MapPin, Sparkles, ShieldCheck, Award, Users } from 'lucide-react';
+import { Calendar, Clock, MapPin, Sparkles, ShieldCheck, Award, Users, ArrowRight } from 'lucide-react';
 import { FEATURED_EVENT } from '../data/eventData';
 
 export default function FeaturedEvent({ onOpenBooking }) {
-  const highlights = [
-    { 
-      icon: <Calendar className="w-5 h-5 text-[#E99A18]" />, 
-      badgeBg: "bg-[#F6B51F]/15 border-[#E99A18]/30",
-      label: "DATES", 
-      value: "24 & 25 OCT 2026", 
-      sub: "Saturday & Sunday" 
+  const eventFacts = [
+    {
+      label: "EXHIBITION DATES",
+      value: "24 & 25 OCT 2026",
+      detail: "Saturday & Sunday • Peak Diwali Shopping",
+      accent: "text-[#B96535]",
+      icon: <Calendar className="w-5 h-5 text-[#B96535]" />,
     },
-    { 
-      icon: <Clock className="w-5 h-5 text-[#397EAC]" />, 
-      badgeBg: "bg-[#397EAC]/15 border-[#397EAC]/30",
-      label: "TIMINGS", 
-      value: "11:00 AM – 9:00 PM", 
-      sub: "Both Days Open" 
+    {
+      label: "SHOW HOURS",
+      value: "11:00 AM – 9:00 PM",
+      detail: "Both days open for VIP & public entry",
+      accent: "text-[#397EAC]",
+      icon: <Clock className="w-5 h-5 text-[#397EAC]" />,
     },
-    { 
-      icon: <MapPin className="w-5 h-5 text-[#B96535]" />, 
-      badgeBg: "bg-[#B96535]/15 border-[#B96535]/30",
-      label: "VENUE", 
-      value: "Lemon Tree Premier", 
-      sub: "Tangerine Grand, Ground Floor" 
-    },
-    { 
-      icon: <Sparkles className="w-5 h-5 text-[#E99A18]" />, 
-      badgeBg: "bg-[#F6B51F]/15 border-[#E99A18]/30",
-      label: "OCCASION", 
-      value: "Diwali Edition 5", 
-      sub: "Festive Pre-Diwali Spree" 
+    {
+      label: "LUXURY VENUE",
+      value: "Lemon Tree Premier",
+      detail: "Tangerine Grand • Ground Floor Patna",
+      accent: "text-[#E99A18]",
+      icon: <MapPin className="w-5 h-5 text-[#E99A18]" />,
     },
   ];
 
   return (
-    <section id="event" className="snap-chapter-slide relative py-24 md:py-32 bg-gradient-to-b from-[#180E15] via-[#22131D] to-[#180E15] text-[#FFF1D9] overflow-hidden border-t border-[#E9AD83]/20">
+    <section id="event" className="relative py-20 md:py-28 bg-[#FAF4EB] text-[#2A1C24] overflow-hidden border-t border-[#E9AD83]/20">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#F6B51F]/45 bg-[#251520] text-[11px] font-sans font-bold tracking-[0.25em] text-[#F6B51F] uppercase mb-4 shadow-xl">
-            <Sparkles size={12} className="text-[#F6B51F]" />
-            <span>THE FEATURED EXHIBITION</span>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#E99A18]/40 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-4 shadow-sm">
+              <Sparkles size={12} className="text-[#E99A18]" />
+              <span>FLAGSHIP FESTIVE EXHIBITION</span>
+            </div>
+
+            <h2 className="font-serif font-normal text-4xl sm:text-5xl md:text-6xl text-[#2A1C24] tracking-[0.02em] leading-[1.12]">
+              Glamour Gala <span className="italic font-light text-[#B96535]">Diwali Edition 5</span>
+            </h2>
           </div>
 
-          <h2 className="font-serif font-normal text-4xl sm:text-5xl md:text-6xl text-[#FFF1D9] tracking-[0.02em] leading-tight">
-            Glamour Gala <span className="italic font-light text-[#F6B51F]">Diwali Edition 5</span>
-          </h2>
-          
-          <p className="mt-4 text-[#E9AD83] text-sm sm:text-base font-sans font-light leading-relaxed">
-            Patna's grandest celebration of festive luxury, heritage crafts, and modern fashion. Scheduled perfectly on the pre-Diwali weekend to capture Bihar's peak festive shopping season.
+          <p className="max-w-md text-[#5E4A55] text-sm sm:text-base font-sans font-light leading-relaxed">
+            Patna’s premier festive luxury exhibition. Scheduled on the final pre-Diwali weekend to capture Eastern India's peak annual shopping season for high-end couture, heirloom jewellery, and celebratory gifting.
           </p>
         </div>
 
-        {/* 4 Feature Information Cards (Solid, velvety plum panels with crisp amber outlines) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 mb-16">
-          {highlights.map((item, idx) => (
-            <div
-              key={idx}
-              className="bg-[#24141F] border border-[#E9AD83]/25 hover:border-[#F6B51F] p-6 rounded-2xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-xl hover:shadow-[0_12px_36px_rgba(246,181,31,0.15)]"
-            >
-              <div className={`w-11 h-11 rounded-xl ${item.badgeBg} border flex items-center justify-center mb-5`}>
-                {item.icon}
+        {/* Editorial Information Spread (Asymmetric, non-repetitive layout) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-14">
+          
+          {/* Left Column: Verified Event Facts */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
+            {eventFacts.map((fact, idx) => (
+              <div
+                key={idx}
+                className="p-6 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 flex items-start space-x-4 shadow-[0_4px_20px_rgba(42,28,36,0.04)] transition-all duration-300 hover:border-[#E99A18]/60"
+              >
+                <div className="w-12 h-12 rounded-xl bg-[#FAF4EB] border border-[#E9AD83]/30 flex items-center justify-center shrink-0 mt-0.5">
+                  {fact.icon}
+                </div>
+                <div>
+                  <span className="text-[10px] tracking-[0.22em] font-sans font-semibold uppercase text-[#5E4A55]">
+                    {fact.label}
+                  </span>
+                  <h3 className={`font-serif text-2xl font-normal mt-0.5 ${fact.accent}`}>
+                    {fact.value}
+                  </h3>
+                  <p className="text-xs text-[#5E4A55] font-sans mt-0.5 font-light">
+                    {fact.detail}
+                  </p>
+                </div>
               </div>
-              <div>
-                <span className="text-[11px] tracking-[0.2em] text-[#F6B51F] uppercase font-sans font-bold">
-                  {item.label}
-                </span>
-                <h3 className="font-serif font-semibold text-xl text-[#FFF1D9] mt-1 tracking-tight">
-                  {item.value}
-                </h3>
-                <p className="text-xs text-[#E9AD83] font-sans mt-1 font-light">
-                  {item.sub}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* Grand Venue & Experience Spotlight Banner */}
-        <div className="relative rounded-3xl overflow-hidden border border-[#E9AD83]/30 bg-gradient-to-br from-[#2D1826] via-[#351B2C] to-[#20121C] p-8 md:p-12 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            <div className="lg:col-span-7 space-y-5">
-              <div className="inline-block px-3.5 py-1 rounded-full border border-[#397EAC]/40 bg-[#397EAC]/15 text-[11px] font-sans font-bold tracking-[0.25em] text-[#397EAC] uppercase">
-                5-STAR LUXURY DESTINATION
+          {/* Right Column: Venue & Allotment Feature Block */}
+          <div className="lg:col-span-7 rounded-3xl bg-[#24141F] text-[#FFF1D9] p-8 md:p-10 flex flex-col justify-between border border-[#E9AD83]/30 shadow-xl relative overflow-hidden">
+            <div className="space-y-4 relative z-10">
+              <div className="inline-flex items-center space-x-2 text-[10px] tracking-[0.25em] text-[#F6B51F] uppercase font-semibold font-sans">
+                <ShieldCheck size={13} className="text-[#F6B51F]" />
+                <span>5-STAR EXHIBITION DESTINATION</span>
               </div>
 
-              <h3 className="font-serif text-3xl sm:text-4xl text-[#FFF1D9] leading-tight tracking-[0.02em]">
-                Lemon Tree Premier <span className="font-sans font-light text-2xl text-[#E9AD83] block sm:inline">• Tangerine Grand</span>
+              <h3 className="font-serif text-3xl sm:text-4xl text-[#FFF1D9] leading-tight">
+                Tangerine Grand at Lemon Tree Premier
               </h3>
 
-              <p className="text-[#E9AD83]/90 text-sm leading-relaxed font-light font-sans">
-                Located on Exhibition Road in the very heart of Patna, Tangerine Grand offers an expansive pillarless luxury banquet hall with central air-conditioning, high ceilings, dedicated valet parking, and seamless loading logistics for exhibitors.
+              <p className="text-xs sm:text-sm text-[#E9AD83]/90 font-sans font-light leading-relaxed max-w-xl">
+                Set in Patna’s prestigious Exhibition Road district, Tangerine Grand provides an expansive pillarless hall with climate control, professional spotlights, full power backup, and continuous security for exhibitors and affluent guests.
               </p>
 
-              <div className="flex flex-wrap gap-4 pt-2 text-xs tracking-wider text-[#FFF1D9] font-sans font-medium">
-                <span className="flex items-center"><ShieldCheck size={15} className="mr-1.5 text-[#F6B51F]" /> Curated 50+ Premium Stalls</span>
-                <span className="flex items-center"><Users size={15} className="mr-1.5 text-[#397EAC]" /> 5,000+ Expected Festive Buyers</span>
-                <span className="flex items-center"><Award size={15} className="mr-1.5 text-[#B96535]" /> 100% Verified Women Founders</span>
-              </div>
-
-              <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
-                <button
-                  onClick={() => onOpenBooking()}
-                  className="btn-sunset-gold w-full sm:w-auto px-8 py-3.5 rounded-full text-xs font-sans tracking-[0.22em] shadow-xl"
-                >
-                  Book a Stall Now
-                </button>
-                <a
-                  href="#stall-map"
-                  className="btn-sunset-ghost-dark w-full sm:w-auto text-center px-6 py-3.5 rounded-full text-[#FFF1D9] hover:text-[#F6B51F] font-sans font-semibold text-xs tracking-[0.22em] uppercase transition-all"
-                >
-                  View Floor Map
-                </a>
-              </div>
-            </div>
-
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl overflow-hidden border border-[#E9AD83]/40 aspect-[4/3] shadow-2xl group">
-                <img
-                  src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80"
-                  alt="Lemon Tree Premier Tangerine Grand Exhibition"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1017]/95 via-[#1A1017]/30 to-transparent flex flex-col justify-end p-5">
-                  <span className="text-[10px] tracking-[0.25em] text-[#F6B51F] uppercase font-bold font-sans">VENUE LOCATION</span>
-                  <span className="text-sm font-serif text-[#FFF1D9] font-medium">Exhibition Road, Near Gandhi Maidan, Patna</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-sans text-[#FFF1D9]/90">
+                <div className="p-3 rounded-xl bg-[#180E15]/70 border border-[#E9AD83]/20 flex items-center space-x-2">
+                  <Award size={14} className="text-[#F6B51F] shrink-0" />
+                  <span>50+ Curated Stalls</span>
+                </div>
+                <div className="p-3 rounded-xl bg-[#180E15]/70 border border-[#E9AD83]/20 flex items-center space-x-2">
+                  <Users size={14} className="text-[#74B6E2] shrink-0" />
+                  <span>5,000+ Buyers</span>
+                </div>
+                <div className="p-3 rounded-xl bg-[#180E15]/70 border border-[#E9AD83]/20 flex items-center space-x-2">
+                  <ShieldCheck size={14} className="text-[#E9AD83] shrink-0" />
+                  <span>Turnkey Setup</span>
                 </div>
               </div>
             </div>
 
+            <div className="mt-8 pt-6 border-t border-[#E9AD83]/20 flex flex-col sm:flex-row items-center gap-4 relative z-10">
+              <button
+                onClick={() => onOpenBooking()}
+                className="btn-sunset-gold w-full sm:w-auto px-8 py-3.5 rounded-full text-xs font-sans tracking-[0.22em] uppercase shadow-lg flex items-center justify-center space-x-2 text-[#180E15]"
+              >
+                <span>Apply for Stall Allotment</span>
+                <ArrowRight size={13} />
+              </button>
+
+              <a
+                href="#stall-map"
+                className="btn-sunset-ghost-dark w-full sm:w-auto text-center px-6 py-3.5 rounded-full text-xs tracking-[0.22em] uppercase font-sans font-semibold text-[#FFF1D9] hover:text-[#F6B51F] transition-all"
+              >
+                Inspect Stall Layout
+              </a>
+            </div>
           </div>
+
         </div>
 
       </div>

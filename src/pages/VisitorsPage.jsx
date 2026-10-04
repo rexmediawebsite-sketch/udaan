@@ -11,12 +11,12 @@ export default function VisitorsPage() {
   ];
 
   return (
-    <div className="pt-28 pb-24 bg-[#180E15] min-h-screen text-[#FFF1D9]">
+    <div className="pt-28 pb-24 bg-[#FAF4EB] min-h-screen text-[#2A1C24]">
       <div className="max-w-6xl mx-auto px-6 mb-8">
-        <div className="flex items-center space-x-2 text-xs font-sans text-[#E9AD83] mb-6">
-          <Link to="/" className="hover:text-[#F6B51F]">HOME</Link>
-          <span className="text-[#E9AD83]/50">/</span>
-          <span className="text-[#F6B51F] font-semibold">FOR VISITORS</span>
+        <div className="flex items-center space-x-2 text-xs font-sans text-[#6B5860] mb-6">
+          <Link to="/" className="hover:text-[#B96535]">HOME</Link>
+          <span className="text-[#6B5860]/40">/</span>
+          <span className="text-[#B96535] font-semibold">FOR VISITORS</span>
         </div>
       </div>
 
@@ -26,10 +26,10 @@ export default function VisitorsPage() {
       {/* Visitor Tips Section */}
       <div className="max-w-6xl mx-auto px-6 mt-16">
         <div className="text-center mb-10">
-          <span className="text-[10px] tracking-[0.25em] text-[#F6B51F] uppercase font-semibold font-sans">
+          <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
             SHOPPING ESSENTIALS
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl text-[#FFF1D9] mt-1">
+          <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-1">
             Visitor Guidelines & Tips
           </h2>
         </div>
@@ -38,16 +38,16 @@ export default function VisitorsPage() {
           {tips.map((tip, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-2xl bg-[#24141F] border border-[#E9AD83]/20 flex flex-col justify-between shadow-lg"
+              className="p-6 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
             >
               <div>
-                <div className="w-8 h-8 rounded-lg bg-[#180E15] border border-[#F6B51F]/40 flex items-center justify-center text-[#F6B51F] font-syne font-bold text-xs mb-3">
+                <div className="w-8 h-8 rounded-xl bg-[#FAF4EB] border border-[#E9AD83]/40 flex items-center justify-center text-[#B96535] font-syne font-bold text-xs mb-3">
                   0{idx + 1}
                 </div>
-                <h3 className="font-serif text-lg text-[#FFF1D9] font-medium">
+                <h3 className="font-serif text-lg text-[#2A1C24] font-medium">
                   {tip.title}
                 </h3>
-                <p className="text-xs text-[#E9AD83]/80 font-sans mt-2 leading-relaxed">
+                <p className="text-xs text-[#5E4A55] font-sans mt-2 leading-relaxed">
                   {tip.desc}
                 </p>
               </div>

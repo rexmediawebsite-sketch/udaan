@@ -23,13 +23,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#2D1D26] to-[#1F141A] text-[#FFF1D9] border-t border-[#E9AD83]/20 pt-16 pb-12 overflow-hidden font-sans">
+    <footer className="relative bg-[#1E121B] text-[#FFF1D9] border-t border-[#E9AD83]/20 pt-16 pb-12 overflow-hidden font-sans">
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Top Minimal Brand Banner */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-12 border-b border-[#E9AD83]/20">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full border border-[#E99A18]/40 flex items-center justify-center bg-[#F6B51F]/10">
+            <div className="w-10 h-10 rounded-full border border-[#E99A18]/40 flex items-center justify-center bg-[#F6B51F]/15">
               <Sparkles className="w-4 h-4 text-[#F6B51F]" />
             </div>
             <div>
@@ -46,7 +46,7 @@ export default function Footer() {
             <span className="text-xs font-serif italic text-[#FFF1D9]/90 block">
               {BRAND.tagline}
             </span>
-            <span className="text-[10px] tracking-[0.2em] font-sans text-[#E9AD83]/80 uppercase mt-0.5 block">
+            <span className="text-[10px] tracking-[0.2em] font-sans text-[#E9AD83] uppercase mt-0.5 block">
               Glamour Gala Diwali Edition 5 • 24 & 25 Oct 2026 • Patna
             </span>
           </div>
@@ -58,7 +58,7 @@ export default function Footer() {
             <h4 className="text-[11px] tracking-[0.22em] uppercase text-[#F6B51F] font-semibold mb-4">
               EXHIBITIONS
             </h4>
-            <ul className="space-y-2.5 text-[#E9AD83]/80">
+            <ul className="space-y-2.5 text-[#E9AD83]/90">
               <li><Link to="/events" className="hover:text-[#F6B51F] transition-colors">All Exhibitions</Link></li>
               <li><Link to="/events/glamour-gala-5" className="hover:text-[#F6B51F] transition-colors">Glamour Gala Edition 5</Link></li>
               <li><Link to="/stalls" className="hover:text-[#F6B51F] transition-colors">Interactive Stall Map</Link></li>
@@ -70,7 +70,7 @@ export default function Footer() {
             <h4 className="text-[11px] tracking-[0.22em] uppercase text-[#F6B51F] font-semibold mb-4">
               PARTICIPATION
             </h4>
-            <ul className="space-y-2.5 text-[#E9AD83]/80">
+            <ul className="space-y-2.5 text-[#E9AD83]/90">
               <li><Link to="/become-an-exhibitor" className="hover:text-[#F6B51F] transition-colors">Become an Exhibitor</Link></li>
               <li><Link to="/visitors" className="hover:text-[#F6B51F] transition-colors">Complimentary Visitor Pass</Link></li>
               <li><Link to="/gallery" className="hover:text-[#F6B51F] transition-colors">Visual Archive</Link></li>
@@ -82,7 +82,7 @@ export default function Footer() {
             <h4 className="text-[11px] tracking-[0.22em] uppercase text-[#F6B51F] font-semibold mb-4">
               DESTINATION VENUE
             </h4>
-            <p className="text-[#E9AD83]/80 leading-relaxed text-[11px] font-light">
+            <p className="text-[#E9AD83]/90 leading-relaxed text-[11px] font-light">
               Tangerine Grand, Ground Floor<br />
               Lemon Tree Premier<br />
               Exhibition Road, Patna, Bihar
@@ -104,7 +104,7 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-full border border-[#E9AD83]/30 bg-[#38232F] flex items-center justify-center text-[#FFF1D9] hover:text-[#F6B51F] hover:border-[#F6B51F] transition-colors"
+                className="w-8 h-8 rounded-full border border-[#E9AD83]/40 bg-[#2D1826] flex items-center justify-center text-[#FFF1D9] hover:text-[#F6B51F] hover:border-[#F6B51F] transition-colors"
                 title="Instagram"
               >
                 <InstagramIcon size={14} />
@@ -113,13 +113,13 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-full border border-[#E9AD83]/30 bg-[#38232F] flex items-center justify-center text-[#FFF1D9] hover:text-[#F6B51F] hover:border-[#F6B51F] transition-colors"
+                className="w-8 h-8 rounded-full border border-[#E9AD83]/40 bg-[#2D1826] flex items-center justify-center text-[#FFF1D9] hover:text-[#F6B51F] hover:border-[#F6B51F] transition-colors"
                 title="Facebook"
               >
                 <FacebookIcon size={14} />
               </a>
             </div>
-            <p className="text-[11px] text-[#E9AD83]/80 leading-relaxed font-light">
+            <p className="text-[11px] text-[#E9AD83]/90 leading-relaxed font-light">
               Official inquiry concierge available 10 AM to 8 PM via WhatsApp.
             </p>
             <Link to="/about" className="text-xs text-[#F6B51F] hover:text-[#FFF1D9] font-serif italic mt-2 block">
@@ -129,7 +129,7 @@ export default function Footer() {
         </div>
 
         {/* Minimal Bottom Bar */}
-        <div className="pt-8 border-t border-[#E9AD83]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] tracking-[0.2em] text-[#9A8790] uppercase font-sans">
+        <div className="pt-8 border-t border-[#E9AD83]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] tracking-[0.2em] text-[#E9AD83]/70 uppercase font-sans">
           <div className="flex items-center space-x-4">
             <span>© 2026 UDAAN EXHIBITIONS</span>
             <span>•</span>
