@@ -59,6 +59,10 @@ export default function App() {
               element={<EventsPage onOpenBooking={handleOpenBooking} />}
             />
             <Route
+              path="/events/:slug"
+              element={<EventDetailPage onOpenBooking={handleOpenBooking} />}
+            />
+            <Route
               path="/events/glamour-gala-5"
               element={<EventDetailPage onOpenBooking={handleOpenBooking} />}
             />

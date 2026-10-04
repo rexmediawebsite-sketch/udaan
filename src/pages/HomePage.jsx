@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import BrandStory from '../components/BrandStory';
 import FeaturedEvent from '../components/FeaturedEvent';
-import EventsDeck3D from '../components/EventsDeck3D';
+import EventPosterGallery from '../components/EventPosterGallery';
 import CategoriesSection from '../components/CategoriesSection';
 import StallMap from '../components/StallMap';
 import WhyExhibit from '../components/WhyExhibit';
@@ -94,8 +94,8 @@ export default function HomePage({ onOpenBooking, onSelectStall }) {
       {/* 2. Featured Event: Glamour Gala Diwali Edition 5 */}
       <FeaturedEvent onOpenBooking={onOpenBooking} />
 
-      {/* 2B. 3D Perspective Hover Deck: Past Editions & Upcoming Showcases */}
-      <EventsDeck3D onOpenBooking={onOpenBooking} />
+      {/* 2B. 3D Perspective Hover Poster Gallery: Past Editions & Upcoming Showcases */}
+      <EventPosterGallery onOpenBooking={onOpenBooking} />
 
       {/* 3. Brand Story & The 4 Pillars */}
       <BrandStory onOpenBooking={onOpenBooking} />
