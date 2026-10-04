@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Calendar,
@@ -13,7 +13,10 @@ import {
   Users,
   Award,
   ExternalLink,
-  Eye
+  Eye,
+  HelpCircle,
+  ChevronDown,
+  LayoutGrid
 } from 'lucide-react';
 import { getEventBySlug, EVENTS_CATALOG } from '../data/eventsCatalog';
 
@@ -22,9 +25,8 @@ export default function EventDetailPage({ onOpenBooking }) {
   const navigate = useNavigate();
   const event = getEventBySlug(slug);
 
-  const isCurrentOrUpcoming = event.status === 'current' || event.status === 'upcoming';
-
-  // Find other events for bottom exploration strip
+  const [openFaq, setOpenFaq] = useState(null);
+  const isUpcoming = event.status === 'upcoming';
   const otherEvents = EVENTS_CATALOG.filter((e) => e.id !== event.id).slice(0, 3);
 
   const handleShare = () => {
@@ -41,10 +43,10 @@ export default function EventDetailPage({ onOpenBooking }) {
   };
 
   return (
-    <div className="pt-28 pb-24 bg-[#FAF4EB] min-h-screen text-[#2A1C24] animate-fadeIn">
+    <div className="pt-28 pb-28 bg-[#FAF4EB] min-h-screen text-[#2A1C24] animate-fadeIn">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* Navigation Breadcrumbs & Back Action */}
+        {/* Navigation Breadcrumb Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div className="flex items-center space-x-2 text-xs font-sans text-[#6B5860]">
             <Link to="/" className="hover:text-[#B96535]">HOME</Link>
@@ -60,7 +62,7 @@ export default function EventDetailPage({ onOpenBooking }) {
               className="inline-flex items-center space-x-1.5 px-4 py-1.5 rounded-full border border-[#E9AD83]/40 bg-[#FFFBF5] text-xs font-semibold text-[#6B5860] hover:text-[#2A1C24] hover:border-[#B96535] transition-colors shadow-sm"
             >
               <ArrowLeft size={13} />
-              <span>Back to Posters</span>
+              <span>Back</span>
             </button>
 
             <button
@@ -75,12 +77,12 @@ export default function EventDetailPage({ onOpenBooking }) {
         </div>
 
         {/* =========================================================================
-            CINEMATIC EDITORIAL HERO: VISUALLY PROMINENT POSTER + EVENT DETAILS
+            1. HERO: EVENT POSTER, EVENT NAME, EDITION, DATE, VENUE, STATUS
             ========================================================================= */}
         <div className="relative rounded-3xl overflow-hidden border border-[#E9AD83]/30 bg-[#FFFBF5] p-6 sm:p-10 lg:p-14 shadow-xl mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
-            {/* Left Column: Authentic Vertical Event Poster */}
+            {/* Visual Column: Vertical Event Poster with Elevated Shadow */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-sm aspect-[9/13.5] rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(42,28,36,0.35)] border-2 border-[#E9AD83]/40 group">
                 <img
@@ -89,12 +91,9 @@ export default function EventDetailPage({ onOpenBooking }) {
                   className="w-full h-full object-cover filter contrast-[1.03]"
                 />
 
-                {/* Status Badge Tag */}
                 <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
-                  <span
-                    className={`text-[10px] font-sans font-bold tracking-widest uppercase px-3 py-1 rounded-full shadow-lg backdrop-blur-md ${event.badgeColor}`}
-                  >
-                    {event.statusLabel}
+                  <span className={`text-[10px] font-sans font-bold tracking-widest uppercase px-3 py-1 rounded-full shadow-lg backdrop-blur-md ${event.badgeColor}`}>
+                    {event.bookingStatus || event.statusLabel}
                   </span>
 
                   <span className="text-xs font-syne font-bold px-3 py-0.5 rounded-full bg-black/70 text-white/95 backdrop-blur-sm border border-white/20">
@@ -102,7 +101,6 @@ export default function EventDetailPage({ onOpenBooking }) {
                   </span>
                 </div>
 
-                {/* Bottom Shadow Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white pointer-events-none">
                   <span className="text-[10px] tracking-[0.25em] font-sans uppercase text-[#F6B51F] font-semibold">
                     OFFICIAL POSTER
@@ -114,7 +112,7 @@ export default function EventDetailPage({ onOpenBooking }) {
               </div>
             </div>
 
-            {/* Right Column: Editorial Event Identity & Information */}
+            {/* Content Column: Editorial Hierarchy */}
             <div className="lg:col-span-7 space-y-6">
               
               <div>
@@ -137,7 +135,7 @@ export default function EventDetailPage({ onOpenBooking }) {
                 {event.description}
               </p>
 
-              {/* Verified Fact Cards Grid */}
+              {/* Verified Fact Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2 text-xs font-sans">
                 <div className="p-4 rounded-2xl bg-[#FAF4EB] border border-[#E9AD83]/30">
                   <span className="text-[10px] tracking-wider text-[#6B5860] uppercase block">DATES</span>
@@ -145,7 +143,7 @@ export default function EventDetailPage({ onOpenBooking }) {
                   <span className="text-[#5E4A55] block text-[11px]">{event.days}</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-[#FAF4EB] border border-[#E9AD83]/30">
-                  <span className="text-[10px] tracking-wider text-[#6B5860] uppercase block">HOURS</span>
+                  <span className="text-[10px] tracking-wider text-[#6B5860] uppercase block">TIMINGS</span>
                   <span className="font-semibold text-[#B96535] text-sm block mt-0.5">{event.timings}</span>
                   <span className="text-[#5E4A55] block text-[11px]">Continuous Access</span>
                 </div>
@@ -156,7 +154,7 @@ export default function EventDetailPage({ onOpenBooking }) {
                 </div>
               </div>
 
-              {/* Event Stats Counter */}
+              {/* Statistics Strip */}
               {event.stats && (
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-3 border-t border-b border-[#E9AD83]/25 text-center font-sans">
                   {event.stats.map((st, i) => (
@@ -168,16 +166,16 @@ export default function EventDetailPage({ onOpenBooking }) {
                 </div>
               )}
 
-              {/* Dynamic CTAs based on Event Status */}
+              {/* Action Buttons */}
               <div className="pt-2 flex flex-wrap items-center gap-4">
-                {isCurrentOrUpcoming ? (
+                {isUpcoming ? (
                   <>
                     {event.bookingsOpen && (
                       <button
                         onClick={() => onOpenBooking(event.title)}
                         className="btn-sunset-gold px-8 py-3.5 rounded-full text-xs font-sans font-semibold tracking-[0.22em] uppercase shadow-lg text-[#2A1C24] flex items-center space-x-2"
                       >
-                        <span>Apply for Stall Allotment</span>
+                        <span>BOOK YOUR STALL</span>
                         <ArrowRight size={13} />
                       </button>
                     )}
@@ -186,25 +184,25 @@ export default function EventDetailPage({ onOpenBooking }) {
                       to="/stalls"
                       className="btn-editorial-outline px-7 py-3.5 rounded-full font-semibold text-xs tracking-[0.22em] uppercase transition-all"
                     >
-                      Inspect Stall Map
+                      Interactive Stall Map
                     </Link>
 
                     <Link
                       to="/visitors"
                       className="px-6 py-3.5 rounded-full border border-[#E9AD83]/50 text-[#6B5860] hover:text-[#2A1C24] text-xs tracking-[0.22em] uppercase font-semibold transition-colors"
                     >
-                      VIP Visitor Pass
+                      Visitor Pass
                     </Link>
                   </>
                 ) : (
                   <>
-                    <Link
-                      to="/gallery"
+                    <a
+                      href="#gallery-section"
                       className="btn-sunset-gold px-8 py-3.5 rounded-full text-xs font-sans font-semibold tracking-[0.22em] uppercase shadow-lg text-[#2A1C24] flex items-center space-x-2"
                     >
                       <Eye size={14} />
-                      <span>Explore Archival Moments</span>
-                    </Link>
+                      <span>VIEW EVENT ARCHIVE</span>
+                    </a>
 
                     <Link
                       to="/events/glamour-gala-diwali-edition-5"
@@ -222,24 +220,106 @@ export default function EventDetailPage({ onOpenBooking }) {
         </div>
 
         {/* =========================================================================
-            SECTION 2: CURATED PRODUCT DOMAINS & CATEGORIES
+            2. ABOUT THE EVENT
+            ========================================================================= */}
+        <div className="mb-20">
+          <div className="max-w-3xl mb-8">
+            <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+              THE VISION
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-1">
+              About the Exhibition
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-[#5E4A55] font-sans font-light leading-relaxed">
+            <div className="p-8 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-sm">
+              <h3 className="font-serif text-xl text-[#2A1C24] font-medium mb-3">
+                Curated for Discerning Patrons
+              </h3>
+              <p>
+                {event.description} Each stall is thoughtfully positioned to ensure maximum visibility, seamless footfall flow, and an elevated buying atmosphere that mirrors high-end luxury boutiques.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-sm">
+              <h3 className="font-serif text-xl text-[#2A1C24] font-medium mb-3">
+                Where Women Build Brands
+              </h3>
+              <p>
+                UDAAN exists to bridge artisanal craft and luxury commerce. We provide complete turnkey infrastructure—from custom octanorm booths and warm architectural spotlights to regional marketing campaigns and high-intent buyer invitations.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            3. WHO CAN EXHIBIT & 4. WHY EXHIBIT (For Upcoming)
+            ========================================================================= */}
+        {isUpcoming && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-20">
+            {/* Who Can Exhibit */}
+            <div className="p-8 md:p-10 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md">
+              <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+                CURATION CRITERIA
+              </span>
+              <h3 className="font-serif text-2xl sm:text-3xl text-[#2A1C24] mt-1 mb-6">
+                Who Can Exhibit
+              </h3>
+
+              <div className="space-y-4 text-xs font-sans text-[#2A1C24]">
+                {event.whoCanExhibit && event.whoCanExhibit.map((item, idx) => (
+                  <div key={idx} className="flex items-start space-x-3">
+                    <CheckCircle size={16} className="text-[#B96535] shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Why Exhibit */}
+            <div className="p-8 md:p-10 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md">
+              <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+                VALUE PROPOSITION
+              </span>
+              <h3 className="font-serif text-2xl sm:text-3xl text-[#2A1C24] mt-1 mb-6">
+                Why Exhibit at UDAAN
+              </h3>
+
+              <div className="space-y-4 text-xs font-sans text-[#2A1C24]">
+                {event.whyExhibit && event.whyExhibit.map((item, idx) => (
+                  <div key={idx} className="flex items-start space-x-3">
+                    <Award size={16} className="text-[#B96535] shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            5. CATEGORIES / PAVILIONS
             ========================================================================= */}
         {event.categories && event.categories.length > 0 && (
-          <div className="mb-16">
+          <div className="mb-20">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
               <div>
                 <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
                   EXHIBITION DOMAINS
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-1">
-                  Curated Pavilions & Craft Showcases
+                  Curated Categories &amp; Pavilions
                 </h2>
               </div>
 
-              {isCurrentOrUpcoming && (
-                <Link to="/become-an-exhibitor" className="text-xs text-[#B96535] hover:text-[#2A1C24] font-semibold tracking-wider uppercase">
-                  Exhibitor Specifications &rarr;
-                </Link>
+              {isUpcoming && (
+                <button
+                  onClick={() => onOpenBooking()}
+                  className="text-xs text-[#B96535] hover:text-[#2A1C24] font-semibold tracking-wider uppercase"
+                >
+                  Apply for Domain Allotment &rarr;
+                </button>
               )}
             </div>
 
@@ -251,9 +331,9 @@ export default function EventDetailPage({ onOpenBooking }) {
                 >
                   <div>
                     <span className="font-syne font-bold text-lg text-[#B96535]">0{idx + 1}</span>
-                    <h3 className="font-serif text-xl text-[#2A1C24] font-medium mt-1">
+                    <h4 className="font-serif text-xl text-[#2A1C24] font-medium mt-1">
                       {catName}
-                    </h3>
+                    </h4>
                     <p className="mt-2 text-xs text-[#5E4A55] font-sans font-light leading-relaxed">
                       Handpicked collections meeting UDAAN's strict standards of authenticity, artisanal excellence, and luxury appeal.
                     </p>
@@ -263,7 +343,7 @@ export default function EventDetailPage({ onOpenBooking }) {
                     <span className="text-[10px] uppercase tracking-wider text-[#6B5860] font-semibold">
                       Curated Pavilion
                     </span>
-                    {isCurrentOrUpcoming && (
+                    {isUpcoming && (
                       <button
                         onClick={() => onOpenBooking(catName)}
                         className="text-[10px] tracking-wider text-[#B96535] font-semibold uppercase hover:text-[#2A1C24]"
@@ -279,19 +359,179 @@ export default function EventDetailPage({ onOpenBooking }) {
         )}
 
         {/* =========================================================================
-            SECTION 3: VENUE EXCELLENCE & INFRASTRUCTURE
+            6. STALL OPTIONS & 7. INTERACTIVE STALL MAP (For Upcoming)
             ========================================================================= */}
-        <div className="p-8 md:p-12 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-lg mb-16">
+        {isUpcoming && event.stallTypes && event.stallTypes.length > 0 && (
+          <div className="mb-20">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+                BOOTH ARCHITECTURE
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-1">
+                Stall Options &amp; Specifications
+              </h2>
+              <p className="text-xs text-[#5E4A55] font-sans mt-2">
+                All stall bookings include turnkey electrical, lighting, and branding infrastructure.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              {event.stallTypes.map((tier, idx) => (
+                <div
+                  key={idx}
+                  className="p-8 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md flex flex-col justify-between"
+                >
+                  <div>
+                    <span className="text-[10px] tracking-[0.2em] uppercase text-[#B96535] font-semibold font-sans">
+                      {tier.location}
+                    </span>
+                    <h4 className="font-serif text-2xl text-[#2A1C24] mt-1">
+                      {tier.name}
+                    </h4>
+                    <div className="font-syne font-bold text-lg text-[#B96535] mt-1">
+                      {tier.size}
+                    </div>
+                    <div className="text-xs font-semibold text-[#6B5860] mt-1">
+                      {tier.pricing}
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-[#E9AD83]/20 space-y-2 text-xs font-sans text-[#2A1C24]">
+                      {tier.features.map((f, i) => (
+                        <div key={i} className="flex items-center space-x-2">
+                          <CheckCircle size={14} className="text-[#B96535] shrink-0" />
+                          <span>{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-8 pt-4 border-t border-[#E9AD83]/20">
+                    <button
+                      onClick={() => onOpenBooking(tier.name)}
+                      className="btn-sunset-gold w-full py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase text-[#2A1C24]"
+                    >
+                      Select Tier
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Interactive Stall Map Teaser Card */}
+            <div className="p-8 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+                  FLOOR PLAN SCHEMATIC
+                </span>
+                <h4 className="font-serif text-2xl text-[#2A1C24]">
+                  Inspect Interactive Stall Map
+                </h4>
+                <p className="text-xs text-[#5E4A55] font-sans">
+                  Explore available stalls on the Tangerine Grand floor plan before submitting your allotment application.
+                </p>
+              </div>
+
+              <Link
+                to="/stalls"
+                className="btn-editorial-outline px-7 py-3 rounded-full text-xs font-semibold tracking-wider uppercase shrink-0 flex items-center space-x-2"
+              >
+                <LayoutGrid size={14} />
+                <span>Open Floor Plan</span>
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            8. PHOTO GALLERY & MOMENTS
+            ========================================================================= */}
+        {event.gallery && event.gallery.length > 0 && (
+          <div id="gallery-section" className="mb-20">
+            <div className="text-center mb-10">
+              <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+                CURATED VISUALS
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-1">
+                Gallery &amp; Exhibition Moments
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {event.gallery.map((imgUrl, i) => (
+                <div
+                  key={i}
+                  className="rounded-3xl overflow-hidden aspect-[4/3] border border-[#E9AD83]/30 shadow-md group"
+                >
+                  <img
+                    src={imgUrl}
+                    alt={`${event.title} Moment ${i + 1}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            9. FEATURED EXHIBITORS / BRANDS
+            ========================================================================= */}
+        {event.featuredExhibitors && event.featuredExhibitors.length > 0 && (
+          <div className="mb-20">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div>
+                <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+                  PARTICIPATING LABELS
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-1">
+                  Featured Brands &amp; Founders
+                </h2>
+              </div>
+
+              <Link to="/exhibitors" className="text-xs text-[#B96535] hover:text-[#2A1C24] font-semibold tracking-wider uppercase">
+                Browse Full Exhibitor Directory &rarr;
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {event.featuredExhibitors.map((exh, i) => (
+                <div
+                  key={i}
+                  className="p-6 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-sm"
+                >
+                  <span className="text-[10px] uppercase tracking-wider font-semibold text-[#B96535]">
+                    {exh.category}
+                  </span>
+                  <h4 className="font-serif text-xl text-[#2A1C24] mt-1">
+                    {exh.name}
+                  </h4>
+                  <p className="text-xs text-[#5E4A55] font-sans mt-0.5">
+                    Founder: <strong className="text-[#2A1C24]">{exh.founder}</strong>
+                  </p>
+                  <span className="inline-block mt-3 text-[10px] px-2.5 py-0.5 rounded-full bg-[#FAF4EB] border border-[#E9AD83]/30 text-[#6B5860]">
+                    {exh.city}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            10. VENUE INFORMATION & 5-STAR AMENITIES
+            ========================================================================= */}
+        <div className="p-8 md:p-12 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-lg mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-4">
               <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
-                VENUE & HOSPITALITY
+                DESTINATION VENUE
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24]">
                 {event.hall} at {event.venue}
               </h2>
               <p className="text-xs sm:text-sm text-[#5E4A55] font-sans font-light leading-relaxed">
-                Situated in Patna’s upscale business corridor, {event.venue} provides an unmatched 5-star atmosphere for luxury retail. Designed with climate control, high ceilings, architectural spotlights, and dedicated power backups to ensure a seamless experience.
+                {event.location}. Tangerine Grand provides an expansive pillarless hall with continuous central air-conditioning, dedicated valet drop-off, professional spotlights, and service elevators for seamless loading.
               </p>
 
               <div className="space-y-2.5 pt-2 text-xs font-sans text-[#2A1C24]">
@@ -311,7 +551,7 @@ export default function EventDetailPage({ onOpenBooking }) {
               </div>
             </div>
 
-            <div className="rounded-2xl overflow-hidden border border-[#E9AD83]/30 aspect-video shadow-md">
+            <div className="rounded-3xl overflow-hidden border border-[#E9AD83]/30 aspect-video shadow-md">
               <img
                 src={event.coverImage || event.poster}
                 alt={`${event.venue} Exhibition Hall`}
@@ -322,57 +562,101 @@ export default function EventDetailPage({ onOpenBooking }) {
         </div>
 
         {/* =========================================================================
-            SECTION 4: ARCHIVAL PHOTO GALLERY (If available)
+            11. EVENT FAQS & POLICIES (If available)
             ========================================================================= */}
-        {event.gallery && event.gallery.length > 0 && (
-          <div className="mb-16">
+        {event.faqs && event.faqs.length > 0 && (
+          <div className="mb-20 max-w-4xl mx-auto">
             <div className="text-center mb-10">
               <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
-                VISUAL ARCHIVE
+                FREQUENTLY ASKED QUESTIONS
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-1">
-                Moments from {event.edition}
+                Event Guidelines &amp; FAQs
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {event.gallery.map((imgUrl, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl overflow-hidden aspect-[4/3] border border-[#E9AD83]/30 shadow-md group"
-                >
-                  <img
-                    src={imgUrl}
-                    alt={`${event.title} Moment ${i + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
+            <div className="space-y-4">
+              {event.faqs.map((faq, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 overflow-hidden shadow-sm"
+                  >
+                    <button
+                      onClick={() => setOpenFaq(isOpen ? null : idx)}
+                      className="w-full p-5 text-left flex items-center justify-between text-sm sm:text-base font-serif font-medium text-[#2A1C24]"
+                    >
+                      <span>{faq.q}</span>
+                      <ChevronDown
+                        size={16}
+                        className={`text-[#B96535] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 pb-5 text-xs sm:text-sm text-[#5E4A55] font-sans font-light leading-relaxed border-t border-[#E9AD83]/20 pt-3">
+                        {faq.a}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
 
         {/* =========================================================================
-            SECTION 5: EXPLORE OTHER EDITIONS
+            12. BOTTOM BOOKING CTA & EXPLORE MORE EDITIONS
             ========================================================================= */}
-        <div className="pt-12 border-t border-[#E9AD83]/30">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
-                MORE EXHIBITIONS
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl text-[#2A1C24] mt-1">
-                Explore Other Editions
-              </h3>
-            </div>
+        <div className="p-8 sm:p-12 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 text-center shadow-lg mb-16">
+          <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
+            {isUpcoming ? 'RESERVE YOUR STAGE' : 'UDAAN EVENT ARCHIVE'}
+          </span>
+          <h3 className="font-serif text-3xl sm:text-4xl text-[#2A1C24] mt-2 mb-3">
+            {isUpcoming ? 'Ready to Exhibit at ' + event.title + '?' : 'Explore More Moments from ' + event.edition}
+          </h3>
+          <p className="text-xs sm:text-sm text-[#5E4A55] font-sans max-w-lg mx-auto mb-6">
+            {isUpcoming
+              ? 'Join 50+ handpicked women-founded labels at Lemon Tree Premier. Submit your collection for curation review within 24 hours.'
+              : 'Discover other landmark editions of UDAAN or apply for our upcoming flagship festive showcases.'}
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            {isUpcoming ? (
+              <button
+                onClick={() => onOpenBooking(event.title)}
+                className="btn-sunset-gold px-9 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase text-[#2A1C24] shadow-md flex items-center space-x-2"
+              >
+                <span>BOOK YOUR STALL</span>
+                <ArrowRight size={13} />
+              </button>
+            ) : (
+              <Link
+                to="/events"
+                className="btn-sunset-gold px-9 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase text-[#2A1C24] shadow-md flex items-center space-x-2"
+              >
+                <span>VIEW EVENT ARCHIVE</span>
+                <ArrowRight size={13} />
+              </Link>
+            )}
 
             <Link
               to="/events"
-              className="text-xs text-[#B96535] hover:text-[#2A1C24] font-semibold tracking-wider uppercase flex items-center space-x-1"
+              className="btn-editorial-outline px-8 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase"
             >
-              <span>View All Posters</span>
-              <ArrowRight size={13} />
+              All Exhibitions
+            </Link>
+          </div>
+        </div>
+
+        {/* Other Editions Quick Row */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <h4 className="font-serif text-2xl text-[#2A1C24]">
+              More UDAAN Exhibitions
+            </h4>
+            <Link to="/events" className="text-xs text-[#B96535] hover:text-[#2A1C24] font-semibold tracking-wider uppercase">
+              View Calendar &rarr;
             </Link>
           </div>
 
@@ -394,9 +678,9 @@ export default function EventDetailPage({ onOpenBooking }) {
                   <span className="text-[9px] tracking-widest uppercase font-semibold text-[#B96535] block truncate">
                     {oe.edition}
                   </span>
-                  <h4 className="font-serif text-lg text-[#2A1C24] truncate group-hover:text-[#B96535] transition-colors">
+                  <h5 className="font-serif text-lg text-[#2A1C24] truncate group-hover:text-[#B96535] transition-colors">
                     {oe.title}
-                  </h4>
+                  </h5>
                   <p className="text-[11px] text-[#6B5860] font-sans truncate mt-0.5">
                     {oe.dates}
                   </p>

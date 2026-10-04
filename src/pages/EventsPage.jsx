@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, MapPin, Clock, ArrowRight, Sparkles } from 'lucide-react';
 import EventPosterGallery from '../components/EventPosterGallery';
+import LuxuryEventShowcase from '../components/LuxuryEventShowcase';
 import { EVENTS_CATALOG } from '../data/eventsCatalog';
 
 export default function EventsPage({ onOpenBooking }) {
@@ -28,6 +29,9 @@ export default function EventsPage({ onOpenBooking }) {
 
       {/* 3D Perspective Event Poster Gallery (Coverflow with Hover & Mobile Swipe) */}
       <EventPosterGallery onOpenBooking={onOpenBooking} initialFilter="ALL" />
+
+      {/* The UDAAN Calendar: Luxury Editorial Showcase with Magnetic Cursor Follow */}
+      <LuxuryEventShowcase onOpenBooking={onOpenBooking} />
 
       {/* Verified Upcoming Showcases Listing */}
       <div className="max-w-6xl mx-auto px-6 space-y-12 mt-20">

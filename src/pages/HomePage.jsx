@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import BrandStory from '../components/BrandStory';
 import FeaturedEvent from '../components/FeaturedEvent';
 import EventPosterGallery from '../components/EventPosterGallery';
+import LuxuryEventShowcase from '../components/LuxuryEventShowcase';
 import CategoriesSection from '../components/CategoriesSection';
 import StallMap from '../components/StallMap';
 import WhyExhibit from '../components/WhyExhibit';
@@ -96,6 +97,9 @@ export default function HomePage({ onOpenBooking, onSelectStall }) {
 
       {/* 2B. 3D Perspective Hover Poster Gallery: Past Editions & Upcoming Showcases */}
       <EventPosterGallery onOpenBooking={onOpenBooking} />
+
+      {/* 2C. The UDAAN Calendar - Luxury Interactive Event Showcase with Cursor Follow */}
+      <LuxuryEventShowcase onOpenBooking={onOpenBooking} />
 
       {/* 3. Brand Story & The 4 Pillars */}
       <BrandStory onOpenBooking={onOpenBooking} />
