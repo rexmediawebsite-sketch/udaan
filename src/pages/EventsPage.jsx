@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, MapPin, Clock, ArrowRight, Sparkles } from 'lucide-react';
+import EventsDeck3D from '../components/EventsDeck3D';
 
 export default function EventsPage({ onOpenBooking }) {
   const events = [
@@ -66,8 +67,11 @@ export default function EventsPage({ onOpenBooking }) {
         </p>
       </div>
 
+      {/* 3D Perspective Event Chronicle Deck */}
+      <EventsDeck3D onOpenBooking={onOpenBooking} />
+
       {/* Events Listing */}
-      <div className="max-w-6xl mx-auto px-6 space-y-10">
+      <div className="max-w-6xl mx-auto px-6 space-y-10 mt-12">
         {events.map((ev) => (
           <div
             key={ev.id}
