@@ -1,153 +1,222 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Calendar, MapPin, Sparkles, ChevronLeft, ChevronRight, ArrowRight, Eye, CheckCircle, Clock } from 'lucide-react';
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  Eye,
+  Play,
+  Pause,
+  ChevronUp
+} from 'lucide-react';
 import { EVENTS_CATALOG } from '../data/eventsCatalog';
 
 export default function EventPosterGallery({ onOpenBooking, initialFilter = 'ALL' }) {
   const navigate = useNavigate();
   const [filter, setFilter] = useState(initialFilter); // 'ALL' | 'UPCOMING' | 'PAST'
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPointerInside, setIsPointerInside] = useState(false);
-  const deckContainerRef = useRef(null);
-  const touchStartXRef = useRef(0);
-  const touchEndXRef = useRef(0);
-
-  // Filter events based on active segment
+  
+  // Displayed items based on filter
   const displayedEvents = EVENTS_CATALOG.filter((ev) => {
     if (filter === 'UPCOMING') return ev.status === 'current' || ev.status === 'upcoming';
     if (filter === 'PAST') return ev.status === 'past';
     return true;
   });
 
-  // Re-center active poster when filter changes
-  useEffect(() => {
-    const flagshipIdx = displayedEvents.findIndex((e) => e.isFlagship);
-    if (flagshipIdx !== -1) {
-      setActiveIndex(flagshipIdx);
-    } else {
-      setActiveIndex(Math.floor(displayedEvents.length / 2));
-    }
-  }, [filter]);
+  const count = displayedEvents.length;
+  const angleStep = 360 / Math.max(count, 1);
 
-  // Handle smooth horizontal hover tracking from left to right across the deck
-  const handleMouseMove = useCallback((e) => {
-    if (!deckContainerRef.current || displayedEvents.length <= 1) return;
-    const rect = deckContainerRef.current.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const ratio = Math.max(0, Math.min(1, mouseX / rect.width));
-    const targetIdx = Math.min(
-      displayedEvents.length - 1,
-      Math.floor(ratio * displayedEvents.length)
-    );
-    if (targetIdx !== activeIndex) {
-      setActiveIndex(targetIdx);
-    }
-  }, [displayedEvents.length, activeIndex]);
+  // Continuous rotation angle in degrees
+  const [rotation, setRotation] = useState(0);
+  const [isAutoHovering, setIsAutoHovering] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragStartRotation, setDragStartRotation] = useState(0);
 
-  // Touch handlers for mobile swipe
-  const handleTouchStart = (e) => {
-    touchStartXRef.current = e.touches[0].clientX;
+  const containerRef = useRef(null);
+  const animFrameRef = useRef(null);
+  const autoResumeTimeoutRef = useRef(null);
+  const isPointerDownRef = useRef(false);
+
+  // Normalize rotation angle helper
+  const normalizeAngle = (angle) => {
+    let a = angle % 360;
+    if (a > 180) a -= 360;
+    if (a < -180) a += 360;
+    return a;
   };
 
-  const handleTouchMove = (e) => {
-    touchEndXRef.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    const diff = touchStartXRef.current - touchEndXRef.current;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) {
-        // Swiped left -> Next poster
-        setActiveIndex((prev) => Math.min(displayedEvents.length - 1, prev + 1));
-      } else {
-        // Swiped right -> Previous poster
-        setActiveIndex((prev) => Math.max(0, prev - 1));
+  // Find index of the card that is currently closest to the front (angle ~ 0)
+  const getActiveIndex = useCallback(() => {
+    if (count === 0) return 0;
+    let minDiff = 360;
+    let closestIdx = 0;
+    displayedEvents.forEach((_, idx) => {
+      const cardAngle = normalizeAngle(idx * angleStep + rotation);
+      if (Math.abs(cardAngle) < minDiff) {
+        minDiff = Math.abs(cardAngle);
+        closestIdx = idx;
       }
-    }
-  };
+    });
+    return closestIdx;
+  }, [count, angleStep, rotation, displayedEvents]);
 
-  // Keyboard navigation
-  const handleKeyDown = (e) => {
-    if (e.key === 'ArrowLeft') {
-      setActiveIndex((prev) => Math.max(0, prev - 1));
-    } else if (e.key === 'ArrowRight') {
-      setActiveIndex((prev) => Math.min(displayedEvents.length - 1, prev + 1));
-    } else if (e.key === 'Enter') {
-      const activeEvent = displayedEvents[activeIndex];
-      if (activeEvent) {
-        navigate(`/events/${activeEvent.slug}`);
-      }
-    }
-  };
-
+  const activeIndex = getActiveIndex();
   const activeEvent = displayedEvents[activeIndex] || displayedEvents[0];
 
-  const handlePosterClick = (item, idx) => {
-    if (idx === activeIndex) {
-      navigate(`/events/${item.slug}`);
+  // 60FPS automatic hover / gliding from left to right
+  useEffect(() => {
+    let lastTime = performance.now();
+
+    const loop = (now) => {
+      const dt = now - lastTime;
+      lastTime = now;
+
+      if (isAutoHovering && !isDragging) {
+        // Smoothly rotate the cylinder so cards move from right to left (hover effect sweeps left to right)
+        // ~12 degrees per second for a serene, luxurious pace
+        setRotation((prev) => prev - (0.018 * dt));
+      }
+
+      animFrameRef.current = requestAnimationFrame(loop);
+    };
+
+    animFrameRef.current = requestAnimationFrame(loop);
+
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [isAutoHovering, isDragging]);
+
+  // Pause auto-rotation when user interacts, then resume gracefully
+  const pauseAutoTemporarily = useCallback((resumeDelay = 3500) => {
+    setIsAutoHovering(false);
+    if (autoResumeTimeoutRef.current) clearTimeout(autoResumeTimeoutRef.current);
+    autoResumeTimeoutRef.current = setTimeout(() => {
+      setIsAutoHovering(true);
+    }, resumeDelay);
+  }, []);
+
+  // Mouse Drag & Touch Gesture Handlers
+  const handlePointerDown = (clientX) => {
+    setIsDragging(true);
+    isPointerDownRef.current = true;
+    setDragStartX(clientX);
+    setDragStartRotation(rotation);
+    setIsAutoHovering(false);
+    if (autoResumeTimeoutRef.current) clearTimeout(autoResumeTimeoutRef.current);
+  };
+
+  const handlePointerMove = (clientX) => {
+    if (!isPointerDownRef.current) return;
+    const deltaX = clientX - dragStartX;
+    // Map drag distance to rotation angle
+    const angleDelta = deltaX * 0.28;
+    setRotation(dragStartRotation + angleDelta);
+  };
+
+  const handlePointerUp = () => {
+    if (!isPointerDownRef.current) return;
+    isPointerDownRef.current = false;
+    setIsDragging(false);
+    pauseAutoTemporarily(3000);
+  };
+
+  // Hover over the track without clicking: subtly tilts/accelerates rotation left to right
+  const handleMouseMoveOverTrack = (e) => {
+    if (isDragging) return;
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const ratio = (mouseX / rect.width) - 0.5; // -0.5 (left) to +0.5 (right)
+    
+    // Nudge the rotation towards mouse position
+    pauseAutoTemporarily(2500);
+    setRotation((prev) => prev - (ratio * 0.6));
+  };
+
+  // Click card to bring it front & center or open page
+  const handleCardClick = (idx, e) => {
+    e.stopPropagation();
+    const cardAngle = normalizeAngle(idx * angleStep + rotation);
+    
+    if (Math.abs(cardAngle) < 16) {
+      // Already front and center -> Navigate to event page
+      navigate(`/events/${displayedEvents[idx].slug}`);
     } else {
-      setActiveIndex(idx);
+      // Bring this card to center by snapping rotation
+      pauseAutoTemporarily(4000);
+      const targetRotation = rotation - cardAngle;
+      setRotation(targetRotation);
     }
+  };
+
+  // Step Previous / Next
+  const handleStep = (direction) => {
+    pauseAutoTemporarily(4000);
+    const step = direction === 'next' ? -angleStep : angleStep;
+    setRotation((prev) => prev + step);
   };
 
   return (
     <section
       id="poster-gallery"
-      className="relative py-24 md:py-32 bg-[#FAF4EB] text-[#2A1C24] overflow-hidden border-t border-[#E9AD83]/25"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      aria-label="Interactive Event Posters Showcase"
+      className="relative py-20 md:py-28 bg-[#FAF4EB] text-[#2A1C24] overflow-hidden border-t border-[#E9AD83]/25 select-none"
+      aria-label="Interactive 3D Event Poster Cylinder Gallery"
     >
-      {/* Ambient Sunset Lighting Wash */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-gradient-to-r from-[#F6B51F]/15 via-[#E9AD83]/20 to-[#397EAC]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Subtle Golden-Hour Ambient Radiance */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-gradient-to-r from-[#F6B51F]/15 via-[#E9AD83]/20 to-[#397EAC]/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
-        {/* Editorial Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
-          <div className="max-w-2xl">
+        {/* Section Header */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+          <div>
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-4 shadow-sm">
               <Sparkles size={12} className="text-[#B96535]" />
-              <span>INTERACTIVE EVENT POSTER GALLERY</span>
+              <span>INTERACTIVE EVENT POSTER SHOWCASE</span>
             </div>
 
             <h2 className="font-serif font-normal text-4xl sm:text-5xl md:text-6xl text-[#2A1C24] tracking-[0.02em] leading-[1.12]">
               An Archive of <span className="italic font-light text-[#B96535]">Celebrations</span>
             </h2>
 
-            <p className="mt-4 text-[#5E4A55] text-sm sm:text-base font-sans font-light leading-relaxed">
-              Explore our landmark exhibitions. Hover or swipe across the digital poster gallery from left to right to inspect each edition, or click any poster to view its dedicated exhibition page.
+            <p className="mt-3 text-[#5E4A55] text-sm sm:text-base font-sans font-light leading-relaxed max-w-xl">
+              Automatic 3D curved showcase. The gallery smoothly hovers left to right across editions. Drag or swipe horizontally to rotate manually.
             </p>
           </div>
 
-          {/* Segmented Filter Switcher */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 shrink-0">
+          {/* Segmented Filter Switcher & Auto-Glide Status */}
+          <div className="flex flex-wrap items-center gap-3">
             <div className="inline-flex p-1.5 rounded-full bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md">
               <button
                 onClick={() => setFilter('ALL')}
-                className={`px-5 py-2 rounded-full text-xs font-sans font-semibold tracking-wider uppercase transition-all duration-300 ${
+                className={`px-4 py-1.5 rounded-full text-xs font-sans font-semibold tracking-wider uppercase transition-all duration-300 ${
                   filter === 'ALL'
                     ? 'bg-[#B96535] text-white shadow-sm'
                     : 'text-[#6B5860] hover:text-[#2A1C24]'
                 }`}
               >
-                All Editions ({EVENTS_CATALOG.length})
+                All ({EVENTS_CATALOG.length})
               </button>
 
               <button
                 onClick={() => setFilter('UPCOMING')}
-                className={`px-5 py-2 rounded-full text-xs font-sans font-semibold tracking-wider uppercase transition-all duration-300 ${
+                className={`px-4 py-1.5 rounded-full text-xs font-sans font-semibold tracking-wider uppercase transition-all duration-300 ${
                   filter === 'UPCOMING'
                     ? 'bg-[#B96535] text-white shadow-sm'
                     : 'text-[#6B5860] hover:text-[#2A1C24]'
                 }`}
               >
-                Upcoming & Flagship (3)
+                Upcoming (3)
               </button>
 
               <button
                 onClick={() => setFilter('PAST')}
-                className={`px-5 py-2 rounded-full text-xs font-sans font-semibold tracking-wider uppercase transition-all duration-300 ${
+                className={`px-4 py-1.5 rounded-full text-xs font-sans font-semibold tracking-wider uppercase transition-all duration-300 ${
                   filter === 'PAST'
                     ? 'bg-[#B96535] text-white shadow-sm'
                     : 'text-[#6B5860] hover:text-[#2A1C24]'
@@ -156,100 +225,97 @@ export default function EventPosterGallery({ onOpenBooking, initialFilter = 'ALL
                 Past Archive (4)
               </button>
             </div>
+
+            {/* Play/Pause Auto-Glide Toggle */}
+            <button
+              onClick={() => setIsAutoHovering((prev) => !prev)}
+              className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-full border border-[#E9AD83]/40 bg-[#FFFBF5] text-xs font-semibold text-[#6B5860] hover:text-[#2A1C24] shadow-sm transition-all"
+              title={isAutoHovering ? "Pause Automatic Hover" : "Resume Automatic Hover"}
+            >
+              {isAutoHovering ? (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <Pause size={12} className="text-[#B96535]" />
+                  <span className="text-[10px] tracking-wider uppercase">Auto-Glide ON</span>
+                </>
+              ) : (
+                <>
+                  <Play size={12} className="text-[#B96535]" />
+                  <span className="text-[10px] tracking-wider uppercase">Paused</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
         {/* =========================================================================
-            3D PERSPECTIVE POSTER CAROUSEL (Accurate to reference screenshot)
+            3D CYLINDRICAL CURVED POSTER STAGE (Exact Match to User Screenshot)
             ========================================================================= */}
         <div
-          ref={deckContainerRef}
-          onMouseMove={handleMouseMove}
-          onMouseEnter={() => setIsPointerInside(true)}
-          onMouseLeave={() => setIsPointerInside(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          className="relative py-14 px-2 sm:px-6 select-none overflow-hidden cursor-ew-resize min-h-[480px] sm:min-h-[560px] md:min-h-[600px] flex items-center justify-center"
-          style={{ perspective: '1300px' }}
+          ref={containerRef}
+          onMouseDown={(e) => handlePointerDown(e.clientX)}
+          onMouseMove={(e) => {
+            if (isDragging) {
+              handlePointerMove(e.clientX);
+            } else {
+              handleMouseMoveOverTrack(e);
+            }
+          }}
+          onMouseUp={handlePointerUp}
+          onMouseLeave={handlePointerUp}
+          onTouchStart={(e) => handlePointerDown(e.touches[0].clientX)}
+          onTouchMove={(e) => handlePointerMove(e.touches[0].clientX)}
+          onTouchEnd={handlePointerUp}
+          className="relative w-full h-[460px] sm:h-[520px] md:h-[580px] flex items-center justify-center cursor-grab active:cursor-grabbing overflow-hidden"
+          style={{ perspective: '1400px', perspectiveOrigin: 'center 45%' }}
         >
-          {/* Card Arc Track */}
-          <div className="relative w-full flex items-center justify-center h-full">
+          {/* Circular 3D Cylinder Arena */}
+          <div
+            className="relative w-full h-full flex items-center justify-center"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
             {displayedEvents.map((item, idx) => {
-              const diff = idx - activeIndex;
-              const isSelected = diff === 0;
+              // Calculate angular position on cylinder
+              const cardAngle = normalizeAngle(idx * angleStep + rotation);
+              const absAngle = Math.abs(cardAngle);
 
-              // Compute 3D perspective rotation, scale, offset, and depth
-              // Matching reference image:
-              // Left cards: positive rotateY (turned towards right)
-              // Right cards: negative rotateY (turned towards left)
-              // Active card: rotateY 0, scaled up, highest z-index, forward translateZ
-              let rotateY = 0;
-              let translateX = diff * 52;
-              let translateZ = 0;
-              let translateY = 0;
-              let scale = 1;
-              let zIndex = 30;
-              let opacity = 1;
-              let brightness = 1;
+              // Don't render cards that are on the back side of the cylinder
+              if (absAngle > 96) return null;
 
-              if (isSelected) {
-                rotateY = 0;
-                translateX = 0;
-                translateZ = 90;
-                translateY = -18;
-                scale = 1.12;
-                zIndex = 40;
-                opacity = 1;
-                brightness = 1.05;
-              } else if (diff < 0) {
-                const absDiff = Math.abs(diff);
-                rotateY = Math.min(32, 16 + absDiff * 6);
-                translateX = diff * 58;
-                translateZ = -absDiff * 55;
-                translateY = absDiff * 4;
-                scale = Math.max(0.76, 1 - absDiff * 0.08);
-                zIndex = 30 - absDiff;
-                opacity = Math.max(0.4, 0.95 - absDiff * 0.16);
-                brightness = Math.max(0.75, 0.95 - absDiff * 0.08);
-              } else {
-                const absDiff = Math.abs(diff);
-                rotateY = -Math.min(32, 16 + absDiff * 6);
-                translateX = diff * 58;
-                translateZ = -absDiff * 55;
-                translateY = absDiff * 4;
-                scale = Math.max(0.76, 1 - absDiff * 0.08);
-                zIndex = 30 - absDiff;
-                opacity = Math.max(0.4, 0.95 - absDiff * 0.16);
-                brightness = Math.max(0.75, 0.95 - absDiff * 0.08);
-              }
+              // Cylindrical trigonometry matching user screenshot
+              const radius = window.innerWidth < 640 ? 380 : 540;
+              const rad = (cardAngle * Math.PI) / 180;
+              const x = radius * Math.sin(rad);
+              const z = radius * Math.cos(rad) - radius; // Center card sits at z=0, side cards curve backward
+              const rotateY = -cardAngle * 0.88; // Facing inward along the curve
+              const scale = Math.max(0.72, 1 - (absAngle / 90) * 0.24);
+              const opacity = Math.max(0.25, 1 - (absAngle / 90) * 0.72);
+              const zIndex = Math.round(100 - absAngle);
+              const isCenter = absAngle < 16;
 
               return (
                 <div
                   key={item.id}
-                  onClick={() => handlePosterClick(item, idx)}
+                  onClick={(e) => handleCardClick(idx, e)}
                   style={{
-                    transform: `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                    transform: `translate3d(${x}px, ${isCenter ? -14 : absAngle * 0.12}px, ${z}px) rotateY(${rotateY}deg) scale(${scale})`,
                     zIndex,
                     opacity,
-                    filter: `brightness(${brightness})`,
-                    transition: 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms ease, filter 350ms ease, z-index 0ms',
                     transformStyle: 'preserve-3d',
+                    willChange: 'transform, opacity',
                   }}
-                  className={`absolute w-56 sm:w-64 md:w-72 aspect-[9/13.5] rounded-3xl overflow-hidden cursor-pointer bg-[#24141F] shadow-2xl transition-shadow group ${
-                    isSelected
-                      ? 'ring-4 ring-[#E99A18] shadow-[0_30px_70px_-15px_rgba(185,101,53,0.45)]'
+                  className={`absolute w-56 sm:w-64 md:w-72 aspect-[9/13.5] rounded-3xl overflow-hidden bg-[#24141F] shadow-2xl transition-all duration-150 group cursor-pointer ${
+                    isCenter
+                      ? 'ring-4 ring-[#E99A18] shadow-[0_30px_70px_-15px_rgba(185,101,53,0.5)] border-transparent'
                       : 'border border-[#E9AD83]/30 hover:border-[#E99A18]/60 shadow-xl'
                   }`}
-                  role="button"
-                  aria-label={`${item.title} - ${item.edition}`}
                 >
                   {/* Poster Image */}
                   <img
                     src={item.poster}
-                    alt={`${item.title} Poster`}
+                    alt={`${item.title} Official Exhibition Poster`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-[1.04]"
-                    loading="lazy"
+                    draggable={false}
                   />
 
                   {/* Top Status & Year Pill */}
@@ -260,35 +326,47 @@ export default function EventPosterGallery({ onOpenBooking, initialFilter = 'ALL
                       {item.statusLabel}
                     </span>
 
-                    <span className="text-[10px] font-syne font-bold px-2.5 py-0.5 rounded-full bg-black/60 text-white/95 backdrop-blur-sm border border-white/20">
+                    <span className="text-[10px] font-syne font-bold px-2.5 py-0.5 rounded-full bg-black/70 text-white/95 backdrop-blur-sm border border-white/20">
                       {item.year}
                     </span>
                   </div>
 
-                  {/* Poster Info Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E121B] via-[#1E121B]/60 to-transparent flex flex-col justify-end p-6 text-white z-10">
-                    <div className="space-y-1">
-                      <span className="text-[10px] tracking-[0.25em] font-sans uppercase text-[#F6B51F] font-semibold block">
-                        {item.edition}
-                      </span>
-                      <h3 className="font-serif text-2xl md:text-3xl text-white font-normal leading-tight">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-[#E9AD83] font-sans line-clamp-1">
-                        {item.tagline}
-                      </p>
+                  {/* FLOATING "DRAG TO ROTATE" BADGE ON ACTIVE CENTER CARD (From User Screenshot) */}
+                  {isCenter && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20 animate-fadeIn">
+                      <div className="w-12 h-12 rounded-full bg-white text-[#2A1C24] flex items-center justify-center shadow-2xl mb-2.5 border border-[#E9AD83]/40">
+                        {/* Finger tap / hand icon */}
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M13.5 5.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v7.25c-.48-.22-1.07-.35-1.75-.35-1.79 0-3.25 1.46-3.25 3.25 0 2.21 1.79 4 4 4h4.5c2.48 0 4.5-2.02 4.5-4.5V11c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v1h-1V7.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v4.5h-1V5.5z"/>
+                        </svg>
+                      </div>
+                      <div className="px-4 py-1.5 rounded-full bg-white text-[#2A1C24] text-[10px] font-sans font-bold tracking-[0.2em] uppercase shadow-2xl border border-[#E9AD83]/30">
+                        DRAG TO ROTATE
+                      </div>
                     </div>
+                  )}
+
+                  {/* Gradient Fade & Bottom Poster Details */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E121B] via-[#1E121B]/60 to-transparent flex flex-col justify-end p-6 text-white z-10 pointer-events-none">
+                    <span className="text-[10px] tracking-[0.25em] font-sans uppercase text-[#F6B51F] font-semibold block">
+                      {item.edition}
+                    </span>
+                    <h3 className="font-serif text-2xl text-white font-normal leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-[#E9AD83] font-sans line-clamp-1 mt-0.5">
+                      {item.tagline}
+                    </p>
 
                     <div className="flex items-center space-x-2 text-[11px] text-white/85 font-sans pt-3 mt-3 border-t border-white/15">
                       <Calendar size={13} className="text-[#F6B51F] shrink-0" />
                       <span className="truncate">{item.dates}</span>
                     </div>
 
-                    {/* View Details Prompt on Active Card */}
-                    {isSelected && (
-                      <div className="mt-3 flex items-center justify-between text-xs text-[#F6B51F] font-sans font-semibold pt-1">
-                        <span>Click to Open Exhibition Page</span>
-                        <ArrowRight size={13} className="animate-pulse" />
+                    {isCenter && (
+                      <div className="mt-2 text-[10px] text-[#F6B51F] font-semibold uppercase tracking-wider flex items-center justify-between">
+                        <span>Click to Open Page</span>
+                        <ArrowRight size={12} className="animate-pulse" />
                       </div>
                     )}
                   </div>
@@ -297,57 +375,37 @@ export default function EventPosterGallery({ onOpenBooking, initialFilter = 'ALL
             })}
           </div>
 
-          {/* Left / Right Carousel Controls */}
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center space-x-6 z-40 pointer-events-auto">
-            <button
-              onClick={() => setActiveIndex((prev) => Math.max(0, prev - 1))}
-              disabled={activeIndex === 0}
-              className={`w-11 h-11 rounded-full border border-[#E9AD83]/40 bg-[#FFFBF5] text-[#2A1C24] flex items-center justify-center transition-all ${
-                activeIndex === 0
-                  ? 'opacity-30 cursor-not-allowed'
-                  : 'hover:bg-[#B96535] hover:text-white hover:border-[#B96535] shadow-md hover:scale-105'
-              }`}
-              aria-label="Previous Event Poster"
-            >
-              <ChevronLeft size={20} />
-            </button>
+          {/* Left Arrow Button */}
+          <button
+            onClick={() => handleStep('prev')}
+            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-[#FFFBF5]/90 border border-[#E9AD83]/40 text-[#2A1C24] flex items-center justify-center hover:bg-[#B96535] hover:text-white hover:border-[#B96535] shadow-lg transition-all"
+            aria-label="Previous Poster"
+          >
+            <ChevronLeft size={22} />
+          </button>
 
-            {/* Pagination Indicators */}
-            <div className="flex items-center space-x-2">
-              {displayedEvents.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveIndex(i)}
-                  className={`transition-all duration-300 rounded-full ${
-                    i === activeIndex
-                      ? 'w-7 h-2.5 bg-[#B96535]'
-                      : 'w-2.5 h-2.5 bg-[#E9AD83]/50 hover:bg-[#B96535]/60'
-                  }`}
-                  aria-label={`Go to poster ${i + 1}`}
-                />
-              ))}
-            </div>
+          {/* Right Arrow Button */}
+          <button
+            onClick={() => handleStep('next')}
+            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-[#FFFBF5]/90 border border-[#E9AD83]/40 text-[#2A1C24] flex items-center justify-center hover:bg-[#B96535] hover:text-white hover:border-[#B96535] shadow-lg transition-all"
+            aria-label="Next Poster"
+          >
+            <ChevronRight size={22} />
+          </button>
+        </div>
 
-            <button
-              onClick={() => setActiveIndex((prev) => Math.min(displayedEvents.length - 1, prev + 1))}
-              disabled={activeIndex === displayedEvents.length - 1}
-              className={`w-11 h-11 rounded-full border border-[#E9AD83]/40 bg-[#FFFBF5] text-[#2A1C24] flex items-center justify-center transition-all ${
-                activeIndex === displayedEvents.length - 1
-                  ? 'opacity-30 cursor-not-allowed'
-                  : 'hover:bg-[#B96535] hover:text-white hover:border-[#B96535] shadow-md hover:scale-105'
-              }`}
-              aria-label="Next Event Poster"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
+        {/* =========================================================================
+            BOTTOM INSTRUCTION TEXT (Exact Match to User Screenshot)
+            ========================================================================= */}
+        <div className="text-center text-[10px] sm:text-xs font-sans font-semibold tracking-[0.25em] text-[#6B5860] uppercase mt-2 mb-8 select-none">
+          ← DRAG OR SWIPE HORIZONTALLY TO CURVE &amp; ROTATE →
         </div>
 
         {/* =========================================================================
             ACTIVE POSTER CONTEXT STRIP & DEDICATED PAGE NAVIGATION
             ========================================================================= */}
         {activeEvent && (
-          <div className="mt-8 p-6 sm:p-8 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md flex flex-col lg:flex-row lg:items-center justify-between gap-6 transition-all duration-300">
+          <div className="p-6 sm:p-8 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md flex flex-col lg:flex-row lg:items-center justify-between gap-6 transition-all duration-300">
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="text-[11px] font-sans font-bold tracking-[0.2em] text-[#B96535] uppercase">
