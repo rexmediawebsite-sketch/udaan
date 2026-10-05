@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Sparkles, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import MagneticButton from './MagneticButton';
+import { UdaanEmblem } from './UdaanIcons';
 
 export default function Navigation({ onOpenBooking }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -98,7 +99,7 @@ export default function Navigation({ onOpenBooking }) {
             data-cursor="Udaan"
           >
             <div className="w-7 h-7 rounded-full border border-[#D9A441]/60 bg-gradient-to-br from-[#D9A441]/25 to-transparent flex items-center justify-center text-[#D9A441] group-hover:scale-110 group-hover:border-[#D9A441] transition-all duration-300 shadow-[0_0_10px_rgba(217,164,65,0.3)]">
-              <Sparkles size={14} className="animate-pulse" />
+              <UdaanEmblem size={14} className="text-[#D9A441] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
             <div className="flex flex-col text-left">
               <span className="font-serif tracking-[0.22em] text-base sm:text-lg font-bold text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors leading-none">
@@ -158,7 +159,7 @@ export default function Navigation({ onOpenBooking }) {
         <div className="fixed inset-0 z-50 bg-[#4A1620] lg:hidden flex flex-col justify-between px-8 py-10 transition-all animate-fadeIn overflow-y-auto">
           <div className="flex items-center justify-between border-b border-[#D9A441]/30 pb-4">
             <div className="flex items-center space-x-2.5">
-              <Sparkles className="w-5 h-5 text-[#D9A441]" />
+              <UdaanEmblem size={20} className="text-[#D9A441]" />
               <span className="font-serif tracking-[0.25em] text-xl text-[#FFFAF2] font-semibold">
                 UDAAN
               </span>

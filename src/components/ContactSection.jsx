@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { MapPin, MessageSquare, Send, CheckCircle, Sparkles } from 'lucide-react';
+import { MapPin, MessageSquare, Send, CheckCircle } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 import confetti from 'canvas-confetti';
 
 export default function ContactSection() {
@@ -35,7 +36,7 @@ export default function ContactSection() {
           {/* Left Column: Venue & Official Desk */}
           <div className="lg:col-span-5 space-y-6">
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase shadow-sm">
-              <Sparkles size={12} className="text-[#B96535]" />
+              <UdaanDiamond size={11} className="text-[#B96535]" />
               <span>OFFICIAL EVENT DESK</span>
             </div>
 

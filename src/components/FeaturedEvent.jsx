@@ -1,5 +1,6 @@
 import React from 'react';
-import { Calendar, Clock, MapPin, Sparkles, ShieldCheck, Award, Users, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, MapPin, ShieldCheck, Award, Users, ArrowRight } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 import { FEATURED_EVENT } from '../data/eventData';
 
 export default function FeaturedEvent({ onOpenBooking }) {
@@ -35,7 +36,7 @@ export default function FeaturedEvent({ onOpenBooking }) {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
           <div className="max-w-2xl">
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#E99A18]/40 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-4 shadow-sm">
-              <Sparkles size={12} className="text-[#E99A18]" />
+              <UdaanDiamond size={11} className="text-[#E99A18]" />
               <span>FLAGSHIP FESTIVE EXHIBITION</span>
             </div>
 

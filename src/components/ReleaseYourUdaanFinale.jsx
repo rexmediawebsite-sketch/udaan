@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
-import { Send, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Send, CheckCircle2, ArrowRight } from 'lucide-react';
 import MagneticButton from './MagneticButton';
+import { UdaanEmblem } from './UdaanIcons';
 
 export default function ReleaseYourUdaanFinale({ onOpenBooking }) {
   const [dream, setDream] = useState('');
@@ -41,7 +42,7 @@ export default function ReleaseYourUdaanFinale({ onOpenBooking }) {
         {/* Emblem & Eyebrow */}
         <div className="space-y-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2B1B17]/80 border border-[#D9A441]/40 text-[#D9A441] text-xs font-semibold uppercase tracking-[0.15em] shadow-md backdrop-blur-md">
-            <Sparkles size={14} className="text-[#D9A441] animate-pulse" />
+            <UdaanEmblem size={14} className="text-[#D9A441]" />
             <span>The Grand Finale • Diwali Edition 5</span>
           </div>
 

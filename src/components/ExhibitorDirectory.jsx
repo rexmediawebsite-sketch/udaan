@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, MapPin, ExternalLink, Sparkles, Filter } from 'lucide-react';
+import { Search, MapPin, ExternalLink, Filter } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 import { BRANDS_DIRECTORY, CATEGORIES } from '../data/eventData';
 
 const InstagramIcon = ({ size = 14, className = "" }) => (
@@ -36,7 +37,7 @@ export default function ExhibitorDirectory({ onOpenBooking }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div>
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-4 shadow-sm">
-              <Sparkles size={12} className="text-[#B96535]" />
+              <UdaanDiamond size={11} className="text-[#B96535]" />
               <span>CURATED FOUNDERS</span>
             </div>
 

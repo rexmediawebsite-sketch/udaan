@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, MapPin } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, MapPin } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 import ScrollReveal from './ScrollReveal';
 

@@ -83,3 +83,38 @@ export function StaggerItem({
     </motion.div>
   );
 }
+
+/**
+ * Editorial Masked Split-Text Slide-Up Reveal
+ * Each word gracefully emerges from an invisible bottom mask
+ */
+export function SplitTextReveal({
+  text,
+  className = "",
+  delay = 0,
+}) {
+  const words = text.split(" ");
+
+  return (
+    <span className={`inline-block ${className}`}>
+      {words.map((word, i) => (
+        <span key={i} className="inline-block overflow-hidden mr-[0.24em] align-bottom">
+          <motion.span
+            className="inline-block"
+            initial={{ y: "115%", opacity: 0, rotate: 2 }}
+            whileInView={{ y: "0%", opacity: 1, rotate: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              duration: 0.85,
+              delay: delay + i * 0.045,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+          >
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </span>
+  );
+}
+

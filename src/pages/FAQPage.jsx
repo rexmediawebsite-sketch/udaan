@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import FAQSection from '../components/FAQSection';
-import { Sparkles, HelpCircle, MessageSquare } from 'lucide-react';
+import { HelpCircle, MessageSquare } from 'lucide-react';
 
 export default function FAQPage() {
   return (

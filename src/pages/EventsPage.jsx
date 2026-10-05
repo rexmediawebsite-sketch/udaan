@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Clock, ArrowRight, Sparkles } from 'lucide-react';
+import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { UdaanDiamond } from '../components/UdaanIcons';
 import EventPosterGallery from '../components/EventPosterGallery';
 import LuxuryEventShowcase from '../components/LuxuryEventShowcase';
 import { EVENTS_CATALOG } from '../data/eventsCatalog';
@@ -14,7 +15,7 @@ export default function EventsPage({ onOpenBooking }) {
       {/* Header Banner */}
       <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
         <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-4 shadow-sm">
-          <Sparkles size={12} className="text-[#B96535]" />
+          <UdaanDiamond size={11} className="text-[#B96535]" />
           <span>CALENDAR OF EXHIBITIONS</span>
         </div>
 

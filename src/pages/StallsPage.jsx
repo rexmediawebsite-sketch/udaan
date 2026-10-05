@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import StallMap from '../components/StallMap';
-import { Sparkles } from 'lucide-react';
+import { UdaanDiamond } from '../components/UdaanIcons';
 
 export default function StallsPage({ onSelectStall }) {
   return (
@@ -20,7 +20,7 @@ export default function StallsPage({ onSelectStall }) {
         <div className="p-8 rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-md">
           <div>
             <div className="inline-flex items-center space-x-2 text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold mb-1">
-              <Sparkles size={11} />
+              <UdaanDiamond size={10} />
               <span>LEMON TREE PREMIER PATNA</span>
             </div>
             <h1 className="font-serif text-3xl sm:text-4xl text-[#2A1C24]">

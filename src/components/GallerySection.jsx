@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Sparkles, Maximize2, X } from 'lucide-react';
+import { Maximize2, X } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 import { GALLERY_ITEMS } from '../data/eventData';
 
 export default function GallerySection() {
@@ -13,7 +14,7 @@ export default function GallerySection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#397EAC]/40 bg-[#EBF3F8] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#397EAC] uppercase mb-4 shadow-sm">
-              <Sparkles size={12} className="text-[#397EAC]" />
+              <UdaanDiamond size={11} className="text-[#397EAC]" />
               <span>VISUAL ARCHIVE</span>
             </div>
 

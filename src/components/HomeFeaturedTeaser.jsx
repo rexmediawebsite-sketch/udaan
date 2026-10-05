@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Clock, ArrowRight, Sparkles } from 'lucide-react';
+import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 import ScrollReveal from './ScrollReveal';
+import { UdaanDiamond } from './UdaanIcons';
 
 export default function HomeFeaturedTeaser({ onOpenBooking }) {
   return (
@@ -65,7 +66,7 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
 
                 {/* Verified Venue Tag in Maroon */}
                 <div className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#4A1620]/90 backdrop-blur-md border border-[#D9A441]/50 text-[#FFFAF2] text-[10px] sm:text-xs font-sans font-semibold tracking-wider uppercase shadow-md flex items-center gap-1.5">
-                  <Sparkles size={11} className="text-[#D9A441]" />
+                  <UdaanDiamond size={9} className="text-[#D9A441]" />
                   <span>Patna's Peak Festive Weekend</span>
                 </div>
 
@@ -83,7 +84,7 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
           <ScrollReveal delay={0.15} y={30} className="w-full lg:w-[45%] space-y-6">
             <div className="space-y-3">
               <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B85C38] uppercase shadow-sm">
-                <Sparkles size={12} className="text-[#D9A441]" />
+                <UdaanDiamond size={10} className="text-[#D9A441]" />
                 <span>WHAT'S HAPPENING AT UDAAN</span>
               </div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, Sparkles, Send, ShieldCheck } from 'lucide-react';
+import { X, CheckCircle, Send, ShieldCheck } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 import confetti from 'canvas-confetti';
 import { CATEGORIES } from '../data/eventData';
 
@@ -102,7 +103,7 @@ export default function BookingModal({ isOpen, onClose, preselectedStall, presel
         ) : (
           <div>
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[10px] tracking-[0.3em] font-sans text-[#B96535] uppercase mb-2">
-              <Sparkles size={11} className="text-[#B96535]" />
+              <UdaanDiamond size={10} className="text-[#B96535]" />
               <span>GLAMOUR GALA • DIWALI EDITION 5</span>
             </div>
 

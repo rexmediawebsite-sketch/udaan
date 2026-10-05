@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Ticket, Clock, Car, Gift, Sparkles, Check, Send } from 'lucide-react';
+import { Ticket, Clock, Car, Gift, Check, Send } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 import confetti from 'canvas-confetti';
 
 export default function VisitorExperience() {
@@ -30,7 +31,7 @@ export default function VisitorExperience() {
           {/* Left Column: Visitor Experience Narrative */}
           <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#397EAC]/40 bg-[#EBF3F8] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#397EAC] uppercase shadow-sm">
-              <Sparkles size={12} className="text-[#397EAC]" />
+              <UdaanDiamond size={11} className="text-[#397EAC]" />
               <span>THE VISITOR EXPERIENCE</span>
             </div>
 

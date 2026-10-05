@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles } from 'lucide-react';
+import { UdaanEmblem } from './UdaanIcons';
 
 export default function CinematicIntro({ onComplete }) {
   const [visible, setVisible] = useState(false);
@@ -63,7 +63,7 @@ export default function CinematicIntro({ onComplete }) {
       <div className="relative z-10 flex flex-col items-center text-center space-y-6 px-6">
         {/* Soaring Golden Dove Silhouette */}
         <div className="w-16 h-16 rounded-full border border-[#D9A441]/50 bg-gradient-to-br from-[#D9A441]/20 to-transparent flex items-center justify-center text-[#D9A441] shadow-[0_0_30px_#D9A441] animate-pulse">
-          <Sparkles className="w-8 h-8 text-[#D9A441]" />
+          <UdaanEmblem size={32} className="text-[#D9A441]" />
         </div>
 
         {/* U-D-A-A-N Letters Assembly */}

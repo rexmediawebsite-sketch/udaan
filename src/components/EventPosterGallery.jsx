@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 
 const CATEGORIES = [
   { id: "all", label: "All Curations" },
@@ -168,7 +169,7 @@ export default function EventPosterGallery() {
             ========================================================================= */}
         <div className="text-center max-w-3xl mx-auto mb-8 px-6">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B85C38] uppercase shadow-sm mb-4">
-            <Sparkles size={12} className="text-[#D9A441]" />
+            <UdaanDiamond size={10} className="text-[#D9A441]" />
             <span>CURATED FESTIVE ATELIERS</span>
           </div>
 

@@ -4,7 +4,6 @@ import {
   Calendar,
   Clock,
   MapPin,
-  Sparkles,
   ArrowRight,
   Eye,
   Award,
@@ -12,6 +11,7 @@ import {
   ShieldCheck,
   ChevronRight
 } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 import { EVENTS_CATALOG } from '../data/eventsCatalog';
 
 export default function LuxuryEventShowcase({ onOpenBooking }) {
@@ -99,7 +99,7 @@ export default function LuxuryEventShowcase({ onOpenBooking }) {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
           <div className="max-w-2xl">
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-4 shadow-sm">
-              <Sparkles size={12} className="text-[#B96535]" />
+              <UdaanDiamond size={11} className="text-[#B96535]" />
               <span>THE UDAAN CALENDAR</span>
             </div>
 

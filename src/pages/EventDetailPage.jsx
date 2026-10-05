@@ -4,7 +4,6 @@ import {
   Calendar,
   Clock,
   MapPin,
-  Sparkles,
   ShieldCheck,
   ArrowRight,
   ArrowLeft,
@@ -18,6 +17,7 @@ import {
   ChevronDown,
   LayoutGrid
 } from 'lucide-react';
+import { UdaanDiamond } from '../components/UdaanIcons';
 import { getEventBySlug, EVENTS_CATALOG } from '../data/eventsCatalog';
 
 export default function EventDetailPage({ onOpenBooking }) {
@@ -117,7 +117,7 @@ export default function EventDetailPage({ onOpenBooking }) {
               
               <div>
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-3 shadow-sm">
-                  <Sparkles size={11} className="text-[#B96535]" />
+                  <UdaanDiamond size={10} className="text-[#B96535]" />
                   <span>{event.edition}</span>
                 </div>
 

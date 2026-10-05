@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUp, Sparkles, Send, CheckCircle2 } from 'lucide-react';
+import { ArrowUp, Send, CheckCircle2 } from 'lucide-react';
+import { UdaanEmblem } from './UdaanIcons';
 import MagneticButton from './MagneticButton';
 import { BRAND } from '../data/eventData';
 
@@ -41,7 +42,7 @@ export default function Footer({ onOpenBooking }) {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5 text-center md:text-left">
             <div className="w-10 h-10 rounded-full bg-[#360F17] text-[#D9A441] flex items-center justify-center shadow-md shrink-0">
-              <Sparkles className="w-5 h-5 animate-pulse" />
+              <UdaanEmblem size={20} className="text-[#D9A441]" />
             </div>
             <div>
               <h3 className="font-serif text-2xl font-bold tracking-tight text-[#2B1B17]">
@@ -89,7 +90,7 @@ export default function Footer({ onOpenBooking }) {
           <div className="md:col-span-4 space-y-4">
             <Link to="/" className="inline-flex items-center gap-2.5 group">
               <div className="w-8 h-8 rounded-full border border-[#D9A441] bg-[#360F17] flex items-center justify-center text-[#D9A441]">
-                <Sparkles size={16} />
+                <UdaanEmblem size={16} />
               </div>
               <span className="font-serif text-3xl tracking-[0.2em] font-bold text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors">
                 UDAAN

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Compass, Sparkles, Network, TrendingUp, ArrowRight } from 'lucide-react';
+import { Compass, Award, Network, TrendingUp, ArrowRight } from 'lucide-react';
 import { BRAND } from '../data/eventData';
 import ScrollReveal, { StaggerContainer, StaggerItem } from './ScrollReveal';
+import { UdaanDiamond } from './UdaanIcons';
 
 export default function BrandStory({ onOpenBooking }) {
   const pillars = [
@@ -21,7 +22,7 @@ export default function BrandStory({ onOpenBooking }) {
       hindi: "प्रदर्शन",
       subtitle: "5-Star Canvas",
       desc: "We build turnkey, high-aesthetic exhibition spaces at 5-star addresses like Lemon Tree Premier, giving your label immediate luxury prestige.",
-      icon: <Sparkles className="w-5 h-5 text-[#D9A441]" />,
+      icon: <Award className="w-5 h-5 text-[#D9A441]" />,
       borderTop: "border-[#D9A441]",
       accentBg: "bg-[#FFFAF2]",
     },
@@ -56,7 +57,7 @@ export default function BrandStory({ onOpenBooking }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mb-16 md:mb-20">
             <div className="lg:col-span-7 space-y-3">
               <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B85C38] uppercase shadow-sm">
-                <Sparkles size={12} className="text-[#D9A441]" />
+                <UdaanDiamond size={10} className="text-[#D9A441]" />
                 <span>THE UDAAN ECOSYSTEM</span>
               </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { CalendarCheck, ShieldCheck, TrendingUp, Megaphone, Coffee, Sparkles, ArrowRight } from 'lucide-react';
+import { CalendarCheck, ShieldCheck, TrendingUp, Megaphone, Coffee, ArrowRight } from 'lucide-react';
+import { UdaanDiamond } from './UdaanIcons';
 
 export default function WhyExhibit({ onOpenBooking }) {
   const benefits = [
@@ -37,7 +38,7 @@ export default function WhyExhibit({ onOpenBooking }) {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase mb-4 shadow-sm">
-            <Sparkles size={12} className="text-[#B96535]" />
+            <UdaanDiamond size={11} className="text-[#B96535]" />
             <span>FOUNDER VALUE PROPOSITION</span>
           </div>
 

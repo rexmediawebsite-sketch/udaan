@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, MapPin, CheckCircle, Clock, Lock, ArrowRight, Info, Layers } from 'lucide-react';
+import { MapPin, CheckCircle, Clock, Lock, ArrowRight, Info, Layers } from 'lucide-react';
 import { STALLS_DATA, FEATURED_EVENT } from '../data/eventData';
 
 export default function StallMap({ onSelectStallForBooking }) {
