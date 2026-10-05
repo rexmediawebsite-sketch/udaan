@@ -46,9 +46,9 @@ export default function CinematicIntro({ onComplete }) {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-[#1E121B] flex flex-col items-center justify-center select-none overflow-hidden transition-opacity duration-700">
+    <div className="fixed inset-0 z-[200] bg-[#2B1B17] flex flex-col items-center justify-center select-none overflow-hidden transition-opacity duration-700">
       {/* Background Sunset Glow Pulse */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#B85C38]/20 via-[#4A1620]/30 to-black pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#B85C38]/20 via-[#4A1620]/30 to-[#2B1B17] pointer-events-none" />
 
       {/* Skip Button: Always visible from 0s */}
       <button

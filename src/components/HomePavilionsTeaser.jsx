@@ -43,63 +43,69 @@ const pavilions = [
 
 export default function HomePavilionsTeaser() {
   return (
-    <section className="relative w-full py-24 bg-[#FFFAF2] text-[#2B1B17] border-y border-[#D9A441]/20">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="relative w-full py-24 md:py-32 bg-[#FFFAF2] text-[#2B1B17] border-y border-[#D9A441]/20 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div className="space-y-3">
-            <span className="text-xs uppercase tracking-[0.15em] text-[#B85C38] font-sans font-semibold block">
+            <span className="text-xs uppercase tracking-[0.25em] text-[#B85C38] font-sans font-semibold block">
               Curated Domains
             </span>
-            <h2 className="font-heading font-semibold text-4xl sm:text-5xl text-[#4A1620] tracking-tight leading-tight">
-              Six Exhibition Pavilions
+            <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
+              Six Curated Pavilions
             </h2>
-            <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl">
-              Each pavilion at Tangerine Grand is themed with dedicated aisles, custom display architecture, and focused category curation.
+            <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl font-light leading-relaxed">
+              Each pavilion at Tangerine Grand is themed with dedicated carpeted aisles, custom display architecture, and focused category curation.
             </p>
           </div>
 
           <Link
             to="/exhibitors"
-            data-cursor="Directory"
-            className="inline-flex items-center gap-2 text-sm font-sans font-semibold text-[#4A1620] hover:text-[#B8801F] transition-colors self-start md:self-auto"
+            className="inline-flex items-center gap-2 text-xs font-sans font-semibold tracking-widest uppercase text-[#4A1620] hover:text-[#B8801F] transition-colors self-start md:self-auto border-b border-[#D9A441]/40 pb-1"
           >
             <span>Explore Exhibitor Directory</span>
             <ArrowRight size={14} />
           </Link>
         </div>
 
-        {/* 6-Card Grid with Real Photography & Overlapping Depth */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* 6-Card Grid: Warm Luxury Ivory Cards with Subtle Borders */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {pavilions.map((pav, i) => (
             <div
               key={i}
-              className="group relative rounded-2xl overflow-hidden bg-[#2B1B17] shadow-lg border border-[#D9A441]/25 hover:border-[#D9A441] transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+              className="group relative rounded-3xl overflow-hidden bg-[#FFFFFF] shadow-[0_12px_36px_rgba(43,27,23,0.06)] border border-[#D9A441]/30 hover:border-[#D9A441] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col"
             >
               {/* Media Container */}
-              <div className="h-56 w-full overflow-hidden relative">
+              <div className="h-60 w-full overflow-hidden relative">
                 <img
                   src={pav.image}
                   alt={pav.title}
                   loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2B1B17] via-[#2B1B17]/40 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
                 {/* Count Badge */}
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#4A1620]/90 backdrop-blur-md border border-[#D9A441]/40 text-[#FFFAF2] text-[11px] font-sans font-semibold tracking-wide">
+                <div className="absolute top-4 right-4 px-3.5 py-1 rounded-full bg-[#2B1B17]/80 backdrop-blur-md border border-[#D9A441]/40 text-[#FFFAF2] text-[11px] font-sans font-semibold tracking-wide">
                   {pav.count}
                 </div>
               </div>
 
               {/* Text Card Content */}
-              <div className="p-6 relative z-10 space-y-2 bg-[#2B1B17]">
-                <h3 className="font-heading font-semibold text-2xl text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors">
-                  {pav.title}
-                </h3>
-                <p className="font-sans text-xs sm:text-sm text-[#FFFAF2]/80 leading-relaxed">
-                  {pav.desc}
-                </p>
+              <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-4 bg-white">
+                <div className="space-y-2">
+                  <h3 className="font-serif text-2xl font-semibold text-[#2B1B17] group-hover:text-[#B8801F] transition-colors leading-snug">
+                    {pav.title}
+                  </h3>
+                  <p className="font-sans text-xs sm:text-sm text-[#2B1B17]/75 leading-relaxed font-light">
+                    {pav.desc}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#D9A441]/20 flex items-center justify-between text-xs font-sans font-semibold uppercase tracking-wider text-[#B85C38] group-hover:text-[#B8801F]">
+                  <span>View Pavilion Details</span>
+                  <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
             </div>
           ))}

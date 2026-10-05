@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SmoothScroll from './components/SmoothScroll';
-import CustomCursor from './components/CustomCursor';
 import PageTransition from './components/PageTransition';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
@@ -41,7 +40,6 @@ export default function App() {
   return (
     <Router>
       <SmoothScroll>
-        <CustomCursor />
         <div className="min-h-screen bg-[#FBF4EA] text-[#2B1B17] relative flex flex-col justify-between selection:bg-[#D9A441]/30 selection:text-[#4A1620]">
           {/* Centered Floating Award-Level Navigation Pill */}
           <Navigation onOpenBooking={() => handleOpenBooking()} />
@@ -89,6 +87,10 @@ export default function App() {
                 <Route path="/gallery" element={<GalleryPage />} />
                 <Route
                   path="/about"
+                  element={<AboutPage onOpenBooking={handleOpenBooking} />}
+                />
+                <Route
+                  path="/our-story"
                   element={<AboutPage onOpenBooking={handleOpenBooking} />}
                 />
                 <Route path="/faq" element={<FAQPage />} />
