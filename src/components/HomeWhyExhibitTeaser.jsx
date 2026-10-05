@@ -126,10 +126,11 @@ export default function HomeWhyExhibitTeaser({ onOpenBooking }) {
                   </Link>
                 </div>
               </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-      </div>
-    </section>
+            </div>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+    </div>
+  </section>
   );
 }
