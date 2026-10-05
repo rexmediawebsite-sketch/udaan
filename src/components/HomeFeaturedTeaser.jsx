@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, MapPin, Clock, ArrowRight, Sparkles } from 'lucide-react';
 import MagneticButton from './MagneticButton';
+import ScrollReveal from './ScrollReveal';
 
 export default function HomeFeaturedTeaser({ onOpenBooking }) {
   return (
@@ -10,7 +11,7 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
         {/* Split Row Layout: Image 55% / Card 45%, Zero Overlap, Clean Editorial Grid */}
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left: 55% 3D Layered Glass Composition (Emerging from Screen) */}
-          <div className="w-full lg:w-[55%] relative group">
+          <ScrollReveal y={30} className="w-full lg:w-[55%] relative group">
             {/* 3D Perspective Stage */}
             <div 
               className="relative w-full h-[480px] sm:h-[540px] md:h-[580px] flex items-center justify-center"
@@ -76,10 +77,10 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Right: 45% Editorial Information Card */}
-          <div className="w-full lg:w-[45%] space-y-6">
+          <ScrollReveal delay={0.15} y={30} className="w-full lg:w-[45%] space-y-6">
             <div className="space-y-3">
               <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B85C38] uppercase shadow-sm">
                 <Sparkles size={12} className="text-[#D9A441]" />
@@ -132,7 +133,7 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
                 <span>Full Exhibition Guide &rarr;</span>
               </Link>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

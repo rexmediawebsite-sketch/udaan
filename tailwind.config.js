@@ -50,7 +50,7 @@ export default {
         cinzel: ['"Cinzel"', 'serif'],
         sans: ['"Plus Jakarta Sans"', '"Outfit"', 'system-ui', '-apple-system', 'sans-serif'],
         ui: ['"Plus Jakarta Sans"', '"Outfit"', 'system-ui', 'sans-serif'],
-        hindi: ['"Tiro Devanagari Hindi"', '"Noto Serif Devanagari"', 'serif'],
+        hindi: ['"Rozha One"', '"Eczar"', '"Tiro Devanagari Hindi"', '"Noto Serif Devanagari"', 'serif'],
       },
       letterSpacing: {
         'tight-title': '-0.02em',

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import MagneticButton from './MagneticButton';
+import ScrollReveal, { StaggerContainer, StaggerItem } from './ScrollReveal';
 
 const pillars = [
   {
@@ -10,7 +11,6 @@ const pillars = [
     subtitle: 'High-Intent Pre-Diwali Patrons',
     desc: 'Scheduled on the final pre-Diwali weekend when Patna’s most affluent families execute their major festive jewellery, wedding couture, and luxury gifting budgets.',
     image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=700&q=80',
-    // Elegant bespoke SVG icon
     iconSvg: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
@@ -49,32 +49,35 @@ export default function HomeWhyExhibitTeaser({ onOpenBooking }) {
     <section className="relative w-full py-24 md:py-32 bg-[#FFFAF2] text-[#2B1B17] border-y border-[#D9A441]/20 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <div className="space-y-3">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#B85C38] font-sans font-semibold block">
-              Founder Value Proposition
-            </span>
-            <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
-              Why Exhibit with UDAAN
-            </h2>
-            <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl font-light leading-relaxed">
-              Three pillars designed to ensure measurable commercial returns, brand prestige, and loyal patron acquisition for every participating woman entrepreneur.
-            </p>
-          </div>
+        <ScrollReveal y={25}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+            <div className="space-y-3">
+              <span className="text-xs uppercase tracking-[0.25em] text-[#B85C38] font-sans font-semibold block">
+                Founder Value Proposition
+              </span>
+              <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
+                Why Exhibit with UDAAN
+              </h2>
+              <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl font-light leading-relaxed">
+                Three pillars designed to ensure measurable commercial returns, brand prestige, and loyal patron acquisition for every participating woman entrepreneur.
+              </p>
+            </div>
 
-          <MagneticButton
-            onClick={() => onOpenBooking()}
-            cursorLabel="Apply"
-            className="btn-gold-luxury px-8 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase shadow-md self-start md:self-auto"
-          >
-            Apply for Stall Allotment
-          </MagneticButton>
-        </div>
+            <MagneticButton
+              onClick={() => onOpenBooking()}
+              cursorLabel="Apply"
+              className="btn-gold-luxury px-8 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase shadow-md self-start md:self-auto"
+            >
+              Apply for Stall Allotment
+            </MagneticButton>
+          </div>
+        </ScrollReveal>
 
         {/* 3 Pillars Cards: Clean Ivory, Elegant Typography, Bespoke Icons */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <StaggerContainer staggerDelay={0.12} className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {pillars.map((pillar, i) => (
-            <div
+            <StaggerItem key={i}>
+              <div
               key={i}
               className="group relative rounded-3xl overflow-hidden bg-white border border-[#D9A441]/30 hover:border-[#D9A441] transition-all duration-500 shadow-[0_12px_36px_rgba(43,27,23,0.06)] hover:shadow-2xl flex flex-col justify-between hover:-translate-y-1.5"
             >
@@ -123,9 +126,9 @@ export default function HomeWhyExhibitTeaser({ onOpenBooking }) {
                   </Link>
                 </div>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

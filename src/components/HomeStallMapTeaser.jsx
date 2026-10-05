@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, MapPin } from 'lucide-react';
 import MagneticButton from './MagneticButton';
+import ScrollReveal from './ScrollReveal';
 
 const SAMPLE_STALLS = [
   { id: 'A-01', zone: 'Prime Entrance', category: 'Fine Jewellery', size: '3m × 3m', price: '₹55,000', status: 'Booked', company: 'Tanisha Polki Jewels' },
@@ -42,30 +43,32 @@ export default function HomeStallMapTeaser({ onOpenBooking, onSelectStall }) {
     <section id="stall-map" className="relative w-full py-24 md:py-32 bg-[#FBF4EA] text-[#2B1B17] overflow-hidden border-t border-[#D9A441]/20">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="space-y-3">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#B85C38] font-sans font-semibold block">
-              Floor Plan & Allotment
-            </span>
-            <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
-              Interactive Tangerine Grand Layout
-            </h2>
-            <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl font-light leading-relaxed">
-              Click any booth to inspect frontage, dimensions, and commercial specifications. Designed for fast, effortless company booking.
-            </p>
-          </div>
+        <ScrollReveal y={25}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="space-y-3">
+              <span className="text-xs uppercase tracking-[0.25em] text-[#B85C38] font-sans font-semibold block">
+                Floor Plan & Allotment
+              </span>
+              <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
+                Interactive Tangerine Grand Layout
+              </h2>
+              <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl font-light leading-relaxed">
+                Click any booth to inspect frontage, dimensions, and commercial specifications. Designed for fast, effortless company booking.
+              </p>
+            </div>
 
-          <Link
-            to="/stalls"
-            className="btn-gold-luxury px-7 py-3 rounded-full text-xs font-semibold tracking-wider uppercase text-[#2B1B17] shadow-md flex items-center space-x-2 self-start md:self-auto"
-          >
-            <span>Full 3D Floor Map</span>
-            <ArrowRight size={13} />
-          </Link>
-        </div>
+            <Link
+              to="/stalls"
+              className="btn-gold-luxury px-7 py-3 rounded-full text-xs font-semibold tracking-wider uppercase text-[#2B1B17] shadow-md flex items-center space-x-2 self-start md:self-auto"
+            >
+              <span>Full 3D Floor Map</span>
+              <ArrowRight size={13} />
+            </Link>
+          </div>
+        </ScrollReveal>
 
         {/* Interactive Layout Console */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <ScrollReveal delay={0.15} y={30} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left 7 Cols: Interactive Grid with Floor Plan Zones */}
           <div className="lg:col-span-7 bg-[#4A1620] rounded-3xl p-6 sm:p-8 border border-[#D9A441]/35 shadow-2xl flex flex-col justify-between space-y-6 text-[#FFFAF2]">
             {/* Console Header & Legend */}
@@ -207,7 +210,7 @@ export default function HomeStallMapTeaser({ onOpenBooking, onSelectStall }) {
               </p>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

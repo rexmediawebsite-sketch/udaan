@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import ScrollReveal, { StaggerContainer, StaggerItem } from './ScrollReveal';
 
 const pavilions = [
   {
@@ -46,32 +47,35 @@ export default function HomePavilionsTeaser() {
     <section className="relative w-full py-24 md:py-32 bg-[#FFFAF2] text-[#2B1B17] border-y border-[#D9A441]/20 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
-          <div className="space-y-3">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#B85C38] font-sans font-semibold block">
-              Curated Domains
-            </span>
-            <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
-              Six Curated Pavilions
-            </h2>
-            <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl font-light leading-relaxed">
-              Each pavilion at Tangerine Grand is themed with dedicated carpeted aisles, custom display architecture, and focused category curation.
-            </p>
-          </div>
+        <ScrollReveal y={25}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+            <div className="space-y-3">
+              <span className="text-xs uppercase tracking-[0.25em] text-[#B85C38] font-sans font-semibold block">
+                Curated Domains
+              </span>
+              <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
+                Six Curated Pavilions
+              </h2>
+              <p className="font-sans text-base text-[#2B1B17]/75 max-w-xl font-light leading-relaxed">
+                Each pavilion at Tangerine Grand is themed with dedicated carpeted aisles, custom display architecture, and focused category curation.
+              </p>
+            </div>
 
-          <Link
-            to="/exhibitors"
-            className="inline-flex items-center gap-2 text-xs font-sans font-semibold tracking-widest uppercase text-[#4A1620] hover:text-[#B8801F] transition-colors self-start md:self-auto border-b border-[#D9A441]/40 pb-1"
-          >
-            <span>Explore Exhibitor Directory</span>
-            <ArrowRight size={14} />
-          </Link>
-        </div>
-
-        {/* 6-Card Grid: Warm Luxury Ivory Cards with Subtle Borders */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {pavilions.map((pav, i) => (
             <Link
+              to="/exhibitors"
+              className="inline-flex items-center gap-2 text-xs font-sans font-semibold tracking-widest uppercase text-[#4A1620] hover:text-[#B8801F] transition-colors self-start md:self-auto border-b border-[#D9A441]/40 pb-1"
+            >
+              <span>Explore Exhibitor Directory</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+        </ScrollReveal>
+
+        {/* 6-Card Grid: Warm Luxury Ivory Cards with Staggered Entrance */}
+        <StaggerContainer staggerDelay={0.1} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {pavilions.map((pav, i) => (
+            <StaggerItem key={i}>
+              <Link
               key={i}
               to="/exhibitors"
               className="group relative rounded-3xl overflow-hidden bg-[#FFFFFF] shadow-[0_12px_36px_rgba(43,27,23,0.06)] border border-[#D9A441]/30 hover:border-[#D9A441] card-luxury-hover flex flex-col cursor-pointer"
@@ -112,9 +116,10 @@ export default function HomePavilionsTeaser() {
                 </div>
               </div>
             </Link>
-          ))}
-        </div>
-      </div>
-    </section>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+    </div>
+  </section>
   );
 }
