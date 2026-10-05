@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Scratch scripts & temporary test captures
+/*_check.png
+/*_fixed.png
+/broadcast_*.png
+/carousel_*.png
+/our_story_*.png
+/stalls_*.png
+/*.cjs
+/lighthouse_desktop_baseline.json

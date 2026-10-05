@@ -32,8 +32,16 @@ export const FEATURED_EVENT = {
 
 export const CATEGORIES = [
   {
+    id: "shopping",
+    title: "Shopping",
+    hindi: "खरीदारी एवं उपहार",
+    description: "Festive shopping pavilions, designer pop-ups, bridal trousseau hampers, and bespoke gift boxes.",
+    image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=800&q=80",
+    tags: ["Festive Pop-ups", "Gift Hampers", "Trousseau Boxes", "Curated Ateliers"]
+  },
+  {
     id: "fashion",
-    title: "Fashion & Apparels",
+    title: "Fashion",
     hindi: "परिधान एवं फैशन",
     description: "Festive couture, Banarasi handlooms, contemporary fusion wear, Indo-western drapes, and designer pret collections.",
     image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
@@ -48,36 +56,28 @@ export const CATEGORIES = [
     tags: ["Polki & Kundan", "Temple Jewels", "Silver Filigree", "Everyday Fine"]
   },
   {
-    id: "homedecor",
-    title: "Home Decor & Lifestyle",
-    hindi: "गृह सज्जा व जीवनशैली",
+    id: "lifestyle",
+    title: "Lifestyle",
+    hindi: "जीवनशैली एवं सज्जा",
     description: "Artisanal brass urlis, hand-poured festive soy candles, block-printed table linens, festive diyas, and sculptural ceramics.",
     image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
-    tags: ["Brass Artefacts", "Luxury Candles", "Ceramics", "Festive Hampers"]
-  },
-  {
-    id: "beauty",
-    title: "Beauty & Wellness",
-    hindi: "सौंदर्य एवं स्वास्थ्य",
-    description: "Clean plant-based skincare, pure cold-pressed botanical oils, holistic Ayurvedic elixirs, and bespoke organic fragrances.",
-    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80",
-    tags: ["Ayurvedic Blends", "Organic Perfumes", "Clean Skincare", "Bath Essentials"]
+    tags: ["Brass Artefacts", "Luxury Candles", "Ceramics", "Home Accents"]
   },
   {
     id: "handmade",
-    title: "Handmade & Gift Items",
-    hindi: "हस्तशिल्प व उपहार",
-    description: "Original Madhubani fine art canvasses, hand-bound leather journals, macramé craft, and bespoke festive gift packages.",
+    title: "Handmade Products",
+    hindi: "हस्तशिल्प उत्पाद",
+    description: "Original Madhubani fine art canvasses, hand-woven textiles, macramé craft, and bespoke artisanal treasures.",
     image: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80",
-    tags: ["Madhubani Art", "Handmade Stationery", "Festive Boxes", "Resin Crafts"]
+    tags: ["Madhubani Art", "Handloom Weaves", "Terracotta Crafts", "Artisan Filigree"]
   },
   {
     id: "food",
-    title: "Gourmet & Sweets",
+    title: "Food",
     hindi: "पारंपरिक व आधुनिक व्यंजन",
     description: "Artisanal dry fruit confections, hand-rolled royal baklavas, organic herbal teas, infused honeys, and gourmet bites.",
     image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
-    tags: ["Artisanal Mithai", "Gourmet Dry Fruits", "Festive Hampers", "Herbal Infusions"]
+    tags: ["Artisanal Mithai", "Gourmet Dry Fruits", "Festive Treats", "Herbal Infusions"]
   }
 ];
 

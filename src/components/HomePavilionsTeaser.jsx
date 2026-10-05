@@ -5,40 +5,40 @@ import ScrollReveal, { StaggerContainer, StaggerItem } from './ScrollReveal';
 
 const pavilions = [
   {
-    title: 'Bridal Couture & Pret',
+    title: 'Shopping',
+    count: '14 Ateliers',
+    image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=600&q=80',
+    desc: 'Festive gift hampers, curated pop-ups, and bespoke trousseau packages.',
+  },
+  {
+    title: 'Fashion',
     count: '16 Ateliers',
     image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80',
     desc: 'Bespoke lehengas, Banarasi silks, and festive fusion wear by women designers.',
   },
   {
-    title: 'Fine Polki & Temple Jewels',
+    title: 'Jewellery',
     count: '12 Designers',
     image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80',
     desc: 'Uncut diamonds, heritage jadau, and 925 handcrafted silver filigree.',
   },
   {
-    title: 'Heritage Weaves & Sarees',
-    count: '8 Weaving Houses',
-    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80',
-    desc: 'Tussar silk, Madhubani hand-painted drapes, and Chanderi sarees.',
-  },
-  {
-    title: 'Festive Decor & Brass Artifacts',
+    title: 'Lifestyle',
     count: '9 Curators',
-    image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=600&q=80',
-    desc: 'Hand-carved brass urlis, terracotta diyas, and festive table accents.',
+    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80',
+    desc: 'Hand-carved brass urlis, botanical fragrances, and festive interior accents.',
   },
   {
-    title: 'Artisanal Wellness & Fragrance',
-    count: '6 Clean Labels',
-    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80',
-    desc: 'Cold-pressed botanical skincare, attars, and aromatherapy soy candles.',
+    title: 'Handmade Products',
+    count: '8 Masters',
+    image: 'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=600&q=80',
+    desc: 'Madhubani fine art, handloom weaves, and artisanal folk craft traditions.',
   },
   {
-    title: 'Gourmet Festive Hampers',
-    count: '5 Confectioners',
-    image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=600&q=80',
-    desc: 'Artisanal mithai, organic saffron preserves, and curated dry fruit boxes.',
+    title: 'Food',
+    count: '6 Confectioners',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80',
+    desc: 'Artisanal mithai, organic saffron preserves, and festive gourmet delicacies.',
   },
 ];
 

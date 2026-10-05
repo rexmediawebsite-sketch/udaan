@@ -31,7 +31,7 @@ export default function Navigation({ onOpenBooking }) {
   const navLinksRight = [
     { name: 'Directory', path: '/exhibitors' },
     { name: 'RSVP Pass', path: '/visitors' },
-    { name: 'About', path: '/about' },
+    { name: 'Our Story', path: '/about' },
   ];
 
   const allNavLinks = [
@@ -43,7 +43,7 @@ export default function Navigation({ onOpenBooking }) {
     { name: 'Book a Stall Application', path: '/become-an-exhibitor' },
     { name: 'Visitor Guide & VIP Pass', path: '/visitors' },
     { name: 'Visual Archive', path: '/gallery' },
-    { name: 'About & Purpose', path: '/about' },
+    { name: 'Our Story & Purpose', path: '/about' },
     { name: 'FAQs & Policies', path: '/faq' },
     { name: 'Contact Concierge', path: '/contact' },
   ];

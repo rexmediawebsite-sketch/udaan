@@ -4,92 +4,154 @@ import { ArrowUpRight } from 'lucide-react';
 import { UdaanDiamond } from './UdaanIcons';
 
 const CATEGORIES = [
-  { id: "all", label: "All Curations" },
-  { id: "jewels", label: "Fine Polki & Diamonds" },
-  { id: "couture", label: "Festive Pret & Sarees" },
-  { id: "heritage", label: "Heirlooms & Crafts" }
+  { id: "all", label: "All" },
+  { id: "shopping", label: "Shopping" },
+  { id: "fashion", label: "Fashion" },
+  { id: "jewellery", label: "Jewellery" },
+  { id: "lifestyle", label: "Lifestyle" },
+  { id: "handmade", label: "Handmade Products" },
+  { id: "food", label: "Food" }
 ];
 
 const SHOWCASE_ITEMS = [
+  // Jewellery
   {
-    id: "edition-05",
+    id: "jewel-01",
     slug: "glamour-gala-diwali-edition-5",
     title: "Solitaire Diamond Halo",
-    category: "jewels",
-    categoryLabel: "High Jewellery",
+    category: "jewellery",
+    categoryLabel: "Jewellery",
     image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "edition-04",
+    id: "jewel-02",
     slug: "glamour-gala-diwali-edition-5",
     title: "Crescent Gemstone Necklace",
-    category: "jewels",
-    categoryLabel: "Fine Jewels",
+    category: "jewellery",
+    categoryLabel: "Jewellery",
     image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "edition-03",
+    id: "jewel-03",
     slug: "glamour-gala-diwali-edition-5",
     title: "Bespoke Emerald Cut",
-    category: "jewels",
-    categoryLabel: "Gemstones",
+    category: "jewellery",
+    categoryLabel: "Jewellery",
     image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "edition-02",
+    id: "jewel-04",
     slug: "glamour-gala-diwali-edition-5",
     title: "Sapphire Heart Drops",
-    category: "jewels",
-    categoryLabel: "Precious Solitaires",
+    category: "jewellery",
+    categoryLabel: "Jewellery",
     image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "edition-pearl",
+    id: "jewel-05",
     slug: "glamour-gala-diwali-edition-5",
-    title: "Baroque Pearl Choker",
-    category: "jewels",
-    categoryLabel: "Natural Pearls",
-    image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=900&q=85",
+    title: "Handcrafted Polki Choker",
+    category: "jewellery",
+    categoryLabel: "Jewellery",
+    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=85",
   },
+
+  // Fashion
   {
-    id: "edition-01",
+    id: "fashion-01",
     slug: "glamour-gala-diwali-edition-5",
     title: "Midnight Royal Couture",
-    category: "couture",
-    categoryLabel: "Bridal Couture",
+    category: "fashion",
+    categoryLabel: "Fashion",
     image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "edition-spring",
+    id: "fashion-02",
     slug: "glamour-gala-diwali-edition-5",
     title: "Heritage Banarasi Saree",
-    category: "couture",
-    categoryLabel: "Virasat Weaves",
+    category: "fashion",
+    categoryLabel: "Fashion",
     image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "edition-couture",
+    id: "fashion-03",
     slug: "glamour-gala-diwali-edition-5",
     title: "Festive Crimson Lehenga",
-    category: "couture",
-    categoryLabel: "Diwali Pret",
+    category: "fashion",
+    categoryLabel: "Fashion",
     image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=900&q=85",
   },
+
+  // Shopping
   {
-    id: "edition-polki",
+    id: "shop-01",
     slug: "glamour-gala-diwali-edition-5",
-    title: "Handcrafted Polki Choker",
-    category: "heritage",
-    categoryLabel: "Kundan Polki",
-    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=85",
+    title: "Festive Trousseau Pop-Up",
+    category: "shopping",
+    categoryLabel: "Shopping",
+    image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "edition-jadau",
+    id: "shop-02",
     slug: "glamour-gala-diwali-edition-5",
-    title: "Heirloom Jadau Pendant",
-    category: "heritage",
-    categoryLabel: "Artisanal Craft",
-    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=85",
+    title: "Luxury Gifting Suite",
+    category: "shopping",
+    categoryLabel: "Shopping",
+    image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=900&q=85",
+  },
+
+  // Lifestyle
+  {
+    id: "life-01",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Artisanal Brass Urli & Decor",
+    category: "lifestyle",
+    categoryLabel: "Lifestyle",
+    image: "https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: "life-02",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Botanical Soy Candles & Attar",
+    category: "lifestyle",
+    categoryLabel: "Lifestyle",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85",
+  },
+
+  // Handmade Products
+  {
+    id: "hand-01",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Madhubani Silk Masterpiece",
+    category: "handmade",
+    categoryLabel: "Handmade Products",
+    image: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: "hand-02",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Hand-Woven Tussar Stoles",
+    category: "handmade",
+    categoryLabel: "Handmade Products",
+    image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=900&q=85",
+  },
+
+  // Food
+  {
+    id: "food-01",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Royal Pistachio & Saffron Mithai",
+    category: "food",
+    categoryLabel: "Food",
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: "food-02",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Gourmet Dry Fruit Confections",
+    category: "food",
+    categoryLabel: "Food",
+    image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=900&q=85",
   }
 ];
 
@@ -157,32 +219,43 @@ export default function EventPosterGallery() {
     setIsDragging(false);
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section
       id="poster-gallery"
-      className="relative w-full pt-12 pb-24 md:pb-32 bg-[#FBF4EA] text-[#2B1B17] overflow-hidden select-none"
+      className="relative w-full pt-10 sm:pt-12 pb-20 sm:pb-24 md:pb-32 bg-[#FBF4EA] text-[#2B1B17] overflow-hidden select-none"
       aria-label="3D Curved Running Broadcast Carousel"
     >
       <div className="w-full relative z-10">
         {/* =========================================================================
             HEADER: AWWWARDS EDITORIAL LUXURY
             ========================================================================= */}
-        <div className="text-center max-w-3xl mx-auto mb-8 px-6">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B85C38] uppercase shadow-sm mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 px-4 sm:px-6">
+          <div className="inline-flex items-center space-x-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] text-[9px] sm:text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B85C38] uppercase shadow-sm mb-3 sm:mb-4">
             <UdaanDiamond size={10} className="text-[#D9A441]" />
             <span>CURATED FESTIVE ATELIERS</span>
           </div>
 
-          <h2 className="font-serif font-bold text-4xl sm:text-6xl md:text-7xl text-[#1A1A1A] tracking-tight leading-[1.05]">
+          <h2 className="font-serif font-bold text-3xl sm:text-5xl md:text-7xl text-[#1A1A1A] tracking-tight leading-[1.08] sm:leading-[1.05]">
             Bespoke Festive<br />Collections
           </h2>
 
-          <p className="mt-3 text-stone-600 text-sm sm:text-base font-sans font-light max-w-xl mx-auto">
+          <p className="mt-2 sm:mt-3 text-stone-600 text-xs sm:text-base font-sans font-light max-w-xl mx-auto px-2">
             The premier luxury stage where Bihar's creative women transform bespoke passion into powerhouses.
           </p>
 
-          {/* Interactive Category Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-8">
+          {/* Interactive Category Filter Pills (Touch scrollable on mobile) */}
+          <div className="flex items-center sm:justify-center overflow-x-auto scrollbar-none gap-2 sm:gap-3 mt-6 sm:mt-8 px-4 sm:px-0 max-w-full pb-2">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.id;
               return (
@@ -192,10 +265,10 @@ export default function EventPosterGallery() {
                     setActiveCategory(cat.id);
                     setScrollProgress(0);
                   }}
-                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-sans tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                  className={`px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-sans tracking-wider uppercase transition-all duration-300 cursor-pointer whitespace-nowrap shrink-0 ${
                     isActive
                       ? 'bg-[#4A1620] text-[#FFFAF2] shadow-[0_4px_16px_rgba(74,22,32,0.35)] border border-[#D9A441]/60 scale-105 font-semibold'
-                      : 'bg-[#FFFAF2]/80 text-[#2B1B17]/70 hover:text-[#4A1620] hover:bg-[#FFFAF2] border border-[#D9A441]/25 font-medium'
+                      : 'bg-[#FFFAF2]/90 text-[#2B1B17]/70 hover:text-[#4A1620] hover:bg-[#FFFAF2] border border-[#D9A441]/25 font-medium'
                   }`}
                 >
                   {cat.label}
@@ -220,16 +293,16 @@ export default function EventPosterGallery() {
           onTouchStart={(e) => handlePointerDown(e.touches[0].clientX)}
           onTouchMove={(e) => handlePointerMove(e.touches[0].clientX)}
           onTouchEnd={handlePointerUp}
-          className="relative w-full h-[540px] sm:h-[600px] md:h-[660px] flex items-center justify-center cursor-grab active:cursor-grabbing overflow-visible"
+          className="relative w-full h-[460px] sm:h-[580px] md:h-[660px] flex items-center justify-center cursor-grab active:cursor-grabbing overflow-visible touch-pan-y"
           style={{
-            perspective: '1350px',
+            perspective: isMobile ? '850px' : '1350px',
             perspectiveOrigin: 'center 40%',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%)',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
           }}
         >
           {/* Ambient Warm Golden Halo behind active focal zone */}
-          <div className="absolute w-[600px] h-[450px] bg-gradient-to-r from-[#D9A441]/18 via-[#4A1620]/15 to-[#B85C38]/15 rounded-full blur-[90px] pointer-events-none transform -translate-y-4" />
+          <div className="absolute w-[340px] sm:w-[600px] h-[300px] sm:h-[450px] bg-gradient-to-r from-[#D9A441]/18 via-[#4A1620]/15 to-[#B85C38]/15 rounded-full blur-[70px] sm:blur-[90px] pointer-events-none transform -translate-y-4" />
 
           {/* 3D Cylindrical Stage */}
           <div
@@ -241,28 +314,27 @@ export default function EventPosterGallery() {
               const offset = rawOffset > totalItems / 2 ? rawOffset - totalItems : rawOffset;
               const absOffset = Math.abs(offset);
 
-              // Render wide sweep across entire screen (emerging from beyond viewport edges)
-              if (absOffset > 5.5) return null;
+              // Render sweep across screen
+              if (absOffset > (isMobile ? 3.5 : 5.5)) return null;
 
-              // WIDE BROADCAST CYLINDRICAL MATH:
-              // Radius R = 1250px. Angle theta per card = 13.5 degrees
-              const angleDeg = offset * 13.5;
+              // RESPONSIVE CYLINDRICAL MATH:
+              const R = isMobile ? 680 : 1250;
+              const angleDeg = offset * (isMobile ? 21 : 13.5);
               const angleRad = (angleDeg * Math.PI) / 180;
-              const R = 1250;
 
               // Tangent positioning along circle:
               const x = R * Math.sin(angleRad);
-              const z = -R * (1 - Math.cos(angleRad)) * 1.25 + (absOffset < 0.5 ? 50 : 0);
-              const rotateY = -angleDeg * 1.12;
+              const z = -R * (1 - Math.cos(angleRad)) * (isMobile ? 1.1 : 1.25) + (absOffset < 0.5 ? 40 : 0);
+              const rotateY = -angleDeg * (isMobile ? 0.95 : 1.12);
 
-              // Arching Y trajectory (slight elevation lift towards edges for dramatic emergence):
-              const y = isDragging ? 0 : Math.pow(absOffset, 1.25) * 4.5;
+              // Elevation trajectory
+              const y = isDragging ? 0 : Math.pow(absOffset, 1.25) * (isMobile ? 2.5 : 4.5);
               
-              // Scale: Center card is prominent 1.05, side cards scale gracefully into distance
-              const scale = Math.max(0.68, 1.05 - absOffset * 0.058);
+              // Scale: Center card is prominent
+              const scale = Math.max(isMobile ? 0.72 : 0.68, 1.05 - absOffset * (isMobile ? 0.08 : 0.058));
 
-              // Opacity: smooth atmospheric fade as cards emerge from and merge into the screen margins
-              const opacity = Math.max(0.18, 1 - Math.pow(absOffset / 5.2, 2.2));
+              // Opacity: smooth atmospheric fade
+              const opacity = Math.max(0.18, 1 - Math.pow(absOffset / (isMobile ? 3.4 : 5.2), 2.2));
 
               const isCenter = absOffset < 0.45;
 
@@ -279,7 +351,7 @@ export default function EventPosterGallery() {
                     willChange: 'transform, opacity',
                     opacity,
                   }}
-                  className={`pointer-events-auto absolute w-[240px] sm:w-[265px] md:w-[280px] h-[390px] sm:h-[450px] md:h-[500px] rounded-[2rem] overflow-hidden group cursor-pointer transition-shadow duration-500 bg-[#4A1620] ${
+                  className={`pointer-events-auto absolute w-[200px] sm:w-[265px] md:w-[280px] h-[330px] sm:h-[450px] md:h-[500px] rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden group cursor-pointer transition-shadow duration-500 bg-[#4A1620] ${
                     isCenter
                       ? 'border-2 border-[#D9A441]/80 shadow-[0_30px_70px_rgba(74,22,32,0.45),0_0_35px_rgba(217,164,65,0.25)] z-20'
                       : 'border border-[#4A1620]/30 shadow-[0_20px_45px_rgba(0,0,0,0.2)]'

@@ -150,7 +150,7 @@ export default function Footer({ onOpenBooking }) {
               <li><Link to="/become-an-exhibitor" className="hover:text-[#D9A441] transition-colors">Book a Stall (3-Step)</Link></li>
               <li><Link to="/visitors" className="hover:text-[#D9A441] transition-colors">VIP RSVP Entry Pass</Link></li>
               <li><Link to="/gallery" className="hover:text-[#D9A441] transition-colors">Gala Visual Archive</Link></li>
-              <li><Link to="/about" className="hover:text-[#D9A441] transition-colors">About Udaan & Purpose</Link></li>
+              <li><Link to="/about" className="hover:text-[#D9A441] transition-colors">Our Story & Purpose</Link></li>
               <li><Link to="/faq" className="hover:text-[#D9A441] transition-colors">Exhibitor Guidelines</Link></li>
             </ul>
           </div>
