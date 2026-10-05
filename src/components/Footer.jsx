@@ -40,7 +40,7 @@ export default function Footer({ onOpenBooking }) {
       <div className="bg-gradient-to-r from-[#B8801F] via-[#D9A441] to-[#B8801F] text-[#2B1B17] py-6 px-6 relative z-10 shadow-lg">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5 text-center md:text-left">
-            <div className="w-10 h-10 rounded-full bg-[#2B1B17] text-[#D9A441] flex items-center justify-center shadow-md shrink-0">
+            <div className="w-10 h-10 rounded-full bg-[#360F17] text-[#D9A441] flex items-center justify-center shadow-md shrink-0">
               <Sparkles className="w-5 h-5 animate-pulse" />
             </div>
             <div>
@@ -56,7 +56,7 @@ export default function Footer({ onOpenBooking }) {
           <div className="flex items-center gap-3">
             <Link
               to="/become-an-exhibitor"
-              className="px-6 py-2.5 rounded-full bg-[#2B1B17] text-[#FFFAF2] hover:text-[#D9A441] text-xs font-semibold uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5"
+              className="px-6 py-2.5 rounded-full bg-[#360F17] text-[#FFFAF2] hover:text-[#D9A441] text-xs font-semibold uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5"
             >
               Reserve Stall Space
             </Link>
@@ -88,7 +88,7 @@ export default function Footer({ onOpenBooking }) {
           {/* Brand Presentation */}
           <div className="md:col-span-4 space-y-4">
             <Link to="/" className="inline-flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-full border border-[#D9A441] bg-[#2B1B17] flex items-center justify-center text-[#D9A441]">
+              <div className="w-8 h-8 rounded-full border border-[#D9A441] bg-[#360F17] flex items-center justify-center text-[#D9A441]">
                 <Sparkles size={16} />
               </div>
               <span className="font-serif text-3xl tracking-[0.2em] font-bold text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors">
@@ -110,7 +110,7 @@ export default function Footer({ onOpenBooking }) {
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="Instagram"
-                className="w-9 h-9 rounded-full border border-[#D9A441]/40 bg-[#2B1B17] flex items-center justify-center text-[#FFFAF2] hover:text-[#D9A441] hover:border-[#D9A441] transition-all duration-300"
+                className="w-9 h-9 rounded-full border border-[#D9A441]/40 bg-[#360F17] flex items-center justify-center text-[#FFFAF2] hover:text-[#D9A441] hover:border-[#D9A441] transition-all duration-300"
                 aria-label="Instagram"
               >
                 <InstagramIcon size={16} />
@@ -120,7 +120,7 @@ export default function Footer({ onOpenBooking }) {
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="Facebook"
-                className="w-9 h-9 rounded-full border border-[#D9A441]/40 bg-[#2B1B17] flex items-center justify-center text-[#FFFAF2] hover:text-[#D9A441] hover:border-[#D9A441] transition-all duration-300"
+                className="w-9 h-9 rounded-full border border-[#D9A441]/40 bg-[#360F17] flex items-center justify-center text-[#FFFAF2] hover:text-[#D9A441] hover:border-[#D9A441] transition-all duration-300"
                 aria-label="Facebook"
               >
                 <FacebookIcon size={16} />
@@ -164,7 +164,7 @@ export default function Footer({ onOpenBooking }) {
             </p>
 
             {subscribed ? (
-              <div className="p-3.5 rounded-xl bg-[#2B1B17] border border-[#D9A441] text-[#D9A441] text-xs flex items-center gap-2">
+              <div className="p-3.5 rounded-xl bg-[#360F17] border border-[#D9A441] text-[#D9A441] text-xs flex items-center gap-2">
                 <CheckCircle2 size={16} />
                 <span>You are subscribed to the UDAAN VIP Circle.</span>
               </div>
@@ -177,7 +177,7 @@ export default function Footer({ onOpenBooking }) {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email address"
                     required
-                    className="w-full h-[48px] px-4 pr-12 rounded-full bg-[#2B1B17] border border-[#D9A441]/40 text-[#FFFAF2] placeholder-[#FFFAF2]/40 text-xs focus:outline-none focus:border-[#D9A441] focus:ring-1 focus:ring-[#D9A441] transition-all"
+                    className="w-full h-[48px] px-4 pr-12 rounded-full bg-[#360F17] border border-[#D9A441]/40 text-[#FFFAF2] placeholder-[#FFFAF2]/40 text-xs focus:outline-none focus:border-[#D9A441] focus:ring-1 focus:ring-[#D9A441] transition-all"
                   />
                   <button
                     type="submit"

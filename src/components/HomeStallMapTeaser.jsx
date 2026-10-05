@@ -67,7 +67,7 @@ export default function HomeStallMapTeaser({ onOpenBooking, onSelectStall }) {
         {/* Interactive Layout Console */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left 7 Cols: Interactive Grid with Floor Plan Zones */}
-          <div className="lg:col-span-7 bg-[#2B1B17] rounded-3xl p-6 sm:p-8 border border-[#D9A441]/35 shadow-2xl flex flex-col justify-between space-y-6 text-[#FFFAF2]">
+          <div className="lg:col-span-7 bg-[#4A1620] rounded-3xl p-6 sm:p-8 border border-[#D9A441]/35 shadow-2xl flex flex-col justify-between space-y-6 text-[#FFFAF2]">
             {/* Console Header & Legend */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#D9A441]/25 pb-4">
               <div>
@@ -112,10 +112,10 @@ export default function HomeStallMapTeaser({ onOpenBooking, onSelectStall }) {
                       disabled={isBooked}
                       className={`h-20 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center p-2 text-center relative group ${
                         isSelected
-                          ? 'bg-[#D9A441] border-[#FFE8B3] text-[#2B1B17] shadow-[0_0_20px_rgba(217,164,65,0.7)] scale-105 z-10'
+                          ? 'bg-[#D9A441] border-[#FFE8B3] text-[#4A1620] shadow-[0_0_20px_rgba(217,164,65,0.7)] scale-105 z-10'
                           : isBooked
                           ? 'bg-stone-900/60 border-stone-800 text-stone-500 cursor-not-allowed opacity-50'
-                          : 'bg-[#2B1B17]/90 border-[#D9A441]/40 text-[#FFFAF2] hover:border-[#D9A441] hover:bg-[#4A1620]/60'
+                          : 'bg-[#360F17]/90 border-[#D9A441]/40 text-[#FFFAF2] hover:border-[#D9A441] hover:bg-[#4A1620]'
                       }`}
                     >
                       <span className={`text-xs font-bold font-sans ${isSelected ? 'text-[#2B1B17]' : 'text-[#FFFAF2]'}`}>

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const SHOWCASE_ITEMS = [
   {
@@ -44,6 +43,24 @@ const SHOWCASE_ITEMS = [
     slug: "glamour-gala-diwali-edition-5",
     title: "Handcrafted Polki Choker",
     image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: "edition-pearl",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Baroque Pearl Choker",
+    image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: "edition-couture",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Festive Crimson Lehenga",
+    image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: "edition-jadau",
+    slug: "glamour-gala-diwali-edition-5",
+    title: "Heirloom Jadau Pendant",
+    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=85",
   }
 ];
 
@@ -59,7 +76,7 @@ export default function EventPosterGallery() {
   const isPointerDownRef = useRef(false);
   const totalItems = SHOWCASE_ITEMS.length;
 
-  // Silky 60FPS continuous sliding stream
+  // Silky 60FPS continuous sliding stream like a running broadcast
   useEffect(() => {
     let lastTime = performance.now();
 
@@ -68,8 +85,8 @@ export default function EventPosterGallery() {
       lastTime = now;
 
       if (!isDragging) {
-        // Continuous smooth sliding across the cylindrical panorama
-        setScrollProgress((prev) => (prev + 0.00032 * dt) % totalItems);
+        // Continuous smooth sliding across the cylindrical panorama: ~1 card every 3.5s
+        setScrollProgress((prev) => (prev + 0.00028 * dt) % totalItems);
       }
 
       animFrameRef.current = requestAnimationFrame(renderLoop);
@@ -82,7 +99,7 @@ export default function EventPosterGallery() {
     };
   }, [isDragging, totalItems]);
 
-  // Pointer Drag Handlers
+  // Pointer Drag Handlers for free-form spinning
   const handlePointerDown = (clientX) => {
     setIsDragging(true);
     isPointerDownRef.current = true;
@@ -104,26 +121,18 @@ export default function EventPosterGallery() {
     setIsDragging(false);
   };
 
-  // Step with buttons
-  const handleStep = (direction) => {
-    setScrollProgress((prev) => {
-      const rounded = Math.round(prev);
-      return direction === 'next' ? (rounded + 1) % totalItems : (rounded - 1 + totalItems) % totalItems;
-    });
-  };
-
   return (
     <section
       id="poster-gallery"
-      className="relative py-24 md:py-32 bg-[#FFFFFF] text-[#2B1B17] overflow-hidden select-none"
-      aria-label="3D Curved Panoramic Cylinder Carousel"
+      className="relative w-full py-20 md:py-28 bg-[#FBF4EA] text-[#2B1B17] overflow-hidden select-none"
+      aria-label="3D Curved Running Broadcast Carousel"
     >
       <div className="w-full relative z-10">
         {/* =========================================================================
             HEADER: EXACT MATCH TO USER'S REFERENCE IMAGE ("Bespoke Architecture Studio")
             Clean, bold, centered, zero clutter
             ========================================================================= */}
-        <div className="text-center max-w-2xl mx-auto mb-14 px-6">
+        <div className="text-center max-w-2xl mx-auto mb-12 px-6">
           <h2 className="font-serif font-bold text-5xl sm:text-6xl md:text-7xl text-[#1A1A1A] tracking-tight leading-[1.05]">
             Bespoke Festive<br />Collections
           </h2>
@@ -133,9 +142,10 @@ export default function EventPosterGallery() {
         </div>
 
         {/* =========================================================================
-            3D CURVED PANORAMIC CYLINDRICAL RIBBON (EMERGING FROM SCREEN DEPTH)
-            Dramatically curved in 3D perspective with soft feathering at the screen edges
-            so cards literally generate, curve forward, and merge back into the screen!
+            FULL-WIDTH RUNNING BROADCAST STREAM (EMERGING ACROSS ENTIRE VIEWPORT)
+            Spans edge-to-edge across the screen: cards emerge from beyond the left edge,
+            arch through center, and merge seamlessly into the right edge!
+            NO SIDE BUTTONS.
             ========================================================================= */}
         <div
           onMouseDown={(e) => handlePointerDown(e.clientX)}
@@ -145,12 +155,12 @@ export default function EventPosterGallery() {
           onTouchStart={(e) => handlePointerDown(e.touches[0].clientX)}
           onTouchMove={(e) => handlePointerMove(e.touches[0].clientX)}
           onTouchEnd={handlePointerUp}
-          className="relative w-full h-[480px] sm:h-[530px] md:h-[580px] flex items-center justify-center cursor-grab active:cursor-grabbing overflow-visible"
+          className="relative w-full h-[490px] sm:h-[540px] md:h-[600px] flex items-center justify-center cursor-grab active:cursor-grabbing overflow-visible"
           style={{
-            perspective: '1200px',
-            perspectiveOrigin: 'center 40%',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+            perspective: '1300px',
+            perspectiveOrigin: 'center 38%',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
           }}
         >
           {/* 3D Cylindrical Stage */}
@@ -161,32 +171,32 @@ export default function EventPosterGallery() {
             {SHOWCASE_ITEMS.map((item, idx) => {
               // Continuous fractional offset relative to active center
               const rawOffset = ((idx + scrollProgress) % totalItems + totalItems) % totalItems;
-              // Center offset around 0 (-3.5 to +3.5)
+              // Center offset around 0 (-totalItems/2 to +totalItems/2)
               const offset = rawOffset > totalItems / 2 ? rawOffset - totalItems : rawOffset;
               const absOffset = Math.abs(offset);
 
-              // Clip items far outside visible arc
-              if (absOffset > 3.3) return null;
+              // Render wide sweep across entire screen (up to 4.8 cards in both directions)
+              if (absOffset > 4.6) return null;
 
-              // DRAMATIC 3D CYLINDRICAL EMERGENCE MATH:
-              // Radius R = 1150px. Angle theta per card = 14.8 degrees
-              const angleDeg = offset * 14.8;
+              // WIDE BROADCAST CYLINDRICAL MATH:
+              // Radius R = 1250px. Angle theta per card = 13.5 degrees
+              const angleDeg = offset * 13.5;
               const angleRad = (angleDeg * Math.PI) / 180;
-              const R = 1150;
+              const R = 1250;
 
               // Tangent positioning along circle:
               const x = R * Math.sin(angleRad);
-              const z = -R * (1 - Math.cos(angleRad)) * 1.25; // Enhanced 3D depth curvature!
-              const rotateY = -angleDeg * 1.15; // Tangents the curve, curving away on both edges
+              const z = -R * (1 - Math.cos(angleRad)) * 1.28; // Enhanced 3D depth curvature
+              const rotateY = -angleDeg * 1.12; // Tangents the curve away on both sides
 
               // Arching Y trajectory (convex curve like reference):
-              const y = isDragging ? 0 : Math.pow(absOffset, 1.35) * 7;
+              const y = isDragging ? 0 : Math.pow(absOffset, 1.35) * 6;
               
-              // Scale: Center card is prominent 1.03, cards emerging from depth scale gracefully
-              const scale = Math.max(0.72, 1.03 - absOffset * 0.07);
+              // Scale: Center card is prominent 1.04, side cards scale gracefully into distance
+              const scale = Math.max(0.68, 1.04 - absOffset * 0.065);
 
-              // Opacity: smooth atmospheric fade as cards emerge from/into screen depth
-              const opacity = Math.max(0.15, 1 - Math.pow(absOffset / 3.1, 2.2));
+              // Opacity: smooth atmospheric fade as cards emerge from and merge into the screen margins
+              const opacity = Math.max(0.12, 1 - Math.pow(absOffset / 4.4, 2.2));
 
               const isCenter = absOffset < 0.45;
 
@@ -203,7 +213,7 @@ export default function EventPosterGallery() {
                     willChange: 'transform, opacity',
                     opacity,
                   }}
-                  className="pointer-events-auto absolute w-[240px] sm:w-[265px] h-[390px] sm:h-[440px] md:h-[490px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.25)] group cursor-pointer border border-black/5 bg-stone-100"
+                  className="pointer-events-auto absolute w-[240px] sm:w-[265px] md:w-[275px] h-[390px] sm:h-[440px] md:h-[490px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.22)] group cursor-pointer border border-black/5 bg-[#4A1620]"
                 >
                   {/* PURE PHOTOGRAPHY — EXACT MATCH TO REFERENCE IMAGE */}
                   <img
@@ -232,26 +242,8 @@ export default function EventPosterGallery() {
             })}
           </div>
 
-          {/* Curved Horizon Arch underneath the cards (Matches Reference Image) */}
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[125%] h-24 bg-white rounded-[50%_50%_0_0] shadow-[0_-12px_30px_rgba(0,0,0,0.04)] pointer-events-none z-20" />
-
-          {/* Left Arrow Button */}
-          <button
-            onClick={() => handleStep('prev')}
-            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/95 border border-stone-200 text-stone-700 flex items-center justify-center hover:bg-stone-900 hover:text-white shadow-xl transition-all"
-            aria-label="Previous Slide"
-          >
-            <ChevronLeft size={22} />
-          </button>
-
-          {/* Right Arrow Button */}
-          <button
-            onClick={() => handleStep('next')}
-            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/95 border border-stone-200 text-stone-700 flex items-center justify-center hover:bg-stone-900 hover:text-white shadow-xl transition-all"
-            aria-label="Next Slide"
-          >
-            <ChevronRight size={22} />
-          </button>
+          {/* Curved Horizon Arch underneath the cards (Matches Cream Canvas) */}
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[130%] h-24 bg-[#FBF4EA] rounded-[50%_50%_0_0] shadow-[0_-12px_30px_rgba(43,27,23,0.05)] pointer-events-none z-20" />
         </div>
       </div>
     </section>

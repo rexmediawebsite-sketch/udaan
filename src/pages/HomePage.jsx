@@ -15,11 +15,11 @@ export default function HomePage({ onOpenBooking, onSelectStall }) {
       {/* 1. Cinematic Hero with Deep Sunset & Doves (Decluttered, Pristine) */}
       <Hero onOpenBooking={onOpenBooking} />
 
-      {/* 2. Dynamic Metric Strip with Animated Numbers */}
-      <HomeStatsStrip />
-
-      {/* 3. The UDAAN Ecosystem: Where Women Build Brands */}
+      {/* 2. The UDAAN Ecosystem: Where Women Build Brands */}
       <BrandStory onOpenBooking={onOpenBooking} />
+
+      {/* 3. Dynamic Metric Strip with Animated Numbers (Shifted right above Collections) */}
+      <HomeStatsStrip />
 
       {/* 4. 3D Curved Cylinder Panoramic Ribbon: Bespoke Festive Collections */}
       <EventPosterGallery onOpenBooking={onOpenBooking} />

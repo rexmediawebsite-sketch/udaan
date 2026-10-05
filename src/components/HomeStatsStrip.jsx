@@ -46,10 +46,10 @@ export default function HomeStatsStrip() {
   return (
     <section
       ref={stripRef}
-      className="relative w-full py-16 bg-[#2B1B17] text-[#FFFAF2] border-y border-[#D9A441]/30 overflow-hidden select-none"
+      className="relative w-full py-16 bg-[#4A1620] text-[#FFFAF2] border-y border-[#D9A441]/35 overflow-hidden select-none"
     >
       {/* Background ambient warm dusk glow */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#4A1620]/30 via-transparent to-[#4A1620]/30 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/25 pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 divide-y md:divide-y-0 md:divide-x divide-[#D9A441]/20">
