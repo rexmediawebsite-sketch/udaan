@@ -95,12 +95,6 @@ export default function Hero({ onOpenBooking }) {
             <span>Explore Floor Map</span>
           </MagneticButton>
         </div>
-
-        {/* Venue Badge - Single clean badge, no duplicates */}
-        <div className="flex items-center text-[10px] sm:text-[11px] tracking-[0.2em] text-[#FFFAF2] space-x-2 font-medium font-sans bg-black/40 border border-white/20 px-4 py-1.5 rounded-full backdrop-blur-md shadow-md">
-          <MapPin size={12} className="text-[#D9A441]" />
-          <span>Lemon Tree Premier • Tangerine Grand • Ground Floor Patna</span>
-        </div>
       </div>
     </section>
   );

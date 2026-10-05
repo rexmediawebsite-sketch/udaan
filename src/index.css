@@ -46,7 +46,7 @@ html.lenis, html.lenis body {
 body {
   background-color: var(--cream);
   color: var(--espresso);
-  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
   font-size: 1rem;
   line-height: 1.65;
   margin: 0;
@@ -54,25 +54,141 @@ body {
   overflow-x: hidden;
 }
 
-/* Fluid Headings */
+/* Fluid Headings with Playfair Display Editorial Flair */
 .heading-display {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(3rem, 5vw + 1rem, 4.25rem);
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3rem, 5vw + 1rem, 4.5rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
 
 .heading-section {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(2.25rem, 3.5vw + 0.5rem, 3.5rem);
   line-height: 1.15;
   letter-spacing: -0.015em;
 }
 
 .heading-card {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(1.5rem, 2vw + 0.25rem, 2rem);
   line-height: 1.25;
+}
+
+/* =========================================================================
+   LUXURY MICRO-ANIMATIONS & AMBIENT EFFECTS
+   ========================================================================= */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.5deg);
+  }
+}
+
+@keyframes pulse-soft-gold {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(217, 164, 65, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px 4px rgba(217, 164, 65, 0.25);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes halo-glow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.05);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-soft-gold 3s ease-in-out infinite;
+}
+
+.animate-halo-glow {
+  animation: halo-glow 6s ease-in-out infinite;
+}
+
+/* Shimmering Metallic Gold Text */
+.text-shimmer-gold {
+  background: linear-gradient(
+    90deg,
+    #D9A441 0%,
+    #FFE8B3 25%,
+    #D9A441 50%,
+    #B8801F 75%,
+    #D9A441 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-sweep 5s linear infinite;
+}
+
+/* Elevated Luxury Icon Disc */
+.icon-disc-gold {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(217, 164, 65, 0.18) 0%, rgba(74, 22, 32, 0.12) 100%);
+  border: 1px solid rgba(217, 164, 65, 0.35);
+  color: #D9A441;
+  box-shadow: 0 4px 15px rgba(217, 164, 65, 0.12);
+  transition: all 0.35s var(--ease-luxury);
+}
+
+.icon-disc-gold:hover,
+.group:hover .icon-disc-gold {
+  transform: scale(1.08) translateY(-2px);
+  border-color: #D9A441;
+  color: #FFE8B3;
+  box-shadow: 0 8px 25px rgba(217, 164, 65, 0.3);
+  background: linear-gradient(135deg, rgba(74, 22, 32, 0.8) 0%, rgba(217, 164, 65, 0.35) 100%);
+}
+
+/* Luxury Interactive Card Lift */
+.card-luxury-hover {
+  transition: transform 0.4s var(--ease-luxury), box-shadow 0.4s var(--ease-luxury), border-color 0.4s var(--ease-luxury);
+}
+
+.card-luxury-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px -12px rgba(74, 22, 32, 0.25), 0 0 20px rgba(217, 164, 65, 0.15);
+  border-color: rgba(217, 164, 65, 0.6);
 }
 
 /* Standard Section Rhythm */
@@ -80,6 +196,7 @@ body {
   padding-top: 96px;
   padding-bottom: 96px;
 }
+
 
 /* =========================================================================
    AWARD-LEVEL FROSTED LIQUID GLASS NAVIGATION PILL

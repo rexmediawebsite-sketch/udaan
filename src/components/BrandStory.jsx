@@ -84,25 +84,25 @@ export default function BrandStory({ onOpenBooking }) {
           {pillars.map((item, idx) => (
             <div
               key={idx}
-              className={`p-7 rounded-3xl bg-[#FFFFFF] border border-[#D9A441]/30 border-t-4 ${item.borderTop} flex flex-col justify-between shadow-[0_10px_30px_rgba(43,27,23,0.05)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl`}
+              className={`p-7 rounded-3xl bg-[#FFFFFF] border border-[#D9A441]/30 border-t-4 ${item.borderTop} flex flex-col justify-between shadow-[0_10px_30px_rgba(43,27,23,0.06)] card-luxury-hover group`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="font-serif font-light text-3xl text-[#D9A441]">
+                  <span className="font-cinzel font-bold text-3xl text-[#D9A441] tracking-wider group-hover:scale-105 transition-transform">
                     {item.step}
                   </span>
-                  <div className={`w-10 h-10 rounded-2xl ${item.accentBg} border border-[#D9A441]/30 flex items-center justify-center shadow-sm`}>
+                  <div className="w-12 h-12 rounded-2xl icon-disc-gold shadow-md">
                     {item.icon}
                   </div>
                 </div>
 
                 <div className="mb-2">
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-[#B85C38] font-semibold font-sans">
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-[#B85C38] font-bold font-sans">
                     {item.subtitle}
                   </div>
-                  <h3 className="font-serif font-semibold text-2xl text-[#2B1B17] mt-1 flex items-center space-x-2">
+                  <h3 className="font-serif font-bold text-2xl text-[#2B1B17] mt-1 flex items-center space-x-2">
                     <span>{item.title}</span>
-                    <span className="text-xs font-serif font-normal text-stone-500">({item.hindi})</span>
+                    <span className="text-sm font-hindi font-normal text-stone-500">({item.hindi})</span>
                   </h3>
                 </div>
 
@@ -111,8 +111,9 @@ export default function BrandStory({ onOpenBooking }) {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-stone-100 flex items-center text-[10px] tracking-[0.2em] uppercase text-[#B8801F] font-semibold font-sans">
+              <div className="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between text-[10px] tracking-[0.2em] uppercase text-[#B8801F] font-semibold font-sans">
                 <span>Phase Milestone</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A441] group-hover:scale-150 transition-transform" />
               </div>
             </div>
           ))}
@@ -120,18 +121,19 @@ export default function BrandStory({ onOpenBooking }) {
 
         {/* Brand Mission Callout */}
         <div className="mt-16 text-center">
-          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-3.5 sm:px-6 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] shadow-lg">
-            <span className="px-4 py-1.5 rounded-full bg-[#FBF4EA] border border-[#D9A441]/40 text-[#B85C38] text-xs font-sans tracking-[0.2em] font-semibold uppercase">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-3 sm:px-6 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] shadow-lg animate-pulse-glow">
+            <span className="px-4 py-1.5 rounded-full bg-[#4A1620] text-[#FFFAF2] border border-[#D9A441]/40 text-xs font-sans tracking-[0.2em] font-semibold uppercase shadow-sm">
               FOUNDER INVITATION
             </span>
-            <span className="text-xs sm:text-sm text-[#2B1B17] font-sans px-2">
+            <span className="text-xs sm:text-sm text-[#2B1B17] font-sans px-2 font-medium">
               Ready to take your boutique, couture or artisanal craft to Bihar’s grandest stage?
             </span>
             <button
               onClick={() => onOpenBooking()}
-              className="btn-gold-luxury px-6 py-2.5 rounded-full text-xs font-sans tracking-wider uppercase font-semibold text-[#2B1B17]"
+              className="btn-gold-luxury px-7 py-3 rounded-full text-xs font-sans tracking-wider uppercase font-bold text-[#2B1B17] flex items-center gap-2 cursor-pointer shadow-md hover:shadow-xl"
             >
-              Apply to Exhibit &rarr;
+              <span>Apply to Exhibit</span>
+              <ArrowRight size={13} className="stroke-[2.5]" />
             </button>
           </div>
         </div>

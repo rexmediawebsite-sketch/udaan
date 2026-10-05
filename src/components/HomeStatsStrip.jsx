@@ -54,15 +54,15 @@ export default function HomeStatsStrip() {
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 divide-y md:divide-y-0 md:divide-x divide-[#D9A441]/20">
           {statsData.map((stat, i) => (
-            <div key={i} className={`flex flex-col items-center text-center ${i > 0 ? 'pt-6 md:pt-0 md:pl-6' : ''}`}>
-              <div className="font-display font-semibold text-5xl sm:text-6xl text-[#D9A441] tracking-tight leading-none">
+            <div key={i} className={`flex flex-col items-center text-center group cursor-default transition-all duration-300 hover:-translate-y-1 ${i > 0 ? 'pt-6 md:pt-0 md:pl-6' : ''}`}>
+              <div className="font-cinzel font-bold text-5xl sm:text-6xl text-[#D9A441] tracking-tight leading-none drop-shadow-[0_4px_16px_rgba(217,164,65,0.35)] group-hover:scale-105 transition-transform duration-300">
                 {counts[i].toLocaleString()}
-                <span className="text-[#FFFAF2]">{stat.suffix}</span>
+                <span className="text-[#FFFAF2]/90">{stat.suffix}</span>
               </div>
-              <div className="mt-3 font-sans font-semibold text-base text-[#FFFAF2] tracking-wide">
+              <div className="mt-3 font-sans font-bold text-sm sm:text-base text-[#FFFAF2] tracking-wider uppercase">
                 {stat.label}
               </div>
-              <div className="mt-1 text-xs font-sans text-[#FFFAF2]/60">
+              <div className="mt-1 text-[11px] sm:text-xs font-sans text-[#FFFAF2]/65 font-light tracking-wide">
                 {stat.sub}
               </div>
             </div>

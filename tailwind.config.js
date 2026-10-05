@@ -45,10 +45,11 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['"Outfit"', 'system-ui', '-apple-system', 'sans-serif'],
-        ui: ['"Outfit"', 'system-ui', 'sans-serif'],
+        serif: ['"Playfair Display"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+        display: ['"Playfair Display"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+        cinzel: ['"Cinzel"', 'serif'],
+        sans: ['"Plus Jakarta Sans"', '"Outfit"', 'system-ui', '-apple-system', 'sans-serif'],
+        ui: ['"Plus Jakarta Sans"', '"Outfit"', 'system-ui', 'sans-serif'],
         hindi: ['"Tiro Devanagari Hindi"', '"Noto Serif Devanagari"', 'serif'],
       },
       letterSpacing: {

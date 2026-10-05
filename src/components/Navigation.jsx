@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Sparkles, Menu, X } from 'lucide-react';
+import { Sparkles, Menu, X } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 
 export default function Navigation({ onOpenBooking }) {
@@ -67,21 +67,8 @@ export default function Navigation({ onOpenBooking }) {
           }`}
           style={{ width: 'min(94vw, 1080px)' }}
         >
-          {/* Left Context / Back Icon if deeper, or Emblem */}
+          {/* Left Nav Links */}
           <div className="flex items-center gap-2">
-            {location.pathname !== '/' && (
-              <button
-                onClick={() => navigate(-1)}
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2B1B17]/60 text-[#D9A441] border border-[#D9A441]/30 hover:bg-[#D9A441] hover:text-[#2B1B17] transition-all duration-300"
-                title="Go Back"
-                aria-label="Previous Page"
-                data-cursor="Back"
-              >
-                <ArrowLeft size={14} />
-              </button>
-            )}
-
-            {/* Left Nav Links */}
             <div className="hidden lg:flex items-center space-x-6 text-[13px] font-sans font-medium tracking-wide">
               {navLinksLeft.map((link) => {
                 const active = isCurrentActive(link.path);

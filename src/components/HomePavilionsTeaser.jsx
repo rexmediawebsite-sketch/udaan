@@ -71,9 +71,10 @@ export default function HomePavilionsTeaser() {
         {/* 6-Card Grid: Warm Luxury Ivory Cards with Subtle Borders */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {pavilions.map((pav, i) => (
-            <div
+            <Link
               key={i}
-              className="group relative rounded-3xl overflow-hidden bg-[#FFFFFF] shadow-[0_12px_36px_rgba(43,27,23,0.06)] border border-[#D9A441]/30 hover:border-[#D9A441] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col"
+              to="/exhibitors"
+              className="group relative rounded-3xl overflow-hidden bg-[#FFFFFF] shadow-[0_12px_36px_rgba(43,27,23,0.06)] border border-[#D9A441]/30 hover:border-[#D9A441] card-luxury-hover flex flex-col cursor-pointer"
             >
               {/* Media Container */}
               <div className="h-60 w-full overflow-hidden relative">
@@ -81,12 +82,15 @@ export default function HomePavilionsTeaser() {
                   src={pav.image}
                   alt={pav.title}
                   loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
+                {/* Specular glare sweep */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
                 {/* Count Badge */}
-                <div className="absolute top-4 right-4 px-3.5 py-1 rounded-full bg-[#2B1B17]/80 backdrop-blur-md border border-[#D9A441]/40 text-[#FFFAF2] text-[11px] font-sans font-semibold tracking-wide">
+                <div className="absolute top-4 right-4 px-3.5 py-1 rounded-full bg-[#4A1620]/90 backdrop-blur-md border border-[#D9A441]/50 text-[#FFFAF2] text-[11px] font-sans font-semibold tracking-wide shadow-md">
                   {pav.count}
                 </div>
               </div>
@@ -94,7 +98,7 @@ export default function HomePavilionsTeaser() {
               {/* Text Card Content */}
               <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-4 bg-white">
                 <div className="space-y-2">
-                  <h3 className="font-serif text-2xl font-semibold text-[#2B1B17] group-hover:text-[#B8801F] transition-colors leading-snug">
+                  <h3 className="font-serif text-2xl font-bold text-[#2B1B17] group-hover:text-[#B8801F] transition-colors leading-snug">
                     {pav.title}
                   </h3>
                   <p className="font-sans text-xs sm:text-sm text-[#2B1B17]/75 leading-relaxed font-light">
@@ -102,12 +106,12 @@ export default function HomePavilionsTeaser() {
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-[#D9A441]/20 flex items-center justify-between text-xs font-sans font-semibold uppercase tracking-wider text-[#B85C38] group-hover:text-[#B8801F]">
-                  <span>View Pavilion Details</span>
-                  <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                <div className="pt-3 border-t border-[#D9A441]/20 flex items-center justify-between text-xs font-sans font-bold uppercase tracking-wider text-[#B85C38] group-hover:text-[#B8801F]">
+                  <span>Explore Brands</span>
+                  <ArrowRight size={14} className="stroke-[2.5] transform group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
