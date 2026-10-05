@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUp, Sparkles } from 'lucide-react';
-import { BRAND, FEATURED_EVENT } from '../data/eventData';
+import { ArrowUp, Sparkles, Send, CheckCircle2 } from 'lucide-react';
+import MagneticButton from './MagneticButton';
+import { BRAND } from '../data/eventData';
 
-const InstagramIcon = ({ size = 14, className = "" }) => (
+const InstagramIcon = ({ size = 16, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -11,146 +12,213 @@ const InstagramIcon = ({ size = 14, className = "" }) => (
   </svg>
 );
 
-const FacebookIcon = ({ size = 14, className = "" }) => (
+const FacebookIcon = ({ size = 16, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
   </svg>
 );
 
-export default function Footer() {
+export default function Footer({ onOpenBooking }) {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubscribed(true);
+      setEmail('');
+    }
+  };
+
   return (
-    <footer className="relative bg-[#1E121B] text-[#FFF1D9] border-t border-[#E9AD83]/20 pt-16 pb-12 overflow-hidden font-sans">
-      <div className="max-w-6xl mx-auto px-6">
-        
-        {/* Top Minimal Brand Banner */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-12 border-b border-[#E9AD83]/20">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full border border-[#E99A18]/40 flex items-center justify-center bg-[#F6B51F]/15">
-              <Sparkles className="w-4 h-4 text-[#F6B51F]" />
+    <footer className="relative bg-[#4A1620] text-[#FFFAF2] border-t border-[#D9A441]/30 overflow-hidden font-sans">
+      {/* Top Gold High-Visibility Band: "Book your stall for Diwali Edition 5" */}
+      <div className="bg-gradient-to-r from-[#B8801F] via-[#D9A441] to-[#B8801F] text-[#2B1B17] py-6 px-6 relative z-10 shadow-lg">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5 text-center md:text-left">
+            <div className="w-10 h-10 rounded-full bg-[#2B1B17] text-[#D9A441] flex items-center justify-center shadow-md shrink-0">
+              <Sparkles className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <Link to="/" className="font-serif text-2xl tracking-[0.2em] text-[#FFF1D9] font-normal hover:text-[#F6B51F] transition-colors">
-                {BRAND.name}
-              </Link>
-              <span className="text-[10px] tracking-[0.22em] font-sans text-[#F6B51F] block uppercase font-medium">
-                {BRAND.positioning}
-              </span>
+              <h3 className="font-serif text-2xl font-bold tracking-tight text-[#2B1B17]">
+                Book Your Stall for Diwali Edition 5
+              </h3>
+              <p className="text-xs font-sans font-medium text-[#2B1B17]/85 tracking-wide">
+                24 & 25 October 2026 • Tangerine Grand, Lemon Tree Premier, Patna • 70% Allotted
+              </p>
             </div>
           </div>
 
-          <div className="text-left md:text-right">
-            <span className="text-xs font-serif italic text-[#FFF1D9]/90 block">
-              {BRAND.tagline}
-            </span>
-            <span className="text-[10px] tracking-[0.2em] font-sans text-[#E9AD83] uppercase mt-0.5 block">
-              Glamour Gala Diwali Edition 5 • 24 & 25 Oct 2026 • Patna
-            </span>
-          </div>
-        </div>
-
-        {/* Links Grid */}
-        <div className="py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-xs font-sans">
-          <div>
-            <h4 className="text-[11px] tracking-[0.22em] uppercase text-[#F6B51F] font-semibold mb-4">
-              EXHIBITIONS
-            </h4>
-            <ul className="space-y-2.5 text-[#E9AD83]/90">
-              <li><Link to="/events" className="hover:text-[#F6B51F] transition-colors">All Exhibitions</Link></li>
-              <li><Link to="/events/glamour-gala-5" className="hover:text-[#F6B51F] transition-colors">Glamour Gala Edition 5</Link></li>
-              <li><Link to="/stalls" className="hover:text-[#F6B51F] transition-colors">Interactive Stall Map</Link></li>
-              <li><Link to="/exhibitors" className="hover:text-[#F6B51F] transition-colors">Exhibitor Directory</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[11px] tracking-[0.22em] uppercase text-[#F6B51F] font-semibold mb-4">
-              PARTICIPATION
-            </h4>
-            <ul className="space-y-2.5 text-[#E9AD83]/90">
-              <li><Link to="/become-an-exhibitor" className="hover:text-[#F6B51F] transition-colors">Become an Exhibitor</Link></li>
-              <li><Link to="/visitors" className="hover:text-[#F6B51F] transition-colors">Complimentary Visitor Pass</Link></li>
-              <li><Link to="/gallery" className="hover:text-[#F6B51F] transition-colors">Visual Archive</Link></li>
-              <li><Link to="/faq" className="hover:text-[#F6B51F] transition-colors">FAQs & Guidelines</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[11px] tracking-[0.22em] uppercase text-[#F6B51F] font-semibold mb-4">
-              DESTINATION VENUE
-            </h4>
-            <p className="text-[#E9AD83]/90 leading-relaxed text-[11px] font-light">
-              Tangerine Grand, Ground Floor<br />
-              Lemon Tree Premier<br />
-              Exhibition Road, Patna, Bihar
-            </p>
-            <p className="text-[#F6B51F] text-[10px] mt-2 tracking-wider font-semibold">
-              11:00 AM – 9:00 PM IST
-            </p>
-            <Link to="/contact" className="text-[#F6B51F] text-[10px] underline underline-offset-2 hover:text-[#FFF1D9] block mt-1">
-              Venue Directions & Contact &rarr;
+          <div className="flex items-center gap-3">
+            <Link
+              to="/become-an-exhibitor"
+              className="px-6 py-2.5 rounded-full bg-[#2B1B17] text-[#FFFAF2] hover:text-[#D9A441] text-xs font-semibold uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5"
+            >
+              Reserve Stall Space
+            </Link>
+            <Link
+              to="/stalls"
+              className="px-5 py-2.5 rounded-full bg-white/20 hover:bg-white/30 text-[#2B1B17] text-xs font-semibold uppercase tracking-wider transition-all duration-300"
+            >
+              Floor Plan
             </Link>
           </div>
+        </div>
+      </div>
 
-          <div>
-            <h4 className="text-[11px] tracking-[0.22em] uppercase text-[#F6B51F] font-semibold mb-4">
-              CONNECT WITH UDAAN
-            </h4>
-            <div className="flex items-center space-x-3 mb-3">
+      {/* Lit Diya Garland Sequence */}
+      <div className="py-4 border-b border-[#D9A441]/20 bg-[#380F17] flex items-center justify-center gap-6 sm:gap-12 overflow-hidden px-4">
+        {[...Array(9)].map((_, i) => (
+          <div key={i} className="flex flex-col items-center group select-none">
+            {/* Flickering Flame */}
+            <div className="w-2.5 h-3.5 rounded-full bg-gradient-to-t from-[#B85C38] via-[#D9A441] to-[#FFE8B3] diya-flame" />
+            {/* Clay Diya Base */}
+            <div className="w-6 h-2 rounded-b-full bg-[#B85C38] border-t border-[#D9A441]/40 shadow-[0_2px_6px_rgba(217,164,65,0.4)]" />
+          </div>
+        ))}
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 pt-16 pb-12">
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-14 border-b border-[#D9A441]/20">
+          {/* Brand Presentation */}
+          <div className="md:col-span-4 space-y-4">
+            <Link to="/" className="inline-flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-full border border-[#D9A441] bg-[#2B1B17] flex items-center justify-center text-[#D9A441]">
+                <Sparkles size={16} />
+              </div>
+              <span className="font-serif text-3xl tracking-[0.2em] font-bold text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors">
+                UDAAN
+              </span>
+            </Link>
+
+            <p className="font-hindi text-lg text-[#D9A441] font-normal leading-snug">
+              महिलाओं की नई पहचान
+            </p>
+
+            <p className="font-sans text-xs text-[#FFFAF2]/80 leading-relaxed max-w-sm">
+              Bihar’s benchmark luxury exhibition celebrating women entrepreneurs, couturiers, jewellers, and lifestyle visionaries. Curated with pride in Patna.
+            </p>
+
+            <div className="flex items-center gap-3 pt-2">
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-full border border-[#E9AD83]/40 bg-[#2D1826] flex items-center justify-center text-[#FFF1D9] hover:text-[#F6B51F] hover:border-[#F6B51F] transition-colors"
-                title="Instagram"
+                data-cursor="Instagram"
+                className="w-9 h-9 rounded-full border border-[#D9A441]/40 bg-[#2B1B17] flex items-center justify-center text-[#FFFAF2] hover:text-[#D9A441] hover:border-[#D9A441] transition-all duration-300"
+                aria-label="Instagram"
               >
-                <InstagramIcon size={14} />
+                <InstagramIcon size={16} />
               </a>
               <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-full border border-[#E9AD83]/40 bg-[#2D1826] flex items-center justify-center text-[#FFF1D9] hover:text-[#F6B51F] hover:border-[#F6B51F] transition-colors"
-                title="Facebook"
+                data-cursor="Facebook"
+                className="w-9 h-9 rounded-full border border-[#D9A441]/40 bg-[#2B1B17] flex items-center justify-center text-[#FFFAF2] hover:text-[#D9A441] hover:border-[#D9A441] transition-all duration-300"
+                aria-label="Facebook"
               >
-                <FacebookIcon size={14} />
+                <FacebookIcon size={16} />
               </a>
             </div>
-            <p className="text-[11px] text-[#E9AD83]/90 leading-relaxed font-light">
-              Official inquiry concierge available 10 AM to 8 PM via WhatsApp.
+          </div>
+
+          {/* Quick Nav Links */}
+          <div className="md:col-span-2 space-y-3">
+            <h4 className="text-xs tracking-[0.2em] uppercase text-[#D9A441] font-semibold font-sans">
+              Exhibitions
+            </h4>
+            <ul className="space-y-2 text-xs text-[#FFFAF2]/80 font-sans">
+              <li><Link to="/events" className="hover:text-[#D9A441] transition-colors">Curated Calendar</Link></li>
+              <li><Link to="/events/glamour-gala-5" className="hover:text-[#D9A441] transition-colors">Diwali Edition 5</Link></li>
+              <li><Link to="/stalls" className="hover:text-[#D9A441] transition-colors">Floor Plan Map</Link></li>
+              <li><Link to="/exhibitors" className="hover:text-[#D9A441] transition-colors">Women Artisans Directory</Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-2 space-y-3">
+            <h4 className="text-xs tracking-[0.2em] uppercase text-[#D9A441] font-semibold font-sans">
+              Participation
+            </h4>
+            <ul className="space-y-2 text-xs text-[#FFFAF2]/80 font-sans">
+              <li><Link to="/become-an-exhibitor" className="hover:text-[#D9A441] transition-colors">Book a Stall (3-Step)</Link></li>
+              <li><Link to="/visitors" className="hover:text-[#D9A441] transition-colors">VIP RSVP Entry Pass</Link></li>
+              <li><Link to="/gallery" className="hover:text-[#D9A441] transition-colors">Gala Visual Archive</Link></li>
+              <li><Link to="/about" className="hover:text-[#D9A441] transition-colors">About Udaan & Purpose</Link></li>
+              <li><Link to="/faq" className="hover:text-[#D9A441] transition-colors">Exhibitor Guidelines</Link></li>
+            </ul>
+          </div>
+
+          {/* Newsletter Section */}
+          <div className="md:col-span-4 space-y-3">
+            <h4 className="text-xs tracking-[0.2em] uppercase text-[#D9A441] font-semibold font-sans">
+              The Udaan Gazette
+            </h4>
+            <p className="text-xs text-[#FFFAF2]/80 leading-relaxed font-sans">
+              Receive curated festive catalogues, stall availability alerts, and early VIP invitations.
             </p>
-            <Link to="/about" className="text-xs text-[#F6B51F] hover:text-[#FFF1D9] font-serif italic mt-2 block">
-              About the Udaan Mission &rarr;
-            </Link>
+
+            {subscribed ? (
+              <div className="p-3.5 rounded-xl bg-[#2B1B17] border border-[#D9A441] text-[#D9A441] text-xs flex items-center gap-2">
+                <CheckCircle2 size={16} />
+                <span>You are subscribed to the UDAAN VIP Circle.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="space-y-2 pt-1">
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    required
+                    className="w-full h-[48px] px-4 pr-12 rounded-full bg-[#2B1B17] border border-[#D9A441]/40 text-[#FFFAF2] placeholder-[#FFFAF2]/40 text-xs focus:outline-none focus:border-[#D9A441] focus:ring-1 focus:ring-[#D9A441] transition-all"
+                  />
+                  <button
+                    type="submit"
+                    aria-label="Subscribe"
+                    data-cursor="Join"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#D9A441] text-[#2B1B17] hover:bg-[#FFE8B3] flex items-center justify-center transition-all duration-300"
+                  >
+                    <Send size={14} />
+                  </button>
+                </div>
+                <p className="text-[10px] text-[#FFFAF2]/50 tracking-wider">
+                  Zero spam. Curated festive dispatches only.
+                </p>
+              </form>
+            )}
           </div>
         </div>
 
         {/* Minimal Bottom Bar */}
-        <div className="pt-8 border-t border-[#E9AD83]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] tracking-[0.2em] text-[#E9AD83]/70 uppercase font-sans">
-          <div className="flex items-center space-x-4">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] tracking-wider text-[#FFFAF2]/70 font-sans">
+          <div className="flex items-center gap-3">
             <span>© 2026 UDAAN EXHIBITIONS</span>
             <span>•</span>
-            <span>ALL RIGHTS RESERVED</span>
+            <span>LEMON TREE PREMIER, PATNA</span>
           </div>
 
-          <div className="flex items-center space-x-6">
-            <Link to="/faq" className="hover:text-[#FFF1D9] transition-colors">PRIVACY POLICY</Link>
+          <div className="flex items-center gap-6">
+            <Link to="/faq" className="hover:text-[#D9A441] transition-colors">Privacy Policy</Link>
             <span>•</span>
-            <Link to="/faq" className="hover:text-[#FFF1D9] transition-colors">TERMS OF EXHIBITION</Link>
+            <Link to="/faq" className="hover:text-[#D9A441] transition-colors">Terms of Exhibition</Link>
             <span>•</span>
             <button
               onClick={scrollToTop}
-              className="flex items-center space-x-1 text-[#F6B51F] hover:text-[#FFF1D9] transition-colors"
+              data-cursor="Top"
+              className="flex items-center gap-1.5 text-[#D9A441] hover:text-[#FFE8B3] font-medium transition-colors"
             >
-              <span>TOP</span>
-              <ArrowUp size={11} />
+              <span>Back to Top</span>
+              <ArrowUp size={13} />
             </button>
           </div>
         </div>
-
       </div>
     </footer>
   );

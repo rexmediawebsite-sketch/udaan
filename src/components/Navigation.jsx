@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Sparkles, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Sparkles, Menu, X } from 'lucide-react';
+import MagneticButton from './MagneticButton';
 
 export default function Navigation({ onOpenBooking }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -10,7 +11,7 @@ export default function Navigation({ onOpenBooking }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -21,34 +22,33 @@ export default function Navigation({ onOpenBooking }) {
   }, [location.pathname]);
 
   const navLinksLeft = [
-    { name: 'EXHIBITIONS', path: '/events' },
-    { name: 'TALENTS', path: '/exhibitors' },
-    { name: 'FLOOR MAP', path: '/stalls' },
+    { name: 'Exhibitions', path: '/events' },
+    { name: 'Pavilions', path: '/events/glamour-gala-5' },
+    { name: 'Floor Map', path: '/stalls' },
   ];
 
   const navLinksRight = [
-    { name: 'PAVILIONS', path: '/#categories' },
-    { name: 'JOURNAL', path: '/about' },
-    { name: 'VISITORS', path: '/visitors' },
+    { name: 'Directory', path: '/exhibitors' },
+    { name: 'RSVP Pass', path: '/visitors' },
+    { name: 'About', path: '/about' },
   ];
 
   const allNavLinks = [
-    { name: 'HOME', path: '/' },
-    { name: 'EXHIBITIONS CALENDAR', path: '/events' },
-    { name: 'GLAMOUR GALA DIWALI 5', path: '/events/glamour-gala-5' },
-    { name: 'BECOME AN EXHIBITOR', path: '/become-an-exhibitor' },
-    { name: 'FLOOR MAP SCHEMATIC', path: '/stalls' },
-    { name: 'CURATED DIRECTORY', path: '/exhibitors' },
-    { name: 'VISITOR GUIDE & RSVP', path: '/visitors' },
-    { name: 'VISUAL ARCHIVE', path: '/gallery' },
-    { name: 'ABOUT & PURPOSE', path: '/about' },
-    { name: 'FAQS & POLICIES', path: '/faq' },
-    { name: 'CONTACT DESK', path: '/contact' },
+    { name: 'Home', path: '/' },
+    { name: 'Exhibitions Calendar', path: '/events' },
+    { name: 'Glamour Gala Diwali 5', path: '/events/glamour-gala-5' },
+    { name: 'Curated Directory', path: '/exhibitors' },
+    { name: 'Tangerine Grand Stall Map', path: '/stalls' },
+    { name: 'Book a Stall Application', path: '/become-an-exhibitor' },
+    { name: 'Visitor Guide & VIP Pass', path: '/visitors' },
+    { name: 'Visual Archive', path: '/gallery' },
+    { name: 'About & Purpose', path: '/about' },
+    { name: 'FAQs & Policies', path: '/faq' },
+    { name: 'Contact Concierge', path: '/contact' },
   ];
 
-  const isActive = (path) => {
+  const isCurrentActive = (path) => {
     if (path === '/' && location.pathname === '/') return true;
-    if (path.startsWith('/#')) return false;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
     return false;
   };
@@ -56,184 +56,145 @@ export default function Navigation({ onOpenBooking }) {
   return (
     <>
       <header
-        className="fixed top-0 left-0 w-full z-50 px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between pointer-events-none transition-all duration-300"
+        className="fixed top-0 left-0 w-full z-50 flex items-center justify-center pt-5 px-4 pointer-events-none transition-all duration-500"
       >
-        {/* Left Floating Circular Control */}
-        <div className="pointer-events-auto flex items-center">
-          {location.pathname !== '/' ? (
-            <button
-              onClick={() => navigate(-1)}
-              aria-label="Previous Page"
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-md ${
-                isScrolled
-                  ? 'bg-[#FFFBF5] border border-[#E9AD83]/40 text-[#2A1C24] hover:bg-[#FAF4EB]'
-                  : 'bg-[#1E121B]/85 border border-[#F6B51F]/40 text-[#FFF1D9] hover:bg-[#2A1424]'
-              }`}
-              title="Go Back"
-            >
-              <ArrowLeft size={16} />
-            </button>
-          ) : (
-            <Link
-              to="/"
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-md ${
-                isScrolled
-                  ? 'bg-[#FFFBF5] border border-[#E9AD83]/40 text-[#B96535] hover:bg-[#FAF4EB]'
-                  : 'bg-[#1E121B]/85 border border-[#F6B51F]/40 text-[#F6B51F] hover:bg-[#2A1424]'
-              }`}
-              title="Udaan"
-            >
-              <Sparkles size={16} />
-            </Link>
-          )}
-        </div>
-
-        {/* Center Floating Editorial Navigation Pill */}
+        {/* Unified Solid Blurred Pill (Awards Standard) */}
         <nav
-          className={`pointer-events-auto flex items-center justify-between px-6 md:px-8 py-2.5 rounded-full border transition-all duration-300 shadow-xl ${
+          className={`nav-unified-pill pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 rounded-full transition-all duration-400 ${
             isScrolled
-              ? 'bg-[#FFFBF5] border-[#E9AD83]/40 text-[#2A1C24] scale-[0.98]'
-              : 'bg-[#1E121B]/85 border-[#F6B51F]/35 text-[#FFF1D9]'
+              ? 'scrolled py-1.5'
+              : 'py-2.5'
           }`}
-          style={{ minWidth: 'min(90vw, 840px)' }}
+          style={{ width: 'min(94vw, 1080px)' }}
         >
-          {/* Left Navigation Links */}
-          <div className="hidden lg:flex items-center space-x-7 text-[11px] font-sans font-semibold tracking-[0.2em]">
-            {navLinksLeft.map((link) => {
-              const active = isActive(link.path);
-              return (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`transition-colors duration-200 uppercase relative py-1 ${
-                    active
-                      ? isScrolled ? 'text-[#B96535] font-bold' : 'text-[#F6B51F] font-bold'
-                      : isScrolled ? 'text-[#5E4A55] hover:text-[#B96535]' : 'text-[#FFF1D9]/80 hover:text-[#F6B51F]'
-                  }`}
-                >
-                  {link.name}
-                  {active && (
-                    <span
-                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full ${
-                        isScrolled ? 'bg-[#B96535]' : 'bg-[#F6B51F]'
-                      }`}
-                    />
-                  )}
-                </Link>
-              );
-            })}
+          {/* Left Context / Back Icon if deeper, or Emblem */}
+          <div className="flex items-center gap-2">
+            {location.pathname !== '/' && (
+              <button
+                onClick={() => navigate(-1)}
+                className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2B1B17]/60 text-[#D9A441] border border-[#D9A441]/30 hover:bg-[#D9A441] hover:text-[#2B1B17] transition-all duration-300"
+                title="Go Back"
+                aria-label="Previous Page"
+                data-cursor="Back"
+              >
+                <ArrowLeft size={14} />
+              </button>
+            )}
+
+            {/* Left Nav Links */}
+            <div className="hidden lg:flex items-center space-x-6 text-[13px] font-sans font-medium tracking-wide">
+              {navLinksLeft.map((link) => {
+                const active = isCurrentActive(link.path);
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    data-cursor="View"
+                    className={`nav-link-indicator py-1 transition-colors duration-300 ${
+                      active
+                        ? 'text-[#D9A441] font-semibold active'
+                        : 'text-[#FFFAF2]/80 hover:text-[#D9A441]'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Central Brand Motif dividing categories */}
+          {/* Central Luxury Logo Emblem */}
           <Link
             to="/"
-            className="flex items-center space-x-2.5 mx-auto lg:mx-4 group px-2"
-            title="Udaan — Where Women Build Brands"
+            className="flex items-center gap-2 group px-2 select-none"
+            title="UDAAN — महिलाओं की नई पहचान"
+            data-cursor="Udaan"
           >
-            <div className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
-              isScrolled
-                ? 'border-[#B96535]/40 bg-[#FFF1D9] text-[#B96535]'
-                : 'border-[#E99A18]/50 bg-[#F6B51F]/20 text-[#F6B51F]'
-            }`}>
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M12 14c-.6 0-1.1-.3-1.5-.7C9.3 12 8 10 5.5 10c-2.5 0-4 1.8-4 4 0 3 2.5 5.5 6 5.5 1.5 0 3-.5 4.5-1.5 1.5 1 3 1.5 4.5 1.5 3.5 0 6-2.5 6-5.5 0-2.2-1.5-4-4-4-2.5 0-3.8 2-5 3.3-.4.4-.9.7-1.5.7zm0-4c.6 0 1.1-.3 1.5-.7C14.7 8 16 6 18.5 6c2.5 0 4 1.8 4 4 0 3-2.5 5.5-6 5.5-1.5 0-3-.5-4.5-1.5-1.5 1-3 1.5-4.5 1.5-3.5 0-6-2.5-6-5.5 0-2.2 1.5-4 4-4 2.5 0 3.8 2 5 3.3.4.4.9.7 1.5.7z" />
-              </svg>
+            <div className="w-7 h-7 rounded-full border border-[#D9A441]/60 bg-gradient-to-br from-[#D9A441]/25 to-transparent flex items-center justify-center text-[#D9A441] group-hover:scale-110 group-hover:border-[#D9A441] transition-all duration-300 shadow-[0_0_10px_rgba(217,164,65,0.3)]">
+              <Sparkles size={14} className="animate-pulse" />
             </div>
-            <span className={`font-serif tracking-[0.25em] text-sm md:text-base font-semibold transition-colors ${
-              isScrolled
-                ? 'text-[#2A1C24] group-hover:text-[#B96535]'
-                : 'text-[#FFF1D9] group-hover:text-[#F6B51F]'
-            }`}>
-              UDAAN
-            </span>
+            <div className="flex flex-col text-left">
+              <span className="font-serif tracking-[0.22em] text-base sm:text-lg font-bold text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors leading-none">
+                UDAAN
+              </span>
+              <span className="font-hindi text-[9px] text-[#D9A441]/90 tracking-wider leading-tight">
+                महिलाओं की नई पहचान
+              </span>
+            </div>
           </Link>
 
-          {/* Right Navigation Links */}
-          <div className="hidden lg:flex items-center space-x-7 text-[11px] font-sans font-semibold tracking-[0.2em]">
-            {navLinksRight.map((link) => {
-              const active = isActive(link.path);
-              return (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`transition-colors duration-200 uppercase relative py-1 ${
-                    active
-                      ? isScrolled ? 'text-[#B96535] font-bold' : 'text-[#F6B51F] font-bold'
-                      : isScrolled ? 'text-[#5E4A55] hover:text-[#B96535]' : 'text-[#FFF1D9]/80 hover:text-[#F6B51F]'
-                  }`}
-                >
-                  {link.name}
-                  {active && (
-                    <span
-                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full ${
-                        isScrolled ? 'bg-[#B96535]' : 'bg-[#F6B51F]'
-                      }`}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-          </div>
+          {/* Right Nav Links & Integrated Call-To-Action */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="hidden lg:flex items-center space-x-6 text-[13px] font-sans font-medium tracking-wide">
+              {navLinksRight.map((link) => {
+                const active = isCurrentActive(link.path);
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    data-cursor="View"
+                    className={`nav-link-indicator py-1 transition-colors duration-300 ${
+                      active
+                        ? 'text-[#D9A441] font-semibold active'
+                        : 'text-[#FFFAF2]/80 hover:text-[#D9A441]'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center space-x-2">
+            {/* Embedded Book a Stall Button with Shimmer Sweep */}
+            <MagneticButton
+              onClick={() => onOpenBooking()}
+              cursorLabel="Book"
+              className="btn-gold-luxury px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-semibold tracking-wider shadow-md hover:shadow-lg"
+            >
+              <span>Book Stall</span>
+            </MagneticButton>
+
+            {/* Mobile Hamburger Drawer Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-1.5 rounded-full transition-colors ${
-                isScrolled ? 'text-[#2A1C24] hover:text-[#B96535]' : 'text-[#FFF1D9] hover:text-[#F6B51F]'
-              }`}
+              className="lg:hidden p-1.5 text-[#FFFAF2] hover:text-[#D9A441] transition-colors"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </nav>
-
-        {/* Right Top Action Indicator */}
-        <div className="pointer-events-auto hidden md:flex items-center">
-          <button
-            onClick={() => onOpenBooking()}
-            className={`rounded-full px-5 py-2 text-[10px] tracking-[0.22em] uppercase font-sans font-semibold flex items-center gap-2 transition-all shadow-md ${
-              isScrolled
-                ? 'btn-sunset-gold'
-                : 'btn-sunset-ghost-dark'
-            }`}
-          >
-            <span className="inline-block w-2 h-2 rounded-full bg-[#F6B51F] animate-pulse shadow-[0_0_6px_#F6B51F]" />
-            <span>Book a Stall</span>
-          </button>
-        </div>
       </header>
 
-      {/* Mobile Drawer with Warm Editorial Theme */}
+      {/* Mobile Drawer (Responsive fallback) */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#FAF4EB] lg:hidden flex flex-col justify-between px-8 py-10 transition-all animate-fadeIn overflow-y-auto">
-          <div className="flex items-center justify-between border-b border-[#E9AD83]/30 pb-4">
-            <div className="flex items-center space-x-2">
-              <Sparkles className="w-5 h-5 text-[#B96535]" />
-              <span className="font-serif tracking-[0.25em] text-xl text-[#2A1C24] font-semibold">
+        <div className="fixed inset-0 z-50 bg-[#4A1620] lg:hidden flex flex-col justify-between px-8 py-10 transition-all animate-fadeIn overflow-y-auto">
+          <div className="flex items-center justify-between border-b border-[#D9A441]/30 pb-4">
+            <div className="flex items-center space-x-2.5">
+              <Sparkles className="w-5 h-5 text-[#D9A441]" />
+              <span className="font-serif tracking-[0.25em] text-xl text-[#FFFAF2] font-semibold">
                 UDAAN
               </span>
             </div>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-full text-[#2A1C24] hover:text-[#B96535]"
+              className="p-2 rounded-full text-[#FFFAF2] hover:text-[#D9A441]"
               aria-label="Close Menu"
             >
-              <X size={20} />
+              <X size={22} />
             </button>
           </div>
 
-          <div className="my-auto py-6 flex flex-col items-center space-y-4 text-xs font-sans tracking-[0.22em] text-[#2A1C24]">
+          <div className="my-auto py-6 flex flex-col items-center space-y-4 text-sm font-sans tracking-[0.15em] text-[#FFFAF2]">
             {allNavLinks.map((link) => {
-              const active = isActive(link.path);
+              const active = isCurrentActive(link.path);
               return (
                 <Link
                   key={link.name}
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`py-1 transition-colors ${
-                    active ? 'text-[#B96535] font-bold border-b border-[#B96535]' : 'hover:text-[#B96535]'
+                  className={`py-1.5 transition-colors ${
+                    active ? 'text-[#D9A441] font-bold border-b border-[#D9A441]' : 'hover:text-[#D9A441]'
                   }`}
                 >
                   {link.name}
@@ -242,20 +203,20 @@ export default function Navigation({ onOpenBooking }) {
             })}
           </div>
 
-          <div className="pt-4 border-t border-[#E9AD83]/30 flex flex-col w-full space-y-3 shrink-0">
+          <div className="pt-4 border-t border-[#D9A441]/30 flex flex-col w-full space-y-3 shrink-0">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenBooking();
               }}
-              className="btn-sunset-gold w-full text-center py-3 rounded-full text-xs tracking-[0.22em] uppercase shadow-lg"
+              className="btn-gold-luxury w-full text-center py-3.5 rounded-full text-xs tracking-widest uppercase font-semibold"
             >
               Book a Stall
             </button>
             <Link
               to="/visitors"
               onClick={() => setMobileMenuOpen(false)}
-              className="btn-editorial-outline w-full text-center py-2.5 rounded-full text-xs tracking-[0.22em] uppercase"
+              className="btn-maroon-luxury w-full text-center py-3 rounded-full text-xs tracking-widest uppercase"
             >
               Visitor Guide & Pass
             </Link>

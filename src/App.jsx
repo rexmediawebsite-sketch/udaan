@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ScrollToTop from './components/ScrollToTop';
+import SmoothScroll from './components/SmoothScroll';
+import CustomCursor from './components/CustomCursor';
+import PageTransition from './components/PageTransition';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import BookingModal from './components/BookingModal';
@@ -38,72 +40,76 @@ export default function App() {
 
   return (
     <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-[#FAF4EB] text-[#2A1C24] relative flex flex-col justify-between selection:bg-[#F6B51F]/30 selection:text-[#2A1C24]">
-        {/* Centered Floating Crisp Navigation Pill */}
-        <Navigation onOpenBooking={() => handleOpenBooking()} />
+      <SmoothScroll>
+        <CustomCursor />
+        <div className="min-h-screen bg-[#FBF4EA] text-[#2B1B17] relative flex flex-col justify-between selection:bg-[#D9A441]/30 selection:text-[#4A1620]">
+          {/* Centered Floating Award-Level Navigation Pill */}
+          <Navigation onOpenBooking={() => handleOpenBooking()} />
 
-        {/* Dynamic Multi-Page Routes */}
-        <main className="flex-1">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <HomePage
-                  onOpenBooking={handleOpenBooking}
-                  onSelectStall={handleSelectStallForBooking}
+          {/* Dynamic Page Transitions and Multi-Page Routes */}
+          <PageTransition>
+            <main className="flex-1">
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <HomePage
+                      onOpenBooking={handleOpenBooking}
+                      onSelectStall={handleSelectStallForBooking}
+                    />
+                  }
                 />
-              }
-            />
-            <Route
-              path="/events"
-              element={<EventsPage onOpenBooking={handleOpenBooking} />}
-            />
-            <Route
-              path="/events/:slug"
-              element={<EventDetailPage onOpenBooking={handleOpenBooking} />}
-            />
-            <Route
-              path="/events/glamour-gala-5"
-              element={<EventDetailPage onOpenBooking={handleOpenBooking} />}
-            />
-            <Route
-              path="/become-an-exhibitor"
-              element={<BecomeAnExhibitorPage />}
-            />
-            <Route
-              path="/stalls"
-              element={
-                <StallsPage onSelectStall={handleSelectStallForBooking} />
-              }
-            />
-            <Route
-              path="/exhibitors"
-              element={<ExhibitorsPage onOpenBooking={handleOpenBooking} />}
-            />
-            <Route path="/visitors" element={<VisitorsPage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route
-              path="/about"
-              element={<AboutPage onOpenBooking={handleOpenBooking} />}
-            />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
+                <Route
+                  path="/events"
+                  element={<EventsPage onOpenBooking={handleOpenBooking} />}
+                />
+                <Route
+                  path="/events/:slug"
+                  element={<EventDetailPage onOpenBooking={handleOpenBooking} />}
+                />
+                <Route
+                  path="/events/glamour-gala-5"
+                  element={<EventDetailPage onOpenBooking={handleOpenBooking} />}
+                />
+                <Route
+                  path="/become-an-exhibitor"
+                  element={<BecomeAnExhibitorPage />}
+                />
+                <Route
+                  path="/stalls"
+                  element={
+                    <StallsPage onSelectStall={handleSelectStallForBooking} />
+                  }
+                />
+                <Route
+                  path="/exhibitors"
+                  element={<ExhibitorsPage onOpenBooking={handleOpenBooking} />}
+                />
+                <Route path="/visitors" element={<VisitorsPage />} />
+                <Route path="/gallery" element={<GalleryPage />} />
+                <Route
+                  path="/about"
+                  element={<AboutPage onOpenBooking={handleOpenBooking} />}
+                />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </main>
 
-        {/* Minimal Editorial Footer mirroring Reference */}
-        <Footer />
+            {/* Editorial Footer with Gold Band & Diya Accents */}
+            <Footer onOpenBooking={() => handleOpenBooking()} />
+          </PageTransition>
 
-        {/* Global Stall Booking & Allotment Modal */}
-        <BookingModal
-          isOpen={bookingModalOpen}
-          onClose={() => setBookingModalOpen(false)}
-          preselectedStall={preselectedStall}
-          preselectedCategory={preselectedCategory}
-        />
-      </div>
+          {/* Global Stall Booking & Allotment Modal */}
+          <BookingModal
+            isOpen={bookingModalOpen}
+            onClose={() => setBookingModalOpen(false)}
+            preselectedStall={preselectedStall}
+            preselectedCategory={preselectedCategory}
+          />
+        </div>
+      </SmoothScroll>
     </Router>
   );
 }

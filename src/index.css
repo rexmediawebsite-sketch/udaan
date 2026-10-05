@@ -4,197 +4,306 @@
 
 :root {
   color-scheme: light;
+  --cream: #FBF4EA;
+  --ivory: #FFFAF2;
+  --espresso: #2B1B17;
+  --maroon: #4A1620;
+  --terracotta: #B85C38;
+  --gold: #D9A441;
+  --gold-deep: #B8801F;
+  --peacock: #1F6F78;
+
+  /* Global easing */
+  --ease-luxury: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* =========================================================================
-   UDAAN MASTER EDITORIAL DESIGN SYSTEM
-   Palette Hierarchy (Inspired by "Golden Doves Among Sunset Clouds"):
-   - Primary Light Surfaces: Warm Ivory (#FFF1D9), Soft Cream (#FAF4EB)
-   - Supporting Cool Atmosphere: Dusty Sky Blue (#397EAC), Sky Wash (#EBF3F8)
-   - Warm Accents & Glow: Sunlit Gold (#F6B51F), Radiant Amber (#E99A18), Burnt Orange (#B96535)
-   - Contrast & Ink Typography: Deep Plum Ink (#2A1C24), Muted Plum (#5E4A55), Twilight Shadow (#1E121B)
+   LENIS SMOOTH SCROLL INTEGRATION
    ========================================================================= */
-
-/* Floating Navigation Bar Styles */
-.nav-hero-pill {
-  background: rgba(30, 18, 27, 0.82);
-  border: 1px solid rgba(246, 181, 31, 0.35);
-  box-shadow: 0 12px 36px -4px rgba(10, 5, 8, 0.5), 0 0 20px -2px rgba(246, 181, 31, 0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+html.lenis, html.lenis body {
+  height: auto;
 }
 
-.nav-scrolled-pill {
-  background: #FFFBF5;
-  border: 1px solid rgba(233, 173, 131, 0.45);
-  box-shadow: 0 10px 30px -4px rgba(42, 28, 36, 0.1), 0 2px 8px -1px rgba(233, 154, 24, 0.08);
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
-/* Primary Sunlit Gold Button */
-.btn-sunset-gold {
-  background: linear-gradient(135deg, #F6B51F 0%, #E99A18 100%);
-  color: #1E121B;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 18px -2px rgba(233, 154, 24, 0.4);
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
 
-.btn-sunset-gold:hover {
-  background: linear-gradient(135deg, #FFC94A 0%, #F6B51F 100%);
-  transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px -2px rgba(246, 181, 31, 0.55);
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
-/* Burnt Terracotta / Orange Button */
-.btn-sunset-orange {
-  background: linear-gradient(135deg, #B96535 0%, #9B4F23 100%);
-  color: #FFF1D9;
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* =========================================================================
+   FLUID TYPOGRAPHY & SECTION RHYTHM
+   ========================================================================= */
+body {
+  background-color: var(--cream);
+  color: var(--espresso);
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Fluid Headings */
+.heading-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3rem, 5vw + 1rem, 4.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.heading-section {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.25rem, 3.5vw + 0.5rem, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.heading-card {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.5rem, 2vw + 0.25rem, 2rem);
+  line-height: 1.25;
+}
+
+/* Standard Section Rhythm */
+.section-pad-desktop {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+/* =========================================================================
+   AWARD-LEVEL UNIFIED PILL NAVIGATION
+   ========================================================================= */
+.nav-unified-pill {
+  background: rgba(74, 22, 32, 0.85); /* Maroon base */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(217, 164, 65, 0.35);
+  box-shadow: 0 16px 36px -8px rgba(43, 27, 23, 0.4), 0 0 20px -4px rgba(217, 164, 65, 0.15);
+  transition: all 0.4s var(--ease-luxury);
+}
+
+.nav-unified-pill.scrolled {
+  background: rgba(43, 27, 23, 0.94); /* Espresso base */
+  border-color: rgba(217, 164, 65, 0.45);
+  box-shadow: 0 12px 30px -6px rgba(43, 27, 23, 0.5), 0 0 15px -3px rgba(217, 164, 65, 0.2);
+  transform: scale(0.97);
+}
+
+/* Active Nav Link Underline */
+.nav-link-indicator {
+  position: relative;
+}
+
+.nav-link-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D9A441, transparent);
+  transition: width 0.35s var(--ease-luxury), transform 0.35s var(--ease-luxury);
+  transform: translateX(-50%);
+}
+
+.nav-link-indicator.active::after,
+.nav-link-indicator:hover::after {
+  width: 80%;
+}
+
+/* =========================================================================
+   MAGNETIC BUTTONS & GOLD SHIMMER SWEEP
+   ========================================================================= */
+.btn-magnetic {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
+}
+
+.btn-magnetic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  transition: left 0.75s var(--ease-luxury);
+  pointer-events: none;
+}
+
+.btn-magnetic:hover::before {
+  left: 140%;
+}
+
+/* Primary Gold Action Button */
+.btn-gold-luxury {
+  background: linear-gradient(135deg, #D9A441 0%, #B8801F 100%);
+  color: #2B1B17;
+  font-family: 'Outfit', sans-serif;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 18px -2px rgba(185, 101, 53, 0.35);
+  box-shadow: 0 6px 20px -2px rgba(184, 128, 31, 0.4);
+  transition: all 0.35s var(--ease-luxury);
 }
 
-.btn-sunset-orange:hover {
-  background: linear-gradient(135deg, #D4723B 0%, #B96535 100%);
-  transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px -2px rgba(185, 101, 53, 0.5);
+.btn-gold-luxury:hover {
+  background: linear-gradient(135deg, #F3D28E 0%, #D9A441 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -4px rgba(217, 164, 65, 0.55);
 }
 
-/* Dusty Sky Blue Action Button */
-.btn-sky-blue {
-  background: linear-gradient(135deg, #397EAC 0%, #255C82 100%);
-  color: #FFFFFF;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+/* Maroon Secondary Button */
+.btn-maroon-luxury {
+  background: #4A1620;
+  color: #FFFAF2;
+  border: 1px solid rgba(217, 164, 65, 0.4);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 18px -2px rgba(57, 126, 172, 0.35);
+  transition: all 0.35s var(--ease-luxury);
 }
 
-.btn-sky-blue:hover {
-  background: linear-gradient(135deg, #4A93C4 0%, #397EAC 100%);
-  transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px -2px rgba(57, 126, 172, 0.5);
+.btn-maroon-luxury:hover {
+  background: #2B1B17;
+  border-color: #D9A441;
+  color: #D9A441;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -4px rgba(74, 22, 32, 0.4);
 }
 
-/* Editorial Ghost Buttons */
-.btn-editorial-outline {
-  background: transparent;
-  border: 1px solid rgba(42, 28, 36, 0.25);
-  color: #2A1C24;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* =========================================================================
+   CUSTOM GOLD CURSOR (Desktop Only)
+   ========================================================================= */
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: #D9A441;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
 }
 
-.btn-editorial-outline:hover {
-  background: #2A1C24;
-  color: #FFF1D9;
-  border-color: #2A1C24;
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px -3px rgba(42, 28, 36, 0.25);
-}
-
-.btn-sunset-ghost-dark {
-  background: rgba(30, 18, 27, 0.6);
-  border: 1px solid rgba(246, 181, 31, 0.4);
-  color: #FFF1D9;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn-sunset-ghost-dark:hover {
-  background: rgba(45, 24, 38, 0.9);
-  border-color: #F6B51F;
-  color: #F6B51F;
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px -3px rgba(246, 181, 31, 0.35);
-}
-
-.btn-sunset-ghost-light {
-  background: #FFFBF5;
-  border: 1px solid rgba(233, 154, 24, 0.4);
-  color: #B96535;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn-sunset-ghost-light:hover {
-  background: #FAF4EB;
-  border-color: #E99A18;
-  color: #2A1C24;
-  transform: translateY(-1.5px);
-}
-
-/* Circular Control Buttons */
-.btn-circle-control {
-  width: 42px;
-  height: 42px;
-  border-radius: 9999px;
-  background: #FFFBF5;
-  border: 1px solid rgba(233, 173, 131, 0.45);
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(217, 164, 65, 0.65);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, width 0.25s var(--ease-luxury), height 0.25s var(--ease-luxury), border-color 0.2s, background-color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2A1C24;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 14px -2px rgba(42, 28, 36, 0.08);
 }
 
-.btn-circle-control:hover {
-  border-color: #E99A18;
-  color: #B96535;
-  transform: scale(1.05);
+.custom-cursor-ring.active-interactive {
+  width: 64px;
+  height: 64px;
+  border-color: #D9A441;
+  background-color: rgba(217, 164, 65, 0.15);
+  backdrop-filter: blur(2px);
 }
 
-/* Typography Enhancements */
-.headline-shadow {
-  text-shadow: 0 2px 20px rgba(42, 28, 36, 0.15);
+.custom-cursor-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4A1620;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.2s, transform 0.2s;
 }
 
-.headline-shadow-dark {
-  text-shadow: 0 4px 30px rgba(10, 5, 8, 0.7);
+.custom-cursor-ring.active-interactive .custom-cursor-label {
+  opacity: 1;
+  transform: scale(1);
 }
 
-.text-glow-sunset {
-  text-shadow: 0 0 24px rgba(246, 181, 31, 0.45);
+/* Subtle Paper Texture Overlay */
+.paper-grain-texture {
+  background-image: radial-gradient(rgba(43, 27, 23, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.editorial-pullquote::before {
-  content: "“";
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 5rem;
-  line-height: 0;
-  position: absolute;
-  top: 1rem;
-  left: -2rem;
-  opacity: 0.15;
-  color: #B96535;
+/* =========================================================================
+   DIYA FLAME ANIMATION
+   ========================================================================= */
+@keyframes diyaFlicker {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 10px rgba(217, 164, 65, 0.8));
+  }
+  25% {
+    transform: scale(1.08, 0.95) translateY(-1px) rotate(-1deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(233, 154, 24, 0.9));
+  }
+  50% {
+    transform: scale(0.96, 1.04) translateY(-2px) rotate(1deg);
+    opacity: 0.88;
+    filter: drop-shadow(0 0 8px rgba(217, 164, 65, 0.7));
+  }
+  75% {
+    transform: scale(1.04, 0.98) translateY(-0.5px) rotate(-0.5deg);
+    opacity: 0.98;
+    filter: drop-shadow(0 0 12px rgba(246, 181, 31, 0.85));
+  }
 }
 
-/* Custom Editorial Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.diya-flame {
+  animation: diyaFlicker 2.4s ease-in-out infinite;
+  transform-origin: bottom center;
 }
 
-::-webkit-scrollbar-track {
-  background: #FAF4EB;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #E9AD83;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #E99A18;
+/* =========================================================================
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none !important;
+  }
+  
+  .diya-flame {
+    animation: none !important;
+  }
 }
