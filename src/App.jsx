@@ -20,6 +20,7 @@ import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ExhibitorApplicationPage from './pages/ExhibitorApplicationPage';
+import BookAStallPage from './pages/BookAStallPage';
 import ArchivePage from './pages/ArchivePage';
 
 export default function App() {
@@ -72,20 +73,24 @@ export default function App() {
                   element={<EventDetailPage onOpenBooking={handleOpenBooking} />}
                 />
                 <Route
+                  path="/book-a-stall"
+                  element={<BookAStallPage />}
+                />
+                <Route
                   path="/become-an-exhibitor"
-                  element={<BecomeAnExhibitorPage />}
+                  element={<BookAStallPage />}
                 />
                 <Route
                   path="/apply"
-                  element={<ExhibitorApplicationPage />}
+                  element={<BookAStallPage />}
                 />
                 <Route
                   path="/apply-stall"
-                  element={<ExhibitorApplicationPage />}
+                  element={<BookAStallPage />}
                 />
                 <Route
                   path="/exhibitor-stall-application"
-                  element={<ExhibitorApplicationPage />}
+                  element={<BookAStallPage />}
                 />
                 <Route
                   path="/stalls"
