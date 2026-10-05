@@ -19,6 +19,7 @@ import AboutPage from './pages/AboutPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
+import ExhibitorApplicationPage from './pages/ExhibitorApplicationPage';
 
 export default function App() {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -72,6 +73,18 @@ export default function App() {
                 <Route
                   path="/become-an-exhibitor"
                   element={<BecomeAnExhibitorPage />}
+                />
+                <Route
+                  path="/apply"
+                  element={<ExhibitorApplicationPage />}
+                />
+                <Route
+                  path="/apply-stall"
+                  element={<ExhibitorApplicationPage />}
+                />
+                <Route
+                  path="/exhibitor-stall-application"
+                  element={<ExhibitorApplicationPage />}
                 />
                 <Route
                   path="/stalls"

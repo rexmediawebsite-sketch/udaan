@@ -40,7 +40,7 @@ export default function Navigation({ onOpenBooking }) {
     { name: 'Glamour Gala Diwali 5', path: '/events/glamour-gala-5' },
     { name: 'Curated Directory', path: '/exhibitors' },
     { name: 'Tangerine Grand Stall Map', path: '/stalls' },
-    { name: 'Book a Stall Application', path: '/become-an-exhibitor' },
+    { name: 'Book a Stall Application', path: '/apply' },
     { name: 'Visitor Guide & VIP Pass', path: '/visitors' },
     { name: 'Visual Archive', path: '/gallery' },
     { name: 'Our Story & Purpose', path: '/about' },

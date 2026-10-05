@@ -31,12 +31,20 @@ export default function StallsPage({ onSelectStall }) {
             </p>
           </div>
 
-          <Link
-            to="/become-an-exhibitor"
-            className="btn-sunset-gold px-6 py-3 rounded-full text-[#2A1C24] font-semibold text-xs tracking-widest uppercase self-start md:self-auto shrink-0 shadow-md"
-          >
-            Allotment Process &rarr;
-          </Link>
+          <div className="flex flex-wrap items-center gap-3 self-start md:self-auto shrink-0">
+            <Link
+              to="/apply"
+              className="btn-sunset-gold px-6 py-3 rounded-full text-[#2A1C24] font-semibold text-xs tracking-widest uppercase shadow-md"
+            >
+              Apply for Stall &rarr;
+            </Link>
+            <Link
+              to="/become-an-exhibitor"
+              className="px-5 py-3 rounded-full border border-[#E9AD83]/60 bg-[#FAF4EB] hover:bg-[#FFF1D9] text-[#2A1C24] font-semibold text-xs tracking-widest uppercase transition-colors"
+            >
+              Process Guide
+            </Link>
+          </div>
         </div>
       </div>
 

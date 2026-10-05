@@ -141,6 +141,21 @@ body {
   animation: halo-glow 6s ease-in-out infinite;
 }
 
+/* Glossy Light Sweep / Shining Sheen */
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  35%, 100% {
+    transform: translateX(350%) skewX(-20deg);
+  }
+}
+
+.animate-shine-sweep {
+  animation: shine-sweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+
 /* Shimmering Metallic Gold Text */
 .text-shimmer-gold {
   background: linear-gradient(

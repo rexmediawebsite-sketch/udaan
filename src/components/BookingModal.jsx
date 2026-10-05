@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, Send, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { X, CheckCircle, Send, ShieldCheck, Maximize2 } from 'lucide-react';
 import { UdaanDiamond } from './UdaanIcons';
 import confetti from 'canvas-confetti';
 import { CATEGORIES } from '../data/eventData';
@@ -47,14 +48,25 @@ export default function BookingModal({ isOpen, onClose, preselectedStall, presel
         onClick={(e) => e.stopPropagation()}
         className="relative max-w-xl w-full bg-[#FFFBF5] rounded-3xl overflow-hidden border border-[#E9AD83]/40 shadow-2xl my-8 p-6 sm:p-8 text-[#2A1C24]"
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#FAF4EB] border border-[#E9AD83]/40 text-[#2A1C24] hover:text-[#B96535] hover:border-[#B96535] flex items-center justify-center transition-colors"
-          aria-label="Close"
-        >
-          <X size={16} />
-        </button>
+        {/* Top Control Buttons: Expand to Full Page & Close */}
+        <div className="absolute top-5 right-5 flex items-center gap-2">
+          <Link
+            to={`/apply?stall=${formData.stallId || 'P-02'}&category=${encodeURIComponent(formData.category)}`}
+            onClick={onClose}
+            title="Open in Dedicated Separate Page"
+            className="h-8 px-2.5 rounded-full bg-[#FAF4EB] border border-[#E9AD83]/40 text-[#5E4A55] hover:text-[#B96535] hover:border-[#B96535] flex items-center gap-1.5 text-[11px] font-medium transition-colors"
+          >
+            <Maximize2 size={12} />
+            <span className="hidden sm:inline">Separate Page</span>
+          </Link>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-[#FAF4EB] border border-[#E9AD83]/40 text-[#2A1C24] hover:text-[#B96535] hover:border-[#B96535] flex items-center justify-center transition-colors"
+            aria-label="Close"
+          >
+            <X size={16} />
+          </button>
+        </div>
 
         {isSuccess ? (
           <div className="text-center py-6 animate-fadeIn">

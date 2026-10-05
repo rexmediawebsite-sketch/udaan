@@ -83,9 +83,27 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
           {/* Right: 45% Editorial Information Card */}
           <ScrollReveal delay={0.15} y={30} className="w-full lg:w-[45%] space-y-6">
             <div className="space-y-3">
-              <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#FFFAF2] text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B85C38] uppercase shadow-sm">
-                <UdaanDiamond size={10} className="text-[#D9A441]" />
-                <span>WHAT'S HAPPENING AT UDAAN</span>
+              {/* Upcoming Event Shining Badge */}
+              <div className="relative inline-flex items-center gap-2.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[#D9A441]/60 bg-gradient-to-r from-[#FFFDF9] via-[#FFF5E4] to-[#FFFDF9] text-[11px] font-sans font-semibold tracking-[0.22em] text-[#B85C38] uppercase shadow-[0_4px_22px_-2px_rgba(217,164,65,0.32)] overflow-hidden">
+                {/* Dynamic Shining Light Sweep Beam */}
+                <div 
+                  className="absolute inset-y-0 w-2/3 bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none animate-shine-sweep" 
+                />
+
+                {/* Pulsing "UPCOMING" Pill */}
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#4A1620] text-[#FFFAF2] text-[9.5px] font-bold tracking-widest uppercase shadow-sm border border-[#D9A441]/40 shrink-0">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D9A441] opacity-80" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D9A441]" />
+                  </span>
+                  <span>UPCOMING</span>
+                </span>
+
+                {/* Title & Sparkling Diamond */}
+                <span className="flex items-center gap-1.5 text-[#B85C38] font-bold">
+                  <span>WHAT'S HAPPENING AT UDAAN</span>
+                  <UdaanDiamond size={11} className="text-[#D9A441] animate-pulse" />
+                </span>
               </div>
 
               <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">

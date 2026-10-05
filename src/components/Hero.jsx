@@ -17,14 +17,34 @@ export default function Hero({ onOpenBooking }) {
           Vibrant golden sunset with subtle cinematic vignette — ZERO milky white wash!
           ========================================================================= */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#2B1B17]">
+        {/* Mobile Phone Hero Video (< md) */}
         <video
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
+          poster="/assets/hero-poster.png"
+          className="block md:hidden w-full h-full object-cover object-center transform scale-[1.01] filter saturate-[1.12] contrast-[1.05]"
+        >
+          <source src="/assets/hero-phone.mp4" type="video/mp4" />
+          <img
+            src="/assets/hero-poster.png"
+            alt="Udaan Exhibition Sunset and Doves"
+            className="w-full h-full object-cover"
+          />
+        </video>
+
+        {/* Desktop & Tablet Hero Video (>= md) */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
           onLoadedData={() => setVideoLoaded(true)}
           poster="/assets/hero-poster.png"
-          className="w-full h-full object-cover object-center transform scale-[1.01] filter saturate-[1.12] contrast-[1.05]"
+          className="hidden md:block w-full h-full object-cover object-center transform scale-[1.01] filter saturate-[1.12] contrast-[1.05]"
         >
           <source src="/assets/hero-sky.mp4" type="video/mp4" />
           <img
