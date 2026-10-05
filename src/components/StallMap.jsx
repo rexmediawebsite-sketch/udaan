@@ -221,15 +221,15 @@ export default function StallMap({ onSelectStallForBooking }) {
                 {selectedStall.status === "AVAILABLE" ? (
                   <button
                     onClick={() => onSelectStallForBooking(selectedStall)}
-                    className="btn-sunset-gold w-full py-3.5 rounded-full text-xs font-sans tracking-[0.22em] uppercase shadow-lg flex items-center justify-center space-x-2 text-[#1E121B]"
+                    className="w-full py-4 rounded-full text-xs font-sans font-bold tracking-[0.22em] uppercase shadow-[0_8px_25px_rgba(217,164,65,0.45)] flex items-center justify-center space-x-2 bg-gradient-to-r from-[#D9A441] via-[#F3D28E] to-[#D9A441] text-[#2B1B17] hover:scale-[1.02] hover:shadow-[0_12px_32px_rgba(217,164,65,0.6)] transition-all cursor-pointer"
                   >
                     <span>Apply for Stall {selectedStall.id}</span>
-                    <ArrowRight size={13} />
+                    <ArrowRight size={14} className="stroke-[2.5]" />
                   </button>
                 ) : (
                   <button
                     onClick={() => onSelectStallForBooking({ ...selectedStall, requestWaitlist: true })}
-                    className="btn-sunset-ghost-dark w-full py-3.5 rounded-full text-[#FFF1D9] hover:text-[#F6B51F] text-xs font-sans tracking-[0.22em] uppercase transition-colors"
+                    className="w-full py-3.5 rounded-full text-[#FFFAF2] hover:text-[#D9A441] text-xs font-sans font-semibold tracking-[0.22em] uppercase transition-colors border border-[#D9A441]/40 bg-white/5 hover:bg-white/10"
                   >
                     Join Waitlist for {selectedStall.id}
                   </button>
