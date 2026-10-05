@@ -1,20 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Building2, 
   Sparkles, 
   ArrowRight, 
   Compass, 
-  CheckCircle2,
-  ChevronDown,
-  Layers,
+  ChevronLeft,
+  ChevronRight,
+  Layers, 
   MapPin
 } from 'lucide-react';
 import { UdaanDiamond } from './UdaanIcons';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const FRAMES = [
   {
@@ -88,73 +84,30 @@ const FRAMES = [
 ];
 
 export default function ScrollFrameWalkthrough({ onOpenBooking }) {
-  const containerRef = useRef(null);
-  const pinContentRef = useRef(null);
-  const progressBarRef = useRef(null);
   const [activeFrameIndex, setActiveFrameIndex] = useState(0);
-  const [progressVal, setProgressVal] = useState(0);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    const pinContent = pinContentRef.current;
-    if (!container || !pinContent) return;
-
-    // Pinning with GSAP ScrollTrigger ensures 100% reliable sticky behavior across all browsers
-    const trigger = ScrollTrigger.create({
-      trigger: container,
-      pin: pinContent,
-      start: 'top top',
-      end: '+=2400',
-      scrub: 0.5,
-      anticipatePin: 1,
-      onUpdate: (self) => {
-        const p = self.progress;
-        setProgressVal(p);
-
-        // Map progress (0 to 1) to active frame index (0 to 3)
-        const frameIdx = Math.min(FRAMES.length - 1, Math.floor(p * FRAMES.length));
-        setActiveFrameIndex(frameIdx);
-
-        if (progressBarRef.current) {
-          progressBarRef.current.style.transform = `scaleX(${Math.max(0.04, p)})`;
-        }
-      },
-    });
-
-    return () => {
-      trigger.kill();
-    };
-  }, []);
-
-  const jumpToFrame = (idx) => {
-    if (!containerRef.current) return;
-    const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
-    // Total pin scroll distance is 2400px
-    const targetY = containerTop + (idx / FRAMES.length) * 2400 + 40;
-    window.scrollTo({
-      top: targetY,
-      behavior: 'smooth',
-    });
-  };
 
   const currentFrame = FRAMES[activeFrameIndex];
 
+  const handlePrev = () => {
+    setActiveFrameIndex((prev) => (prev - 1 + FRAMES.length) % FRAMES.length);
+  };
+
+  const handleNext = () => {
+    setActiveFrameIndex((prev) => (prev + 1) % FRAMES.length);
+  };
+
   return (
     <section
-      ref={containerRef}
       id="architectural-walkthrough"
-      className="relative w-full bg-[#180B12] text-[#FFFAF2]"
+      className="relative w-full bg-[#180B12] text-[#FFFAF2] py-16 md:py-24 overflow-hidden"
     >
-      {/* Pinned Content Wrapper (GSAP pins this element securely) */}
-      <div
-        ref={pinContentRef}
-        className="w-full h-screen min-h-[580px] sm:min-h-0 overflow-hidden flex flex-col justify-between relative bg-[#180B12]"
-        style={{ height: '100svh' }}
-      >
+      {/* Container with fixed minimum height for seamless tab switching without layout shift */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-8 flex flex-col justify-between min-h-[720px] lg:min-h-[760px]">
+        
         {/* =========================================================================
-            1. MULTI-LAYERED BACKGROUND: VIDEO + CROSSFADING LUXURY IMAGERY
+            1. MULTI-LAYERED BACKGROUND: CROSSFADING LUXURY IMAGERY
             ========================================================================= */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-3xl">
           {/* Ambient Video Backdrop */}
           <video
             autoPlay
@@ -166,27 +119,29 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
             <source src="/assets/hero-sky.mp4" type="video/mp4" />
           </video>
 
-          {/* Deep Vignette Gradients (Subtle, preserving rich image colors) */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#180B12]/95 via-[#180B12]/75 to-[#180B12]/60 z-10" />
+          {/* Deep Vignette Gradients */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#180B12]/95 via-[#180B12]/80 to-[#180B12]/60 z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#180B12] via-transparent to-[#180B12]/80 z-10" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(217,164,65,0.15),transparent_70%)] z-10" />
 
-          {/* High-Resolution Frame Photos */}
+          {/* Crossfading High-Resolution Frame Photos */}
           {FRAMES.map((f, i) => {
             const isCurrent = i === activeFrameIndex;
             return (
               <div
                 key={f.id}
-                className="absolute inset-0 transition-all duration-700 ease-out"
+                className="absolute inset-0 transition-opacity duration-700 ease-out"
                 style={{
                   opacity: isCurrent ? 1 : 0,
-                  transform: isCurrent ? 'scale(1)' : 'scale(1.04)',
+                  transform: isCurrent ? 'scale(1)' : 'scale(1.03)',
+                  transition: 'opacity 0.6s ease-out, transform 0.8s ease-out',
                 }}
               >
                 <img
                   src={f.image}
                   alt={f.title}
                   className="w-full h-full object-cover object-center filter saturate-[1.15] contrast-[1.08]"
+                  loading="lazy"
                 />
               </div>
             );
@@ -196,7 +151,7 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
         {/* =========================================================================
             2. TOP HEADER HUD: LIVE TELEMETRY & FRAME COUNTER
             ========================================================================= */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-10 pt-4 sm:pt-8 flex items-center justify-between border-b border-[#D9A441]/20 pb-3 sm:pb-4">
+        <div className="relative z-20 w-full flex items-center justify-between border-b border-[#D9A441]/25 pb-4 mb-6">
           <div className="flex items-center space-x-2 sm:space-x-3">
             <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D9A441] opacity-75" />
@@ -204,7 +159,7 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
             </span>
             <div className="flex items-center space-x-1.5 sm:space-x-2 text-[9px] sm:text-[11px] font-sans font-bold tracking-[0.2em] sm:tracking-[0.25em] text-[#D9A441] uppercase truncate max-w-[200px] sm:max-w-none">
               <UdaanDiamond size={10} className="shrink-0" />
-              <span className="truncate">TANGERINE GRAND • WALKTHROUGH</span>
+              <span className="truncate">TANGERINE GRAND • ARCHITECTURAL ZONES</span>
             </div>
           </div>
 
@@ -214,51 +169,65 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
             <span className="text-[#D9A441] font-medium">{currentFrame.radarLabel}</span>
           </div>
 
-          <div className="flex items-center space-x-1.5 bg-[#2B131D]/80 border border-[#D9A441]/30 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full backdrop-blur-md">
-            <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#D9A441]">
+          <div className="flex items-center space-x-2 bg-[#2B131D]/80 border border-[#D9A441]/35 px-3 py-1.5 rounded-full backdrop-blur-md">
+            <button
+              onClick={handlePrev}
+              className="text-stone-300 hover:text-[#D9A441] transition-colors p-0.5"
+              aria-label="Previous Zone"
+            >
+              <ChevronLeft size={14} />
+            </button>
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#D9A441] px-1">
               0{activeFrameIndex + 1} / 0{FRAMES.length}
             </span>
+            <button
+              onClick={handleNext}
+              className="text-stone-300 hover:text-[#D9A441] transition-colors p-0.5"
+              aria-label="Next Zone"
+            >
+              <ChevronRight size={14} />
+            </button>
           </div>
         </div>
 
         {/* =========================================================================
             3. MAIN STAGE CONTENT: EDITORIAL SPECS & RADAR CARD
             ========================================================================= */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-10 my-auto py-2 sm:py-4 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-center">
+        <div className="relative z-20 w-full my-auto py-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Frame Story & Commercial Specs */}
-          <div className="lg:col-span-7 space-y-3 sm:space-y-5">
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6">
             {/* Pill Badge */}
-            <div className="inline-flex items-center space-x-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-[#D9A441]/40 bg-[#D9A441]/10 text-[9px] sm:text-[10px] font-sans font-semibold tracking-[0.18em] uppercase text-[#D9A441]">
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full border border-[#D9A441]/40 bg-[#D9A441]/10 text-[9px] sm:text-[10px] font-sans font-semibold tracking-[0.18em] uppercase text-[#D9A441]">
               <Sparkles size={10} />
               <span>{currentFrame.badge}</span>
             </div>
 
             {/* Title & Subtitle */}
-            <div className="space-y-1">
-              <span className="text-[11px] sm:text-sm font-sans tracking-[0.18em] sm:tracking-[0.2em] text-[#D9A441]/90 uppercase font-medium block">
+            <div className="space-y-1.5">
+              <span className="text-xs sm:text-sm font-sans tracking-[0.2em] text-[#D9A441]/90 uppercase font-medium block">
                 {currentFrame.subtitle}
               </span>
-              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#FFFAF2] tracking-tight leading-[1.12] sm:leading-[1.08] transition-all duration-300">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#FFFAF2] tracking-tight leading-[1.08] transition-all duration-300">
                 {currentFrame.title}
               </h2>
             </div>
 
             {/* Description */}
-            <p className="text-xs sm:text-base text-stone-200 font-sans font-light leading-relaxed max-w-xl line-clamp-3 sm:line-clamp-none">
+            <p className="text-xs sm:text-base text-stone-200 font-sans font-light leading-relaxed max-w-xl">
               {currentFrame.description}
             </p>
 
             {/* 4-Box Technical Spec Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 pt-1 sm:pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-2">
               {currentFrame.specs.map((item, i) => (
                 <div
                   key={i}
-                  className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-[#2A111C]/80 border border-[#D9A441]/25 backdrop-blur-md shadow-lg"
+                  className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#2A111C]/85 border border-[#D9A441]/25 backdrop-blur-md shadow-lg"
                 >
                   <span className="block text-[8px] sm:text-[9px] uppercase tracking-wider text-stone-400 font-sans">
                     {item.label}
                   </span>
-                  <span className="block text-[11px] sm:text-sm font-bold text-[#FFFAF2] font-serif mt-0.5 sm:mt-1 truncate">
+                  <span className="block text-xs sm:text-sm font-bold text-[#FFFAF2] font-serif mt-1 truncate">
                     {item.val}
                   </span>
                 </div>
@@ -266,18 +235,18 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
             </div>
 
             {/* CTAs */}
-            <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <div className="pt-2 flex flex-wrap items-center gap-3">
               <Link
                 to="/stalls"
-                className="btn-gold-luxury px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-[#180B12] shadow-xl flex items-center space-x-2 hover:scale-[1.02] transition-transform"
+                className="btn-gold-luxury px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase text-[#180B12] shadow-xl flex items-center space-x-2 hover:scale-[1.02] transition-transform"
               >
                 <span>Inspect Full 3D Map</span>
-                <ArrowRight size={12} />
+                <ArrowRight size={13} />
               </Link>
 
               <button
                 onClick={() => onOpenBooking && onOpenBooking(`Walkthrough - ${currentFrame.badge}`)}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full border border-[#D9A441]/40 bg-[#2A111C]/60 hover:bg-[#D9A441]/20 text-[#FFFAF2] hover:text-[#D9A441] text-[11px] sm:text-xs font-sans uppercase tracking-wider transition-all backdrop-blur-md"
+                className="px-6 py-3 rounded-full border border-[#D9A441]/40 bg-[#2A111C]/60 hover:bg-[#D9A441]/20 text-[#FFFAF2] hover:text-[#D9A441] text-xs font-sans uppercase tracking-wider transition-all backdrop-blur-md cursor-pointer"
               >
                 Reserve Space
               </button>
@@ -295,7 +264,7 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
                   </span>
                 </div>
                 <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/70 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-                  LIVE TRACK
+                  ZONE ACTIVE
                 </span>
               </div>
 
@@ -331,49 +300,66 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
                 </div>
               </div>
 
-              {/* Scroll Guidance */}
+              {/* Interactive Zone Navigator Footer */}
               <div className="mt-3 pt-2.5 border-t border-[#D9A441]/20 flex items-center justify-between text-[10px] font-sans text-stone-300">
-                <span>Scroll to scrub venue frames</span>
-                <span className="text-[#D9A441] font-semibold flex items-center gap-1">
-                  <span>Progress {Math.round(progressVal * 100)}%</span>
-                  <ChevronDown size={13} className="animate-bounce" />
-                </span>
+                <span className="text-stone-400">Click below or switch zone:</span>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={handlePrev}
+                    className="w-6 h-6 rounded-full bg-white/10 hover:bg-[#D9A441] hover:text-[#180B12] text-white flex items-center justify-center transition-colors cursor-pointer"
+                    title="Previous Zone"
+                  >
+                    <ChevronLeft size={12} />
+                  </button>
+                  <span className="font-mono text-[#D9A441] font-bold px-1">
+                    0{activeFrameIndex + 1}
+                  </span>
+                  <button
+                    onClick={handleNext}
+                    className="w-6 h-6 rounded-full bg-white/10 hover:bg-[#D9A441] hover:text-[#180B12] text-white flex items-center justify-center transition-colors cursor-pointer"
+                    title="Next Zone"
+                  >
+                    <ChevronRight size={12} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* =========================================================================
-            4. BOTTOM FOOTER HUD: DYNAMIC SCRUB TRACK & JUMP BUTTONS
+            4. BOTTOM FOOTER HUD: CLICKABLE ZONE BUTTONS
+            Direct click-to-switch tabs for anyone to easily inspect each area
             ========================================================================= */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-10 pb-4 sm:pb-8 space-y-2 sm:space-y-3">
-          {/* Continuous Progress Bar */}
+        <div className="relative z-20 w-full pt-4 space-y-3">
+          {/* Subtle Golden Progress Line */}
           <div className="relative h-1 w-full bg-white/10 rounded-full overflow-hidden">
             <div
-              ref={progressBarRef}
-              className="absolute inset-0 bg-gradient-to-r from-[#D9A441] via-[#FFF1D9] to-[#D9A441] origin-left transition-transform duration-100 ease-out shadow-[0_0_12px_#D9A441]"
-              style={{ transform: `scaleX(${Math.max(0.04, progressVal)})` }}
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#D9A441] via-[#FFF1D9] to-[#D9A441] transition-all duration-500 ease-out shadow-[0_0_12px_#D9A441]"
+              style={{ 
+                width: `${((activeFrameIndex + 1) / FRAMES.length) * 100}%` 
+              }}
             />
           </div>
 
           {/* Interactive Clickable Frame Tabs */}
-          <div className="flex items-center justify-between gap-2 overflow-x-auto py-1 scrollbar-none">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 py-1">
             {FRAMES.map((f, i) => {
               const isSelected = i === activeFrameIndex;
               return (
                 <button
                   key={f.id}
-                  onClick={() => jumpToFrame(i)}
-                  className={`flex items-center space-x-2.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-left transition-all duration-300 border text-xs ${
+                  onClick={() => setActiveFrameIndex(i)}
+                  className={`flex items-center space-x-2.5 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl text-left transition-all duration-300 border text-xs cursor-pointer ${
                     isSelected
-                      ? 'bg-[#D9A441]/20 border-[#D9A441] text-[#FFFAF2] shadow-[0_0_15px_rgba(217,164,65,0.3)] scale-[1.02]'
-                      : 'bg-black/40 border-white/10 text-stone-400 hover:border-white/30 hover:text-white'
+                      ? 'bg-[#D9A441]/25 border-[#D9A441] text-[#FFFAF2] shadow-[0_0_20px_rgba(217,164,65,0.35)] scale-[1.02]'
+                      : 'bg-black/50 border-white/10 text-stone-400 hover:border-[#D9A441]/50 hover:bg-[#2A111C]/60 hover:text-white'
                   }`}
                 >
-                  <span className={`font-mono font-bold ${isSelected ? 'text-[#D9A441]' : 'text-stone-500'}`}>
+                  <span className={`font-mono font-bold text-xs sm:text-sm ${isSelected ? 'text-[#D9A441]' : 'text-stone-500'}`}>
                     0{f.id}
                   </span>
-                  <span className="hidden sm:inline text-[10px] tracking-wider uppercase font-semibold font-sans truncate max-w-[120px] md:max-w-none">
+                  <span className="text-[10px] sm:text-[11px] tracking-wider uppercase font-semibold font-sans truncate">
                     {f.badge}
                   </span>
                 </button>
@@ -381,6 +367,7 @@ export default function ScrollFrameWalkthrough({ onOpenBooking }) {
             })}
           </div>
         </div>
+
       </div>
     </section>
   );

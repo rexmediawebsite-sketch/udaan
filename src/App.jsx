@@ -20,6 +20,7 @@ import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ExhibitorApplicationPage from './pages/ExhibitorApplicationPage';
+import ArchivePage from './pages/ArchivePage';
 
 export default function App() {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -97,7 +98,14 @@ export default function App() {
                   element={<ExhibitorsPage onOpenBooking={handleOpenBooking} />}
                 />
                 <Route path="/visitors" element={<VisitorsPage />} />
-                <Route path="/gallery" element={<GalleryPage />} />
+                <Route
+                  path="/archive"
+                  element={<ArchivePage onOpenBooking={handleOpenBooking} />}
+                />
+                <Route
+                  path="/gallery"
+                  element={<ArchivePage onOpenBooking={handleOpenBooking} />}
+                />
                 <Route
                   path="/about"
                   element={<AboutPage onOpenBooking={handleOpenBooking} />}

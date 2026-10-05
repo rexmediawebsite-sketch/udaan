@@ -147,9 +147,9 @@ export default function Footer({ onOpenBooking }) {
               Participation
             </h4>
             <ul className="space-y-2 text-xs text-[#FFFAF2]/80 font-sans">
-              <li><Link to="/become-an-exhibitor" className="hover:text-[#D9A441] transition-colors">Book a Stall (3-Step)</Link></li>
-              <li><Link to="/visitors" className="hover:text-[#D9A441] transition-colors">VIP RSVP Entry Pass</Link></li>
-              <li><Link to="/gallery" className="hover:text-[#D9A441] transition-colors">Gala Visual Archive</Link></li>
+              <li><Link to="/apply" className="hover:text-[#D9A441] transition-colors">Book a Stall (3-Step)</Link></li>
+              <li><Link to="/archive" className="hover:text-[#D9A441] transition-colors">Udaan Visual Archive</Link></li>
+              <li><Link to="/stalls" className="hover:text-[#D9A441] transition-colors">Tangerine Grand Floor Map</Link></li>
               <li><Link to="/about" className="hover:text-[#D9A441] transition-colors">Our Story & Purpose</Link></li>
               <li><Link to="/faq" className="hover:text-[#D9A441] transition-colors">Exhibitor Guidelines</Link></li>
             </ul>

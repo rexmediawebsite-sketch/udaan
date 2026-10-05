@@ -30,7 +30,7 @@ export default function Navigation({ onOpenBooking }) {
 
   const navLinksRight = [
     { name: 'Directory', path: '/exhibitors' },
-    { name: 'RSVP Pass', path: '/visitors' },
+    { name: 'Archive', path: '/archive' },
     { name: 'Our Story', path: '/about' },
   ];
 
@@ -41,8 +41,7 @@ export default function Navigation({ onOpenBooking }) {
     { name: 'Curated Directory', path: '/exhibitors' },
     { name: 'Tangerine Grand Stall Map', path: '/stalls' },
     { name: 'Book a Stall Application', path: '/apply' },
-    { name: 'Visitor Guide & VIP Pass', path: '/visitors' },
-    { name: 'Visual Archive', path: '/gallery' },
+    { name: 'Udaan Archive', path: '/archive' },
     { name: 'Our Story & Purpose', path: '/about' },
     { name: 'FAQs & Policies', path: '/faq' },
     { name: 'Contact Concierge', path: '/contact' },
@@ -202,11 +201,11 @@ export default function Navigation({ onOpenBooking }) {
               Book a Stall
             </button>
             <Link
-              to="/visitors"
+              to="/archive"
               onClick={() => setMobileMenuOpen(false)}
               className="btn-maroon-luxury w-full text-center py-3 rounded-full text-xs tracking-widest uppercase"
             >
-              Visitor Guide & Pass
+              Explore Archive
             </Link>
           </div>
         </div>

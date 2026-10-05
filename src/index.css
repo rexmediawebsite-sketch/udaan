@@ -206,11 +206,34 @@ body {
   border-color: rgba(217, 164, 65, 0.6);
 }
 
-/* Standard Section Rhythm */
-.section-pad-desktop {
-  padding-top: 96px;
-  padding-bottom: 96px;
+/* Filmstrip Continuous Cinematic Marquee */
+@keyframes filmstrip-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
+.animate-filmstrip {
+  display: flex;
+  width: max-content;
+  animation: filmstrip-scroll 42s linear infinite;
+  will-change: transform;
+}
+
+.animate-filmstrip:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-filmstrip {
+    animation: none !important;
+    overflow-x: auto;
+  }
+}
+
 
 
 /* =========================================================================
