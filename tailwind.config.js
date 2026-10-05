@@ -45,11 +45,13 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        heading: ['"Playfair Display"', 'Georgia', 'serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
         sans: ['"Outfit"', 'system-ui', '-apple-system', 'sans-serif'],
         ui: ['"Outfit"', 'system-ui', 'sans-serif'],
-        hindi: ['"Tiro Devanagari Hindi"', '"Noto Serif Devanagari"', 'serif'],
+        hindi: ['"Tiro Devanagari Hindi"', '"Noto Sans Devanagari"', 'serif'],
+        'hindi-sans': ['"Noto Sans Devanagari"', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         'tight-title': '-0.02em',

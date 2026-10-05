@@ -1,21 +1,30 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Volume2, VolumeX, ArrowRight, Sparkles, MapPin, ChevronDown } from 'lucide-react';
-import { FEATURED_EVENT, BRAND } from '../data/eventData';
+import { Volume2, VolumeX } from 'lucide-react';
+import MagneticButton from './MagneticButton';
 
 export default function Hero({ onOpenBooking }) {
   const [hasAudio, setHasAudio] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    // Check saved audio preference
+    const savedAudio = localStorage.getItem('udaan_ambience_audio') === 'true';
+    if (savedAudio && audioRef.current) {
+      audioRef.current.play().then(() => setHasAudio(true)).catch(() => {});
+    }
+  }, []);
 
   const toggleSound = () => {
     if (!audioRef.current) return;
     if (hasAudio) {
       audioRef.current.pause();
       setHasAudio(false);
+      localStorage.setItem('udaan_ambience_audio', 'false');
     } else {
       audioRef.current.play().then(() => {
         setHasAudio(true);
+        localStorage.setItem('udaan_ambience_audio', 'true');
       }).catch((e) => {
         console.log('Audio playback prevented by browser:', e);
       });
@@ -25,7 +34,7 @@ export default function Hero({ onOpenBooking }) {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen h-[100vh] min-h-[720px] overflow-hidden text-center flex flex-col justify-between items-center select-none"
+      className="relative w-full h-screen min-h-[720px] max-h-[1080px] overflow-hidden flex flex-col justify-between items-center text-center select-none"
     >
       {/* Background Ambience Audio */}
       <audio
@@ -36,15 +45,14 @@ export default function Hero({ onOpenBooking }) {
       />
 
       {/* =========================================================================
-          BACKGROUND: AUTHENTIC SUNSET & DOVES HERO VIDEO
+          BACKGROUND: AUTHENTIC SUNSET & DOVES CINEMATIC SKY
           ========================================================================= */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-[#1E121B]">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#2B1B17]">
         <video
           autoPlay
           loop
           muted
           playsInline
-          onLoadedData={() => setVideoLoaded(true)}
           poster="/assets/hero-poster.png"
           className="w-full h-full object-cover object-center transform scale-[1.01] filter saturate-[1.05] contrast-[1.02]"
         >
@@ -56,130 +64,89 @@ export default function Hero({ onOpenBooking }) {
           />
         </video>
 
-        {/* Controlled gradient overlay: maintains video vibrancy in center, transitions cleanly to warm cream at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-[#FAF4EB] pointer-events-none" />
+        {/* Subtle top vignette for contrast against pill nav, keeping sunset sky & clouds rich */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-transparent pointer-events-none" />
+
+        {/* Low, subtle bottom edge feathering only at the very base */}
+        <div className="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[#FBF4EA]/40 to-transparent pointer-events-none" />
       </div>
 
-      {/* Top Spacer for Floating Navbar Balance */}
-      <div className="pt-24 md:pt-28" />
+      {/* Top Spacer to preserve vertical balance below fixed pill nav */}
+      <div className="pt-24" />
 
       {/* =========================================================================
-          HERO CENTER COMPOSITION — EDITORIAL TYPOGRAPHY & VERIFIED DETAILS
+          HERO CENTER COMPOSITION — MINIMAL, CINEMATIC & VERTICALLY BALANCED
           ========================================================================= */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center my-auto">
-        
-        {/* Eyebrow Label: Refined Pill over video */}
-        <div className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full border border-[#F6B51F]/40 bg-[#1E121B]/75 mb-5 shadow-2xl backdrop-blur-sm">
-          <Sparkles className="w-3.5 h-3.5 text-[#F6B51F] animate-pulse" />
-          <span className="text-[11px] font-sans font-bold tracking-[0.25em] text-[#F6B51F] uppercase">
-            GLAMOUR GALA
-          </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#397EAC]" />
-          <span className="text-[10px] font-sans tracking-[0.2em] text-[#FFF1D9] font-medium">
-            WHERE WOMEN BUILD BRANDS
-          </span>
+      <div className="relative z-10 max-w-4xl mx-auto px-6 flex flex-col items-center justify-center my-auto">
+        {/* 1. Large UDAAN Title with Soft Gold Shimmer */}
+        <h1 className="font-display font-semibold text-7xl sm:text-8xl md:text-9xl tracking-[0.16em] uppercase select-text text-transparent bg-clip-text bg-gradient-to-b from-[#FFFDF7] via-[#FFFAF2] to-[#F3D28E] drop-shadow-[0_4px_30px_rgba(43,27,23,0.7)] leading-none">
+          UDAAN
+        </h1>
+
+        {/* 2. Hindi Tagline: महिलाओं की नई पहचान */}
+        <h2 className="font-hindi text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#FFFAF2] tracking-wide mt-4 md:mt-6 drop-shadow-[0_4px_24px_rgba(43,27,23,0.8)] leading-tight select-text">
+          महिलाओं की नई पहचान
+        </h2>
+
+        {/* 3. Date & City Line with Soft Espresso Radial Scrim */}
+        <div className="relative mt-7 md:mt-8 px-8 py-3 flex items-center justify-center">
+          {/* Soft Espresso Radial Scrim (40% opacity, feathered edges) for WCAG AA readability */}
+          <div
+            className="absolute inset-0 rounded-full bg-[#2B1B17]/45 blur-md pointer-events-none"
+            aria-hidden="true"
+          />
+          <p className="relative z-10 font-sans font-semibold text-[18px] sm:text-[20px] tracking-[0.1em] uppercase text-[#FFFAF2] drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
+            24 & 25 OCTOBER 2026 · PATNA
+          </p>
         </div>
 
-        {/* Hero Title: Cinzel for UDAAN & Rozha One for महिलाओं की नई पहचान */}
-        <div className="flex flex-col items-center justify-center leading-none">
-          <h1 className="font-cinzel font-medium text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#FFF1D9] tracking-[0.14em] leading-[0.9] headline-shadow-dark text-glow-sunset uppercase select-text">
-            UDAAN
-          </h1>
-          <h2 className="font-rozha font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#FFF1D9] tracking-wide leading-normal headline-shadow-dark text-glow-sunset select-text mt-3 sm:mt-4 md:mt-5">
-            महिलाओं की नई पहचान
-          </h2>
-        </div>
-
-        {/* Event Edition & Verified Date Subtitle */}
-        <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-sans tracking-[0.25em] text-[#F6B51F] uppercase font-bold headline-shadow-dark">
-          <span>{FEATURED_EVENT.edition}</span>
-          <span className="text-[#FFF1D9]/60">•</span>
-          <span className="text-[#FFF1D9]">{FEATURED_EVENT.dates}</span>
-          <span className="text-[#FFF1D9]/60">•</span>
-          <span className="text-[#E9AD83]">{FEATURED_EVENT.city}</span>
-        </div>
-
-        {/* Poetic Narrative Statement */}
-        <p className="mt-5 max-w-xl text-base sm:text-lg font-serif italic text-[#FFF1D9] leading-relaxed headline-shadow-dark opacity-95">
-          “A stage where Bihar's creative women transform bespoke passion into recognized luxury powerhouses.”
-        </p>
-
-        {/* Dual Actions: Primary Allotment CTA & Secondary Floor Map CTA */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-          <button
+        {/* 4 & 5. Action Controls: Primary Gold Button & Underline Text Link */}
+        <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
+          {/* Primary Gold Button */}
+          <MagneticButton
             onClick={() => onOpenBooking()}
-            className="btn-sunset-gold w-full sm:w-auto px-8 py-3.5 rounded-full text-xs font-sans tracking-[0.25em] uppercase font-semibold transition-all shadow-xl flex items-center justify-center space-x-2"
+            cursorLabel="Book"
+            className="btn-gold-luxury px-9 py-3.5 rounded-full text-xs font-semibold tracking-[0.18em] uppercase shadow-2xl hover:shadow-[0_12px_32px_rgba(217,164,65,0.6)]"
           >
-            <span>Apply for Stall Allotment</span>
-            <ArrowRight size={13} />
-          </button>
+            Book a Stall
+          </MagneticButton>
 
+          {/* Underline Text Link in solid ivory */}
           <Link
             to="/stalls"
-            className="btn-sunset-ghost-dark w-full sm:w-auto px-8 py-3.5 rounded-full text-xs font-sans tracking-[0.25em] text-[#FFF1D9] hover:text-[#F6B51F] uppercase font-medium flex items-center justify-center space-x-2 group cursor-pointer shadow-xl backdrop-blur-sm"
+            data-cursor="Map"
+            className="group relative text-sm sm:text-base font-sans font-medium text-[#FFFAF2] tracking-wider py-1 drop-shadow-[0_2px_10px_rgba(43,27,23,0.7)] transition-colors hover:text-[#D9A441]"
           >
-            <span>Explore Floor Map</span>
+            <span>Explore floor map &rarr;</span>
+            <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#D9A441] transition-all duration-300 group-hover:w-full" />
           </Link>
-        </div>
-
-        {/* Venue Micro Badge with Dusty Sky Blue Accent */}
-        <div className="mt-5 flex items-center text-[10px] tracking-[0.2em] text-[#2A1C24] space-x-2 font-medium font-sans bg-white/80 px-3.5 py-1 rounded-full shadow-sm">
-          <MapPin size={12} className="text-[#397EAC]" />
-          <span>Lemon Tree Premier • Tangerine Grand • Ground Floor Patna</span>
         </div>
       </div>
 
       {/* =========================================================================
-          HERO BOTTOM MINIMAL BAR & SCROLL ANCHOR
+          HERO BOTTOM: MINIMAL SCROLL CUE & DISCREET AMBIENCE ICON
           ========================================================================= */}
-      <div className="relative z-10 w-full px-6 md:px-12 py-5 flex items-center justify-between text-[10px] md:text-[11px] font-sans tracking-[0.22em] text-[#5E4A55]">
-        {/* Bottom Left */}
-        <div className="flex items-center space-x-5">
-          <span className="hover:text-[#B96535] transition-colors cursor-pointer font-semibold text-[#2A1C24]">
-            PATNA, BIHAR
-          </span>
-          <span className="hidden sm:inline text-[#5E4A55]/40">•</span>
-          <Link
-            to="/visitors"
-            className="hidden sm:inline hover:text-[#B96535] transition-colors"
-          >
-            VISITOR RSVP PASS
-          </Link>
+      <div className="relative z-10 w-full px-8 pb-6 flex items-end justify-between pointer-events-none">
+        {/* Left balance spacer */}
+        <div className="w-10" />
+
+        {/* 6. Small Scroll Cue: Thin vertical gold line animating downward (no text) */}
+        <div className="flex flex-col items-center justify-center">
+          <div className="w-[1.5px] h-10 bg-gradient-to-b from-transparent via-[#D9A441] to-transparent relative overflow-hidden rounded-full">
+            <div className="w-full h-1/2 bg-[#FFFAF2] animate-bounce opacity-80" />
+          </div>
         </div>
 
-        {/* Bottom Center: Smooth scroll indicator to Exhibition */}
-        <a
-          href="#event"
-          onClick={(e) => {
-            e.preventDefault();
-            const el = document.getElementById('event');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-          className="hidden md:flex flex-col items-center space-y-1 hover:text-[#B96535] transition-colors group cursor-pointer text-[#2A1C24]"
+        {/* 7. Small Circular Ambience Speaker Icon (Bottom-Right, no label, OFF by default) */}
+        <button
+          onClick={toggleSound}
+          data-cursor="Sound"
+          aria-label={hasAudio ? "Mute ambience" : "Unmute ambience"}
+          className="pointer-events-auto w-9 h-9 rounded-full bg-[#2B1B17]/70 border border-[#D9A441]/40 text-[#FFFAF2] hover:text-[#D9A441] hover:border-[#D9A441] flex items-center justify-center transition-all duration-300 shadow-lg backdrop-blur-sm"
+          title={hasAudio ? "Sound: ON" : "Sound: OFF"}
         >
-          <span className="text-[9px] tracking-[0.3em] uppercase text-[#5E4A55] group-hover:text-[#B96535]">
-            SCROLL TO EXHIBITION
-          </span>
-          <ChevronDown size={14} className="animate-bounce text-[#B96535]" />
-        </a>
-
-        {/* Bottom Right: Audio / Ambience toggle */}
-        <div className="flex items-center space-x-4">
-          <span className="hidden lg:inline text-[#5E4A55]">
-            {BRAND.tagline}
-          </span>
-          <span className="hidden lg:inline text-[#5E4A55]/40">•</span>
-          <button
-            onClick={toggleSound}
-            className="flex items-center space-x-1.5 px-3 py-1 rounded-full border border-[#E9AD83]/45 bg-[#FFFBF5] hover:border-[#B96535] hover:text-[#B96535] transition-all text-[#2A1C24] shadow-sm"
-            title={hasAudio ? "Mute Ambience" : "Unmute Ambience"}
-          >
-            {hasAudio ? <Volume2 size={12} className="text-[#B96535]" /> : <VolumeX size={12} />}
-            <span className="text-[9px] tracking-wider uppercase font-medium">
-              {hasAudio ? 'AUDIO ON' : 'AMBIENCE'}
-            </span>
-          </button>
-        </div>
+          {hasAudio ? <Volume2 size={15} className="text-[#D9A441]" /> : <VolumeX size={15} />}
+        </button>
       </div>
     </section>
   );

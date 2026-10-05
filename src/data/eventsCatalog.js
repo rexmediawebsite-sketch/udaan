@@ -27,10 +27,9 @@ export const EVENTS_CATALOG = [
     location: "Plot No. 876, Exhibition Road, Near Gandhi Maidan, Patna, Bihar 800001",
     tagline: "Bihar's Most Anticipated Pre-Diwali Luxury Showcase",
     shortDescription: "A curated 5-star luxury exhibition bringing together 50+ women-led couture, fine polki, heirloom saree, and lifestyle labels for Bihar's peak festive shopping weekend.",
-    description: "Glamour Gala Diwali Edition 5 is UDAAN's flagship festive exhibition, strategically positioned on the final high-intent shopping weekend before Diwali. Bringing together 50+ handpicked women founders, luxury pret ateliers, fine polki and temple jewelers, and artisanal lifestyle curators under one 5-star roof at Tangerine Grand, Lemon Tree Premier.",
-    poster: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80",
-    heroImage: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1800&q=80",
-    coverImage: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=80",
+    poster: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=80",
+    heroImage: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1800&q=80",
+    coverImage: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=80",
     stats: [
       { label: "CURATED BOOTHS", value: "50+" },
       { label: "EXPECTED PATRONS", value: "5,000+" },
