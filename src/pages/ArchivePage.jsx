@@ -18,6 +18,7 @@ import {
 import { UdaanDiamond, UdaanEmblem } from '../components/UdaanIcons';
 import { EVENTS_CATALOG } from '../data/eventsCatalog';
 import { FEATURED_EVENT } from '../data/eventData';
+import ArchiveRotatingHero from '../components/ArchiveRotatingHero';
 
 export default function ArchivePage({ onOpenBooking }) {
   const navigate = useNavigate();
@@ -252,63 +253,18 @@ export default function ArchivePage({ onOpenBooking }) {
     <div className="bg-[#FBF4EA] text-[#2B1B17] min-h-screen overflow-x-hidden selection:bg-[#4A1620]/20 selection:text-[#4A1620]">
       
       {/* =========================================================================
-          1. CINEMATIC FULLSCREEN HERO
-          Warm atmospheric haze, restrained dusk texture, oversized editorial serif
+          1. 3D ROTATING ARCHIVE HERO (VELARA INSPIRED)
+          Cylindrical orbital 3D card rotation with drag physics, editorial typography,
+          frosted glass centerpiece, and interactive controls
           ========================================================================= */}
-      <section className="relative w-full h-screen min-h-[720px] flex flex-col justify-between items-center text-center px-6 overflow-hidden select-none bg-[#2B1B17]">
-        {/* Atmospheric Layers: Cinematic Dusk, Subtle Clouds, Warm Vignette */}
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center filter saturate-[1.1] contrast-[1.08] opacity-60 scale-105 transition-transform duration-1000 ease-out"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=85')`,
-          }}
-        />
-        {/* Soft Film Grain & Warm Vignette */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#2B1B17]/80 via-[#380F17]/45 to-[#2B1B17]/90 pointer-events-none" />
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(43,27,23,0.7)_100%)] pointer-events-none" />
-
-        {/* Top Spacer for Navigation Bar */}
-        <div className="pt-28 md:pt-36 z-10">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#2B1B17]/60 backdrop-blur-md text-[11px] font-sans font-medium tracking-[0.3em] text-[#D9A441] uppercase shadow-sm">
-            <UdaanDiamond size={10} className="text-[#D9A441]" />
-            <span>UDAAN / ARCHIVE</span>
-          </div>
-        </div>
-
-        {/* Hero Center Editorial Typography */}
-        <div className="relative z-10 max-w-4xl mx-auto my-auto space-y-5">
-          <h1 className="font-serif text-[#FFFAF2] tracking-tight leading-[0.92] select-text">
-            <span className="block text-4xl sm:text-6xl md:text-7xl font-light tracking-[0.15em] text-[#FFFAF2]/80 uppercase">
-              THE
-            </span>
-            <span className="block text-6xl sm:text-8xl md:text-9xl font-bold tracking-[0.2em] text-[#FFFAF2] uppercase drop-shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
-              UDAAN
-            </span>
-            <span className="block text-7xl sm:text-9xl md:text-[11rem] lg:text-[12.5rem] font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#FFFAF2] via-[#F3D28E] to-[#B8801F] uppercase leading-[0.88] drop-shadow-[0_12px_40px_rgba(0,0,0,0.9)]">
-              ARCHIVE
-            </span>
-          </h1>
-
-          <p className="font-serif italic text-lg sm:text-2xl md:text-3xl text-[#FFFAF2]/95 max-w-2xl mx-auto leading-relaxed pt-2 drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)]">
-            “Every exhibition left a story behind.”
-          </p>
-
-          <p className="text-xs sm:text-sm font-sans tracking-[0.18em] uppercase text-[#D9A441]/90 max-w-xl mx-auto font-light leading-relaxed">
-            A visual journey through the exhibitions, women, brands and moments that shaped Udaan.
-          </p>
-        </div>
-
-        {/* Scroll To Explore Indicator */}
-        <div className="pb-10 z-10">
-          <button
-            onClick={() => scrollToSection('archive-intro')}
-            className="group inline-flex flex-col items-center space-y-2 text-[10px] tracking-[0.3em] font-sans uppercase text-[#FFFAF2]/70 hover:text-[#D9A441] transition-colors cursor-pointer"
-          >
-            <span>SCROLL TO EXPLORE</span>
-            <span className="text-sm font-serif group-hover:translate-y-1 transition-transform">↓</span>
-          </button>
-        </div>
-      </section>
+      <ArchiveRotatingHero
+        onExploreTimeline={() => scrollToSection('timeline')}
+        onExploreWall={() => scrollToSection('archive-wall')}
+        onInspectCard={(cardIdx) => {
+          const targetIndex = cardIdx % archiveWallPhotos.length;
+          openLightboxAt(targetIndex);
+        }}
+      />
 
 
       {/* =========================================================================
