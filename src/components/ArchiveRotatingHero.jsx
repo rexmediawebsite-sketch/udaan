@@ -324,17 +324,17 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
               Matches Velara 3D perspective orbital cylinder
               ======================================================== */}
           <div 
-            className="lg:col-span-7 relative flex items-center justify-center min-h-[460px] sm:min-h-[520px] lg:min-h-[580px]"
+            className="lg:col-span-7 relative flex flex-col items-center justify-center min-h-[500px] sm:min-h-[560px] lg:min-h-[620px]"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => {
               setIsHovered(false);
               setIsDragging(false);
             }}
           >
-            {/* 3D Viewport with Perspective */}
+            {/* 3D Viewport with Perspective (Dedicated Height for 3D Ring) */}
             <div 
               ref={containerRef}
-              className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y"
+              className="relative w-full h-[360px] sm:h-[410px] lg:h-[450px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y"
               style={{
                 perspective: isMobile ? '800px' : '1200px',
                 perspectiveOrigin: '50% 50%',
@@ -426,44 +426,53 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
                   );
                 })}
               </div>
+            </div>
 
-
-              {/* ========================================================
-                  CENTER FLOATING FROSTED GLASS FOCUS CARD
-                  Matches the center card in the VELARA reference image
-                  ======================================================== */}
+            {/* ========================================================
+                ROYAL WINE & GOLD 3D VAULT CONTROLLER DOCK
+                Cleanly shifted below the rotating ring with zero card overlap
+                ======================================================== */}
+            <div 
+              className="relative z-20 pointer-events-auto flex flex-col items-center space-y-2 select-none pt-4 sm:pt-6 pb-1"
+            >
+              {/* Unified Royal Frosted Pill using exact website navbar styles */}
               <div 
-                className="absolute z-20 pointer-events-auto max-w-[280px] sm:max-w-[320px] p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#140F0D]/80 backdrop-blur-xl border border-[#D9A441]/35 shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(217,164,65,0.15)] text-center flex flex-col items-center space-y-3 transition-all duration-300 hover:border-[#D9A441]/60"
+                className="nav-unified-pill flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full"
               >
-                {/* Center Badge Icon */}
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4A1620] to-[#2B1B17] border border-[#D9A441]/50 flex items-center justify-center text-[#D9A441] shadow-inner">
-                  <Sparkles size={16} className="text-[#D9A441]" />
+                {/* Left: Diamond Emblem + Active Card Title */}
+                <div className="flex items-center space-x-3">
+                  <div className="w-7 h-7 rounded-full border border-[#D9A441]/60 bg-gradient-to-br from-[#D9A441]/25 to-transparent flex items-center justify-center text-[#D9A441] shadow-[0_0_10px_rgba(217,164,65,0.3)] shrink-0">
+                    <UdaanDiamond size={12} className="text-[#D9A441]" />
+                  </div>
+
+                  <div className="flex flex-col text-left pr-2">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-[10px] font-sans font-semibold tracking-[0.2em] text-[#D9A441] uppercase">
+                        {currentFrontCard.badge || 'UDAAN 3D ARCHIVE'}
+                      </span>
+                      <span className="text-[10px] text-[#FFFAF2]/40 hidden md:inline">•</span>
+                      <span className="text-[10px] font-sans text-[#FFFAF2]/60 hidden md:inline">
+                        {currentFrontCard.edition}
+                      </span>
+                    </div>
+                    <h4 className="font-serif tracking-wide text-sm sm:text-base font-bold text-[#FFFAF2] leading-tight line-clamp-1">
+                      {currentFrontCard.title}
+                    </h4>
+                  </div>
                 </div>
 
-                {/* Subtitle */}
-                <div className="space-y-0.5">
-                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#D9A441] uppercase block">
-                    UDAAN 3D ARCHIVE VAULT
-                  </span>
-                  <h4 className="font-serif text-lg sm:text-xl font-normal text-[#FFFAF2] leading-snug line-clamp-1">
-                    {currentFrontCard.title}
-                  </h4>
-                  <p className="text-[11px] font-sans text-[#FFFAF2]/70 font-light line-clamp-2 pt-1 leading-relaxed">
-                    {currentFrontCard.caption}
-                  </p>
-                </div>
-
-                {/* Interactive Controls Bar: Prev, Play/Pause, Next */}
-                <div className="flex items-center justify-center space-x-2 pt-1 w-full">
+                {/* Right: Step & Spin Controls */}
+                <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       rotatePrev();
                     }}
-                    className="p-2 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 text-white/80 hover:text-[#D9A441] transition-all cursor-pointer"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 hover:bg-[#D9A441]/20 border border-[#D9A441]/30 text-[#FFFAF2]/90 hover:text-[#D9A441] flex items-center justify-center transition-all cursor-pointer"
                     title="Previous Card"
+                    aria-label="Previous Archival Card"
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={15} />
                   </button>
 
                   <button
@@ -471,18 +480,18 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
                       e.stopPropagation();
                       setIsAutoSpinning(!isAutoSpinning);
                     }}
-                    className="px-3 py-1.5 rounded-full bg-[#4A1620]/90 hover:bg-[#4A1620] border border-[#D9A441]/50 text-xs font-mono uppercase tracking-wider text-[#FFE8B3] flex items-center space-x-1.5 transition-all shadow-md cursor-pointer"
+                    className="btn-gold-luxury px-3.5 sm:px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-wider flex items-center space-x-1.5 shadow-md hover:shadow-lg cursor-pointer"
                     title={isAutoSpinning ? "Pause Auto-Rotation" : "Start Auto-Rotation"}
                   >
                     {isAutoSpinning ? (
                       <>
-                        <Pause size={12} className="text-[#D9A441]" />
+                        <Pause size={11} className="fill-[#2B1B17] text-[#2B1B17]" />
                         <span>Spinning</span>
                       </>
                     ) : (
                       <>
-                        <Play size={12} className="text-[#D9A441]" />
-                        <span>Paused</span>
+                        <Play size={11} className="fill-[#2B1B17] text-[#2B1B17]" />
+                        <span>Resume</span>
                       </>
                     )}
                   </button>
@@ -492,19 +501,20 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
                       e.stopPropagation();
                       rotateNext();
                     }}
-                    className="p-2 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 text-white/80 hover:text-[#D9A441] transition-all cursor-pointer"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 hover:bg-[#D9A441]/20 border border-[#D9A441]/30 text-[#FFFAF2]/90 hover:text-[#D9A441] flex items-center justify-center transition-all cursor-pointer"
                     title="Next Card"
+                    aria-label="Next Archival Card"
                   >
-                    <ChevronRight size={16} />
+                    <ChevronRight size={15} />
                   </button>
                 </div>
-
-                {/* Touch/Drag hint */}
-                <span className="text-[9px] font-sans tracking-widest text-[#FFFAF2]/40 uppercase pt-1">
-                  Drag or swipe to rotate 3D ring
-                </span>
               </div>
 
+              {/* Subdued Gold Drag/Swipe Hint matching website typography */}
+              <div className="flex items-center space-x-2 text-[10px] font-sans tracking-[0.2em] text-[#FFFAF2]/50 uppercase pt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A441]" />
+                <span>Drag or swipe to rotate 3D ring</span>
+              </div>
             </div>
           </div>
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import MagneticButton from '../components/MagneticButton';
+import FounderMascot from '../components/FounderMascot';
 
 export default function AboutPage({ onOpenBooking }) {
   const personas = [
@@ -282,9 +283,9 @@ export default function AboutPage({ onOpenBooking }) {
       </section>
 
       {/* =========================================================================
-          03 — THREE WOMEN, ONE PURPOSE (Strict Placeholders)
+          03 — THREE WOMEN, ONE PURPOSE (The Three Founders & Their Mascots)
           ========================================================================= */}
-      <section className="relative py-28 md:py-36 border-b border-[#2B1B17]/10">
+      <section className="relative py-28 md:py-36 border-b border-[#2B1B17]/10 bg-[#FBF4EA]/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mb-16 space-y-4">
             <span className="font-serif italic font-bold text-7xl sm:text-8xl text-[#9E1B28] block leading-none">
@@ -297,53 +298,47 @@ export default function AboutPage({ onOpenBooking }) {
               The Three Founders
             </h2>
             <p className="font-sans text-base text-[#2B1B17]/75 font-light leading-relaxed">
-              United by one single purpose: elevating women founders into acknowledged luxury powerhouses.
+              United by one single purpose: elevating women founders into acknowledged luxury powerhouses. Tap or move your finger across each mascot to interact with the founding trio!
             </p>
           </div>
 
-          {/* 3 Founders Sections with Marked Placeholders */}
+          {/* 3 Interactive Girl Founder Mascots (Mobile Touch & Desktop Cursor Optimized) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((num) => (
-              <div
-                key={num}
-                className="group p-8 rounded-3xl bg-[#FFFFFF] border border-[#2B1B17]/15 shadow-xl flex flex-col justify-between space-y-6 hover:-translate-y-2 transition-transform duration-500"
-              >
-                {/* Founder Photo Frame */}
-                <div className="relative h-72 w-full rounded-2xl overflow-hidden bg-stone-100 border border-black/10">
-                  <img
-                    src={
-                      num === 1
-                        ? "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=85"
-                        : num === 2
-                        ? "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=700&q=85"
-                        : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85"
-                    }
-                    alt={`Founder ${num}`}
-                    className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
-                  />
-                  <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 text-white text-[10px] font-sans font-semibold tracking-widest uppercase backdrop-blur-md">
-                    FOUNDER 0{num}
-                  </div>
-                </div>
+            <FounderMascot
+              founderNumber="01"
+              name="Founder 01"
+              role="Strategy & Vision"
+              hindiRole="रणनीति एवं दृष्टिकोण"
+              tagline="Building platforms where quiet craftsmanship commands the grandest stage."
+              desc="Oversees executive vision, platform governance, and curation criteria that safeguard Udaan's standard of elegance and regional authenticity."
+              directions="/mascots/glasses-directions.webp"
+              reactions="/mascots/glasses-reactions.webp"
+              accentColor="#9E1B28"
+            />
 
-                {/* Exact Placeholders (As strictly requested by user) */}
-                <div className="space-y-3">
-                  <div className="text-xs font-sans font-bold text-[#9E1B28] tracking-widest uppercase">
-                    Founder / Co-founder
-                  </div>
-                  <h3 className="font-serif font-bold text-3xl text-[#2B1B17]">
-                    [FOUNDER NAME]
-                  </h3>
-                  <p className="font-sans text-sm text-[#2B1B17]/70 leading-relaxed font-light italic">
-                    Short personal story placeholder. Awaiting founder's personal narrative, individual vision, and background in crafting the platform.
-                  </p>
-                </div>
+            <FounderMascot
+              founderNumber="02"
+              name="Founder 02"
+              role="Design & Curation"
+              hindiRole="सृजन एवं सौंदर्य"
+              tagline="Every exhibition is an aesthetic symphony celebrating Bihar's heritage weaves."
+              desc="Directs the visual world, spatial design, and sensory experience of every edition, curating couture ensembles and architectural spaces."
+              directions="/mascots/ballerina-directions.webp"
+              reactions="/mascots/ballerina-reactions.webp"
+              accentColor="#D9A441"
+            />
 
-                <div className="pt-4 border-t border-stone-100 text-[10px] font-sans font-semibold tracking-widest uppercase text-stone-400">
-                  OFFICIAL DOSSIER AWAITING DETAILS
-                </div>
-              </div>
-            ))}
+            <FounderMascot
+              founderNumber="03"
+              name="Founder 03"
+              role="Community & Alliances"
+              hindiRole="समुदाय एवं संबंध"
+              tagline="Turning intimate home enterprises into sustainable, patron-backed businesses."
+              desc="Leads artisan relations, founder mentorship, and enterprise alliances, ensuring every participant builds lasting commercial networks."
+              directions="/mascots/scientist-directions.webp"
+              reactions="/mascots/scientist-reactions.webp"
+              accentColor="#2B1B17"
+            />
           </div>
         </div>
       </section>

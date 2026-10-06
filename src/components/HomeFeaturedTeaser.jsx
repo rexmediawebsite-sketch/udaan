@@ -4,8 +4,35 @@ import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 import ScrollReveal from './ScrollReveal';
 import { UdaanDiamond } from './UdaanIcons';
+import { EVENTS_CATALOG, getEventBySlug } from '../data/eventsCatalog';
+import { getEventLifecycleState, LIFECYCLE_STATES } from '../utils/eventLifecycle';
 
 export default function HomeFeaturedTeaser({ onOpenBooking }) {
+  // Pull flagship event from single source of truth
+  const event = getEventBySlug('glamour-gala-diwali-edition-5') || EVENTS_CATALOG[0];
+  const lifecycleState = getEventLifecycleState(event);
+
+  // Dynamic state content per requirement 38
+  let eyebrow = "WHAT'S NEXT AT UDAAN";
+  let statusBadge = "COMING SOON";
+  let badgeColor = "bg-[#4A1620] text-[#FFFAF2]";
+  let pulseDot = false;
+  let heroLinkText = "Full Exhibition Guide →";
+
+  if (lifecycleState === LIFECYCLE_STATES.LIVE) {
+    eyebrow = "UDAAN IS LIVE";
+    statusBadge = "LIVE NOW";
+    badgeColor = "bg-emerald-700 text-white";
+    pulseDot = true;
+    heroLinkText = "Join The Live Exhibition →";
+  } else if (lifecycleState === LIFECYCLE_STATES.ARCHIVED) {
+    eyebrow = "FROM THE UDAAN ARCHIVE";
+    statusBadge = "EXPLORE THE MEMORIES";
+    badgeColor = "bg-[#2B1B17] text-[#D9A441]";
+    pulseDot = false;
+    heroLinkText = "Explore Event Archive →";
+  }
+
   return (
     <section className="relative w-full py-24 md:py-32 bg-[#FBF4EA] text-[#2B1B17] overflow-hidden border-t border-[#D9A441]/20">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -56,8 +83,8 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
                 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=1000&q=85"
-                  alt="Luxury Handcrafted Pearl Necklace & Festive Jewels"
+                  src={event.poster || "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=1000&q=85"}
+                  alt={event.title}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                 />
 
@@ -67,7 +94,7 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
                 {/* Verified Venue Tag in Maroon */}
                 <div className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#4A1620]/90 backdrop-blur-md border border-[#D9A441]/50 text-[#FFFAF2] text-[10px] sm:text-xs font-sans font-semibold tracking-wider uppercase shadow-md flex items-center gap-1.5">
                   <UdaanDiamond size={9} className="text-[#D9A441]" />
-                  <span>Patna's Peak Festive Weekend</span>
+                  <span>{event.city}'s Peak Festive Weekend</span>
                 </div>
 
                 {/* Bottom Quote Pill */}
@@ -83,73 +110,76 @@ export default function HomeFeaturedTeaser({ onOpenBooking }) {
           {/* Right: 45% Editorial Information Card */}
           <ScrollReveal delay={0.15} y={30} className="w-full lg:w-[45%] space-y-6">
             <div className="space-y-3">
-              {/* Upcoming Event Shining Badge */}
+              {/* Lifecycle-Driven Badge per Requirement 38 */}
               <div className="relative inline-flex items-center gap-2.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-[#D9A441]/60 bg-gradient-to-r from-[#FFFDF9] via-[#FFF5E4] to-[#FFFDF9] text-[11px] font-sans font-semibold tracking-[0.22em] text-[#B85C38] uppercase shadow-[0_4px_22px_-2px_rgba(217,164,65,0.32)] overflow-hidden">
-                {/* Dynamic Shining Light Sweep Beam */}
                 <div 
                   className="absolute inset-y-0 w-2/3 bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none animate-shine-sweep" 
                 />
 
-                {/* Pulsing "UPCOMING" Pill */}
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#4A1620] text-[#FFFAF2] text-[9.5px] font-bold tracking-widest uppercase shadow-sm border border-[#D9A441]/40 shrink-0">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D9A441] opacity-80" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D9A441]" />
-                  </span>
-                  <span>UPCOMING</span>
+                {/* Pulsing Pill */}
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full ${badgeColor} text-[9.5px] font-bold tracking-widest uppercase shadow-sm border border-[#D9A441]/40 shrink-0`}>
+                  {pulseDot && (
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                    </span>
+                  )}
+                  <span>{statusBadge}</span>
                 </span>
 
                 {/* Title & Sparkling Diamond */}
                 <span className="flex items-center gap-1.5 text-[#B85C38] font-bold">
-                  <span>WHAT'S HAPPENING AT UDAAN</span>
+                  <span>{eyebrow}</span>
                   <UdaanDiamond size={11} className="text-[#D9A441] animate-pulse" />
                 </span>
               </div>
 
               <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] tracking-tight leading-[1.08]">
-                Glamour Gala <span className="italic font-normal text-[#B85C38]">Diwali Edition 5</span>
+                {event.name} <span className="italic font-normal text-[#B85C38]">{event.edition}</span>
               </h2>
 
               <p className="font-hindi text-xl text-[#B8801F] leading-relaxed">
-                24 और 25 अक्टूबर 2026 • लेमन ट्री प्रीमियर, पटना
+                {event.dateDisplay || event.date} • {event.venue}, {event.city}
               </p>
             </div>
 
             <p className="font-sans text-base text-[#2B1B17]/80 leading-relaxed font-light">
-              Curated for Bihar’s high-intent wedding and pre-Diwali patrons. Explore 50+ women-led luxury pret ateliers, fine polki jewelers, and bespoke festive decor creators in an air-conditioned 5-star pavilion.
+              {event.shortDescription || event.description}
             </p>
 
             {/* Quick Venue & Date Facts */}
             <div className="space-y-3 py-3 border-y border-[#D9A441]/25">
               <div className="flex items-center gap-3 text-sm font-sans text-[#2B1B17]">
                 <Calendar size={18} className="text-[#B85C38] shrink-0" />
-                <span className="font-medium">Saturday 24 & Sunday 25 October 2026</span>
+                <span className="font-medium">{event.dateDisplay || event.date}</span>
               </div>
               <div className="flex items-center gap-3 text-sm font-sans text-[#2B1B17]">
                 <Clock size={18} className="text-[#B85C38] shrink-0" />
-                <span>11:00 AM to 9:00 PM IST (Both Days)</span>
+                <span>{event.timings}</span>
               </div>
               <div className="flex items-center gap-3 text-sm font-sans text-[#2B1B17]">
                 <MapPin size={18} className="text-[#B85C38] shrink-0" />
-                <span>Tangerine Grand, Ground Floor, Lemon Tree Premier, Patna</span>
+                <span>{event.hall}, {event.venue}, {event.city}</span>
               </div>
             </div>
 
             {/* CTAs */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
-              <MagneticButton
-                onClick={() => onOpenBooking()}
-                cursorLabel="Book"
-                className="btn-gold-luxury px-8 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase shadow-md"
-              >
-                Apply for Stall Allotment
-              </MagneticButton>
+              {lifecycleState === LIFECYCLE_STATES.UPCOMING && onOpenBooking && (
+                <MagneticButton
+                  onClick={() => onOpenBooking(event.title)}
+                  cursorLabel="Book"
+                  className="btn-gold-luxury px-8 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase shadow-md"
+                >
+                  Apply for Stall Allotment
+                </MagneticButton>
+              )}
 
               <Link
-                to="/events/glamour-gala-5"
+                to={`/events/${event.slug}`}
                 className="inline-flex items-center gap-2 text-xs font-sans font-semibold tracking-widest uppercase text-[#4A1620] hover:text-[#B8801F] transition-colors py-2 border-b border-transparent hover:border-[#B8801F]"
               >
-                <span>Full Exhibition Guide &rarr;</span>
+                <span>{heroLinkText}</span>
               </Link>
             </div>
           </ScrollReveal>

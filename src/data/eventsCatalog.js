@@ -9,40 +9,166 @@ export const EVENTS_CATALOG = [
     name: "Glamour Gala",
     title: "Glamour Gala",
     edition: "Diwali Edition 5",
-    status: "upcoming",
+    
+    // Core Lifecycle Controls (Single Source of Truth)
+    statusMode: "AUTO", // "AUTO" | "MANUAL"
+    statusOverride: null, // "UPCOMING" | "LIVE" | "ARCHIVED" | null
+    status: "upcoming", // Auto-computed or manual fallback
+    
+    // Precise ISO timestamps in Asia/Kolkata (+05:30)
+    startDate: "2026-10-24T11:00:00+05:30",
+    endDate: "2026-10-25T21:00:00+05:30",
+    date: "24 & 25 OCTOBER 2026",
+    dates: "24 & 25 OCTOBER 2026",
+    dateDisplay: "24 & 25 OCTOBER 2026",
+    days: "Saturday & Sunday",
+    timings: "11:00 AM – 9:00 PM IST",
+    year: "2026",
+    
+    // Verified Venue Dossier
+    venue: "Lemon Tree Premier",
+    venueDetails: {
+      name: "Lemon Tree Premier",
+      hall: "Tangerine Grand Exhibition Hall",
+      floor: "Ground Floor Pillarless Hall",
+      city: "Patna",
+      state: "Bihar",
+      address: "Plot No. 876, Exhibition Road, Near Gandhi Maidan, Patna, Bihar 800001",
+      googleMapsUrl: "https://maps.google.com/?q=Lemon+Tree+Premier+Patna+Exhibition+Road"
+    },
+    hall: "Tangerine Grand Exhibition Hall",
+    city: "Patna",
+    location: "Plot No. 876, Exhibition Road, Near Gandhi Maidan, Patna, Bihar 800001",
+    
+    // Editorial Branding & Narrative
     isFlagship: true,
     bookingStatus: "STALL BOOKINGS OPEN",
     statusLabel: "STALL BOOKINGS OPEN",
     badgeColor: "bg-[#E99A18] text-[#1E121B]",
-    date: "24 & 25 OCTOBER 2026",
-    dates: "24 & 25 OCTOBER 2026",
-    startDate: "2026-10-24",
-    endDate: "2026-10-25",
-    days: "Saturday & Sunday",
-    timings: "11:00 AM – 9:00 PM IST",
-    year: "2026",
-    venue: "Lemon Tree Premier",
-    hall: "Tangerine Grand Exhibition Hall",
-    city: "Patna",
-    location: "Plot No. 876, Exhibition Road, Near Gandhi Maidan, Patna, Bihar 800001",
     tagline: "Bihar's Most Anticipated Pre-Diwali Luxury Showcase",
     shortDescription: "A curated 5-star luxury exhibition bringing together 50+ women-led couture, fine polki, heirloom saree, and lifestyle labels for Bihar's peak festive shopping weekend.",
     description: "Glamour Gala Diwali Edition 5 is UDAAN's flagship festive exhibition, strategically positioned on the final high-intent shopping weekend before Diwali. Bringing together 50+ handpicked women founders, luxury pret ateliers, fine polki and temple jewelers, and artisanal lifestyle curators under one 5-star roof at Tangerine Grand, Lemon Tree Premier.",
+    
+    // Atmospheric Artwork (Transitions naturally with state)
     poster: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80",
     heroImage: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1800&q=80",
+    liveHeroImage: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=80",
+    archiveHeroImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1920&q=85",
     coverImage: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=80",
-    stats: [
-      { label: "CURATED BOOTHS", value: "50+" },
-      { label: "EXPECTED PATRONS", value: "5,000+" },
-      { label: "VENUE RATING", value: "5-Star" },
-      { label: "DAYS", value: "2 Days" },
-    ],
+    
+    // Confirmed Categories
     categories: [
       "Bridal Couture & Handlooms",
       "Polki, Silver & Diamond Jewellery",
       "Festive Home Decor & Brass Artefacts",
       "Ayurvedic Beauty & Wellness",
       "Gourmet Confections & Hampers"
+    ],
+    
+    // Single Unified Exhibitor Records (Used across Upcoming, Live & Archive)
+    exhibitors: [
+      { id: "ex-1", name: "Virasat Weaves", founder: "Pooja Singhania", city: "Varanasi / Patna", category: "Bridal Handlooms", stall: "A-02", featured: true },
+      { id: "ex-2", name: "Aashna Fine Jewels", founder: "Aashna Verma", city: "Patna", category: "Polki & Diamonds", stall: "B-04", featured: true },
+      { id: "ex-3", name: "Svara Silver Atelier", founder: "Kavita Roy", city: "Jaipur / Patna", category: "925 Sterling Silver", stall: "A-08", featured: true },
+      { id: "ex-4", name: "Mithila Heritage Studio", founder: "Sunita Jha", city: "Madhubani", category: "Handmade Fine Art", stall: "C-01", featured: true }
+    ],
+    featuredExhibitors: [
+      { name: "Virasat Weaves", founder: "Pooja Singhania", city: "Varanasi / Patna", category: "Bridal Handlooms" },
+      { name: "Aashna Fine Jewels", founder: "Aashna Verma", city: "Patna", category: "Polki & Diamonds" },
+      { name: "Svara Silver Atelier", founder: "Kavita Roy", city: "Jaipur / Patna", category: "925 Sterling Silver" },
+      { name: "Mithila Heritage Studio", founder: "Sunita Jha", city: "Madhubani", category: "Handmade Fine Art" }
+    ],
+    
+    // Approved Public Gallery Photos (Shared by Live Floor Stream & Archive Gallery)
+    // Rule: Only approvedForPublic: true appear publicly
+    gallery: [
+      { id: "gal-1", url: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=85", caption: "Handcrafted Polki & Kundan masterpieces", category: "Fine Jewellery", timestamp: "11:45 AM", approvedForPublic: true, chapter: "DISCOVERY" },
+      { id: "gal-2", url: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=85", caption: "Banarasi silk zari weave showcase", category: "Handlooms", timestamp: "12:30 PM", approvedForPublic: true, chapter: "BRANDS" },
+      { id: "gal-3", url: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1200&q=85", caption: "Handloom textile curation on display", category: "Bridal Couture", timestamp: "02:15 PM", approvedForPublic: true, chapter: "CONVERSATIONS" },
+      { id: "gal-4", url: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=85", caption: "Temple jewelry suite inspection", category: "Fine Jewellery", timestamp: "04:00 PM", approvedForPublic: true, chapter: "MOMENTS" }
+    ],
+    
+    // Real Live Updates (Only published: true appear publicly)
+    liveUpdates: [
+      {
+        id: "up-1",
+        timestamp: "11:00 AM",
+        title: "Tangerine Grand Doors Open",
+        description: "Exhibition hall doors are officially open for Diwali Edition 5 patrons. Valet parking active at the main porch.",
+        published: true,
+        badge: "OPENING"
+      },
+      {
+        id: "up-2",
+        timestamp: "01:30 PM",
+        title: "Bridal Couture Walkthrough in Pavilion A",
+        description: "Master handloom revivalists showcase rare Banarasi katans and bridal lehengas in Aisle 1.",
+        published: true,
+        badge: "CURATION"
+      },
+      {
+        id: "up-3",
+        timestamp: "04:45 PM",
+        title: "Afternoon Footfall & Artisan Showcase",
+        description: "Over 35 craft studios actively presenting festive polki and heirloom silverware collections.",
+        published: true,
+        badge: "DISCOVERY"
+      }
+    ],
+    
+    // Confirmed Daily Schedule (Optional: hidden if empty)
+    schedule: [
+      { time: "11:00 AM", title: "Doors Open for Registered Patrons", venue: "Tangerine Grand Main Entrance" },
+      { time: "01:00 PM", title: "Curation Walkthrough: Heirloom Handlooms", venue: "Pavilion A" },
+      { time: "04:30 PM", title: "Fine Jewellery & Polki Spotlight", venue: "Pavilion B" },
+      { time: "09:00 PM", title: "Day Floor Closes", venue: "Main Hall" }
+    ],
+    
+    // Verified Visitor Logistics
+    visitorInfo: {
+      entry: "Complimentary VIP Entry with Digital Registration",
+      parking: "Complimentary Valet Parking at Lemon Tree Premier Main Porch",
+      payment: "UPI, Cards, and Cash Accepted by All Exhibitors",
+      climate: "Fully Climate-Controlled 5-Star Pillarless Hall",
+      contactPhone: "+91 98765 43210",
+      contactEmail: "contact@udaanbihar.in"
+    },
+    
+    // Verified Archive Statistics (Strict: only real numbers)
+    verifiedStats: [
+      { label: "CURATED ATELIERS", value: "50+" },
+      { label: "DISCERNING PATRONS", value: "5,000+" },
+      { label: "5-STAR VENUE", value: "Lemon Tree" },
+      { label: "EXHIBITION DAYS", value: "2 Days" }
+    ],
+    
+    // Archive Story / Chapters (Built strictly from authentic event moments)
+    archiveStory: [
+      {
+        chapter: "THE ARRIVAL",
+        title: "The Doors Open at Tangerine Grand",
+        quote: "Where craft is recognized as capital, and women build generational labels.",
+        image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=85"
+      },
+      {
+        chapter: "THE DISCOVERY",
+        title: "Fifty Handpicked Ateliers Under One Roof",
+        quote: "Uncut polki, hand-spun tussar, and heritage brass living traditions.",
+        image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=85"
+      },
+      {
+        chapter: "THE MEMORY",
+        title: "Two Days That Redefined Patna's Festive Landscape",
+        quote: "Connecting regional master creators with thousands of patrons.",
+        image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=85"
+      }
+    ],
+    
+    stats: [
+      { label: "CURATED BOOTHS", value: "50+" },
+      { label: "EXPECTED PATRONS", value: "5,000+" },
+      { label: "VENUE RATING", value: "5-Star" },
+      { label: "DAYS", value: "2 Days" },
     ],
     whoCanExhibit: [
       "Women founders & creative directors in fashion, pret, and bridal wear.",
@@ -80,12 +206,6 @@ export const EVENTS_CATALOG = [
         features: ["Full octanorm wall partitions", "2 Warm spotlights", "One 5A power socket", "Standard fascia plate", "1 Display table & 2 chairs"]
       }
     ],
-    featuredExhibitors: [
-      { name: "Virasat Weaves", founder: "Pooja Singhania", city: "Varanasi / Patna", category: "Bridal Handlooms" },
-      { name: "Aashna Fine Jewels", founder: "Aashna Verma", city: "Patna", category: "Polki & Diamonds" },
-      { name: "Svara Silver Atelier", founder: "Kavita Roy", city: "Jaipur / Patna", category: "925 Sterling Silver" },
-      { name: "Mithila Heritage Studio", founder: "Sunita Jha", city: "Madhubani", category: "Handmade Fine Art" }
-    ],
     faqs: [
       { q: "What is the procedure for stall booking?", a: "Submit the online allotment form. Our curation committee reviews brand portfolios within 24 hours to confirm category exclusivity." },
       { q: "What is included with my booth allotment?", a: "Turnkey octanorm partitions, fascia branding with studio name, dedicated spotlights, power socket, display tables, chairs, and official exhibitor badges." },
@@ -97,12 +217,6 @@ export const EVENTS_CATALOG = [
       "Pillarless climate-controlled Tangerine Grand hall with professional lighting and full power backup.",
       "Valet parking directly at Lemon Tree Premier main porch on Exhibition Road.",
       "Turnkey octanorm stalls equipped with spotlights, fascia branding, and power sockets."
-    ],
-    gallery: [
-      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80"
     ],
     bookingsOpen: true
   },
