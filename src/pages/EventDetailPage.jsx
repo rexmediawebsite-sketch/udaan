@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Calendar,
@@ -22,6 +22,7 @@ import {
 import { UdaanDiamond, UdaanEmblem } from '../components/UdaanIcons';
 import { getEventBySlug, EVENTS_CATALOG } from '../data/eventsCatalog';
 import { SELLER_WHATSAPP_NUMBER } from './BookAStallPage';
+import { getConfirmedCountdown } from '../utils/eventLifecycle';
 
 export default function EventDetailPage({ onOpenBooking }) {
   const { slug } = useParams();
@@ -29,6 +30,17 @@ export default function EventDetailPage({ onOpenBooking }) {
   const event = getEventBySlug(slug) || EVENTS_CATALOG[0];
 
   const [openFaq, setOpenFaq] = useState(null);
+  const [countdown, setCountdown] = useState(() => getConfirmedCountdown(event?.startDate));
+
+  useEffect(() => {
+    if (!event?.startDate) return;
+    const updateCd = () => {
+      setCountdown(getConfirmedCountdown(event.startDate));
+    };
+    updateCd();
+    const interval = setInterval(updateCd, 1000);
+    return () => clearInterval(interval);
+  }, [event?.startDate]);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -140,6 +152,36 @@ export default function EventDetailPage({ onOpenBooking }) {
                   <span className="truncate leading-tight">{event.hall || 'Tangerine Grand'}, {event.venue}</span>
                 </div>
               </div>
+
+              {/* Upcoming Event Real-Time Countdown Timer */}
+              {!isPast && countdown && (
+                <div className="pt-2.5 pb-1 border-t border-[#E9AD83]/20 space-y-1.5 animate-fadeIn">
+                  <div className="flex items-center space-x-1.5 text-[9px] sm:text-[10px] font-sans font-bold tracking-[0.2em] text-[#B96535] uppercase">
+                    <Clock size={12} className="text-[#B96535] animate-pulse" />
+                    <span>COUNTDOWN TO DOORS OPEN</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2 sm:gap-2.5 text-center">
+                    {[
+                      { val: countdown.days, unit: 'DAYS' },
+                      { val: countdown.hours, unit: 'HOURS' },
+                      { val: countdown.minutes, unit: 'MINS' },
+                      { val: countdown.seconds, unit: 'SECS' },
+                    ].map((cd, idx) => (
+                      <div
+                        key={idx}
+                        className="py-1.5 px-1 sm:py-2 rounded-xl bg-[#FFF1D9] border border-[#E9AD83]/50 shadow-xs"
+                      >
+                        <span className="block font-serif text-lg sm:text-2xl font-bold text-[#4A1620] leading-none">
+                          {String(cd.val).padStart(2, '0')}
+                        </span>
+                        <span className="block text-[7.5px] sm:text-[8.5px] font-mono tracking-widest text-[#B96535] uppercase pt-1 font-semibold">
+                          {cd.unit}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Action CTAs: Prominent primary with 2-col secondary actions on phones */}
               <div className="pt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">

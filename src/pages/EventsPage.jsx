@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Calendar, 
@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { UdaanDiamond, UdaanEmblem } from '../components/UdaanIcons';
 import { EVENTS_CATALOG } from '../data/eventsCatalog';
+import { getConfirmedCountdown } from '../utils/eventLifecycle';
 
 export default function EventsPage({ onOpenBooking }) {
   const [filter, setFilter] = useState('ALL'); // 'ALL' | 'UPCOMING' | 'PAST'
@@ -21,6 +22,20 @@ export default function EventsPage({ onOpenBooking }) {
   const upcomingEvents = EVENTS_CATALOG.filter(e => e.status !== 'past');
   const pastEvents = EVENTS_CATALOG.filter(e => e.status === 'past');
   const flagshipEvent = upcomingEvents.find(e => e.isFlagship) || upcomingEvents[0];
+
+  const [flagshipCountdown, setFlagshipCountdown] = useState(() => 
+    getConfirmedCountdown(flagshipEvent?.startDate)
+  );
+
+  useEffect(() => {
+    if (!flagshipEvent?.startDate) return;
+    const updateCd = () => {
+      setFlagshipCountdown(getConfirmedCountdown(flagshipEvent.startDate));
+    };
+    updateCd();
+    const interval = setInterval(updateCd, 1000);
+    return () => clearInterval(interval);
+  }, [flagshipEvent?.startDate]);
 
   const filteredEvents = filter === 'UPCOMING'
     ? upcomingEvents
@@ -127,6 +142,36 @@ export default function EventsPage({ onOpenBooking }) {
                     <span className="truncate leading-tight">{flagshipEvent.hall}, {flagshipEvent.venue}</span>
                   </div>
                 </div>
+
+                {/* Upcoming Flagship Event Countdown Timer */}
+                {flagshipCountdown && (
+                  <div className="pt-2.5 pb-1 border-t border-[#E9AD83]/20 space-y-1.5 animate-fadeIn">
+                    <div className="flex items-center space-x-1.5 text-[9px] sm:text-[10px] font-sans font-bold tracking-[0.2em] text-[#B96535] uppercase">
+                      <Clock size={12} className="text-[#B96535] animate-pulse" />
+                      <span>COUNTDOWN TO DOORS OPEN</span>
+                    </div>
+                    <div className="grid grid-cols-4 gap-2 sm:gap-2.5 text-center">
+                      {[
+                        { val: flagshipCountdown.days, unit: 'DAYS' },
+                        { val: flagshipCountdown.hours, unit: 'HOURS' },
+                        { val: flagshipCountdown.minutes, unit: 'MINS' },
+                        { val: flagshipCountdown.seconds, unit: 'SECS' },
+                      ].map((cd, idx) => (
+                        <div
+                          key={idx}
+                          className="py-1.5 px-1 sm:py-2 rounded-xl bg-[#FFF1D9] border border-[#E9AD83]/50 shadow-xs"
+                        >
+                          <span className="block font-serif text-lg sm:text-2xl font-bold text-[#4A1620] leading-none">
+                            {String(cd.val).padStart(2, '0')}
+                          </span>
+                          <span className="block text-[7.5px] sm:text-[8.5px] font-mono tracking-widest text-[#B96535] uppercase pt-1 font-semibold">
+                            {cd.unit}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Direct Action CTAs */}
                 <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4">
