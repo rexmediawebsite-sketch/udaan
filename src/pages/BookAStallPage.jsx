@@ -421,7 +421,7 @@ _Hello Udaan Team, I would like to book my interest for this stall. Please share
             {/* Header */}
             <div className="text-center space-y-2 border-b border-[#E9AD83]/25 pb-5 sm:pb-6">
               <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[9.5px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.25em] font-sans text-[#B96535] uppercase font-semibold">
-                <Sparkles size={10} className="text-[#B96535]" />
+                <UdaanDiamond size={10} className="text-[#B96535]" />
                 <span>DIRECT SELLER DESK • INSTANT ALLOTMENT</span>
               </div>
 

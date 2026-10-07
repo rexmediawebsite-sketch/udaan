@@ -15,7 +15,6 @@ import {
   ChevronDown,
   LayoutGrid,
   Store,
-  Sparkles,
   MessageCircle,
   Phone
 } from 'lucide-react';
@@ -359,9 +358,8 @@ export default function EventDetailPage({ onOpenBooking }) {
               {event.categories.map((cat, idx) => (
                 <div
                   key={idx}
-                  className="card-interactive scroll-reveal scroll-delay-1 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 text-center shadow-xs flex flex-col items-center justify-center min-h-[90px]"
+                  className="card-interactive scroll-reveal scroll-delay-1 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 text-center shadow-xs flex items-center justify-center min-h-[76px] hover:border-[#B96535] transition-colors"
                 >
-                  <Sparkles size={14} className="text-[#B96535] mb-1.5" />
                   <span className="font-serif text-xs sm:text-sm font-medium text-[#2A1C24] leading-tight">
                     {cat}
                   </span>
