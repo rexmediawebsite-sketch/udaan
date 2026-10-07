@@ -22,14 +22,22 @@ import {
 import { UdaanDiamond, UdaanEmblem } from '../components/UdaanIcons';
 import { getEventBySlug, EVENTS_CATALOG } from '../data/eventsCatalog';
 import { SELLER_WHATSAPP_NUMBER } from './BookAStallPage';
-import { getConfirmedCountdown } from '../utils/eventLifecycle';
+import { getConfirmedCountdown, getEventLifecycleState, LIFECYCLE_STATES } from '../utils/eventLifecycle';
+import EventStateSimulatorBar from '../components/event/EventStateSimulatorBar';
 
 export default function EventDetailPage({ onOpenBooking }) {
   const { slug } = useParams();
   const navigate = useNavigate();
   const event = getEventBySlug(slug) || EVENTS_CATALOG[0];
 
+  // Administrative simulation state (allows previewing AUTO, UPCOMING, LIVE, and ARCHIVED)
+  const [simulationState, setSimulationState] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
+
+  // Compute active lifecycle state (Asia/Kolkata standard)
+  const lifecycleState = getEventLifecycleState(event, simulationState);
+  const activeMode = simulationState ? 'MANUAL' : (event?.statusMode || 'AUTO');
+
   const [countdown, setCountdown] = useState(() => getConfirmedCountdown(event?.startDate));
 
   useEffect(() => {
@@ -66,14 +74,153 @@ export default function EventDetailPage({ onOpenBooking }) {
     );
   }
 
-  const isPast = event.status === 'past';
+  const isPast = lifecycleState === LIFECYCLE_STATES.ARCHIVED;
 
   return (
-    <div className="bg-[#FAF4EB] min-h-screen text-[#2A1C24] pt-20 sm:pt-28 pb-32 sm:pb-24">
-      <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
+    <div className="bg-[#FAF4EB] min-h-screen text-[#2A1C24] pb-32 sm:pb-24">
 
-        {/* Breadcrumb Navigation & Share Bar (Mobile horizontal scroll friendly) */}
-        <div className="flex items-center justify-between gap-2 mb-4 sm:mb-8">
+      {/* 0. Live State Simulator & Timezone Control Bar (Shown in screenshot) */}
+      <EventStateSimulatorBar
+        currentState={lifecycleState}
+        activeMode={activeMode}
+        onSelectState={(state) => setSimulationState(state)}
+        onResetAuto={() => setSimulationState(null)}
+        eventName={`${event.title} ${event.edition}`}
+      />
+
+      {/* =========================================================================
+          1. CINEMATIC HERO (Exact match for screenshot: THE NEXT CHAPTER IS ALMOST HERE)
+          ========================================================================= */}
+      <section className="relative w-full min-h-[92vh] sm:min-h-[96vh] overflow-hidden text-center flex flex-col justify-between items-center select-none bg-[#12090F] text-[#FFFAF2] transition-colors duration-700">
+        
+        {/* Background Hall Image with Atmospheric Overlays */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center filter saturate-[1.1] contrast-[1.08] transition-all duration-1000"
+          style={{
+            backgroundImage: `url('${event.heroImage || event.coverImage || event.poster}')`,
+            opacity: isPast ? 0.38 : 0.45,
+          }}
+        />
+
+        {/* Cinematic Vignettes */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#171416]/90 via-[#4A1620]/35 to-[#12090F]/95 pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(18,9,15,0.85)_100%)] pointer-events-none" />
+
+        {/* Top Eyebrow Status Pill */}
+        <div className="pt-28 sm:pt-36 z-10 animate-fadeIn">
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#171416]/80 backdrop-blur-md text-[10px] sm:text-[11px] font-sans font-medium tracking-[0.28em] text-[#D9A441] uppercase shadow-sm">
+            <UdaanDiamond size={10} className="text-[#D9A441]" />
+            <span>{isPast ? 'ARCHIVED CHAPTER' : lifecycleState === LIFECYCLE_STATES.LIVE ? '● LIVE NOW' : (event.bookingStatus || 'STALL BOOKINGS OPEN')}</span>
+          </div>
+        </div>
+
+        {/* Hero Center Editorial Composition */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 my-auto space-y-3.5 sm:space-y-5 animate-fadeIn">
+          
+          {/* Main Headline (Exact screenshot match: THE NEXT CHAPTER IS ALMOST HERE) */}
+          <h1 className="font-serif tracking-tight leading-[0.96] uppercase">
+            <span className="block text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.14em] text-[#FFFAF2]/90">
+              {lifecycleState === LIFECYCLE_STATES.LIVE ? 'UDAAN' : lifecycleState === LIFECYCLE_STATES.ARCHIVED ? 'THE MOMENT' : 'THE NEXT CHAPTER'}
+            </span>
+            <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-[6.2rem] font-bold tracking-[0.12em] text-[#FFFAF2] drop-shadow-[0_8px_35px_rgba(0,0,0,0.9)] mt-1 sm:mt-2">
+              {lifecycleState === LIFECYCLE_STATES.LIVE ? 'IS LIVE.' : lifecycleState === LIFECYCLE_STATES.ARCHIVED ? 'BECAME A MEMORY.' : 'IS ALMOST HERE.'}
+            </span>
+          </h1>
+
+          {/* Golden Cursive / Italic Subtitle */}
+          <div className="font-serif italic text-2xl sm:text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-[#FFFAF2] via-[#F3CE86] to-[#D9A441] tracking-wide pt-1">
+            {event.title} • {event.edition}
+          </div>
+
+          {/* Venue & Date Subtitle */}
+          <p className="text-[11px] sm:text-xs md:text-sm font-sans tracking-[0.18em] uppercase text-[#D9A441] max-w-2xl mx-auto font-light leading-relaxed">
+            {event.dates || event.date} • {event.hall || 'TANGERINE GRAND EXHIBITION HALL'} • {event.city || 'PATNA'}
+          </p>
+
+          {/* Live Real-Time Countdown Timer (Exact match for screenshot: 17 01 08 55) */}
+          {!isPast && countdown && (
+            <div className="pt-3 pb-2 flex items-center justify-center gap-2 sm:gap-4 md:gap-5 text-center select-none animate-fadeIn">
+              {[
+                { val: countdown.days, unit: 'DAYS' },
+                { val: countdown.hours, unit: 'HOURS' },
+                { val: countdown.minutes, unit: 'MINUTES' },
+                { val: countdown.seconds, unit: 'SECONDS' },
+              ].map((cd, idx) => (
+                <div 
+                  key={idx}
+                  className="px-3.5 py-2 sm:px-5 sm:py-3.5 rounded-2xl bg-black/55 border border-[#D9A441]/40 backdrop-blur-md min-w-[62px] sm:min-w-[85px] shadow-xl"
+                >
+                  <span className="block font-serif text-2xl sm:text-4xl font-bold text-[#FFFAF2] leading-none">
+                    {String(cd.val).padStart(2, '0')}
+                  </span>
+                  <span className="block text-[7.5px] sm:text-[9px] font-mono tracking-widest text-[#D9A441] uppercase pt-1 font-semibold">
+                    {cd.unit}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Action CTAs */}
+          <div className="pt-3 sm:pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            {!isPast ? (
+              <>
+                <Link
+                  to={`/book-a-stall?event=${encodeURIComponent(event.title)}`}
+                  className="w-full sm:w-auto btn-gold-luxury btn-shimmer-hover px-8 py-3.5 sm:py-4 rounded-full text-xs font-semibold tracking-[0.22em] uppercase shadow-[0_8px_30px_rgba(217,164,65,0.4)] flex items-center justify-center space-x-2 active:scale-98"
+                >
+                  <Store size={15} />
+                  <span>BOOK YOUR STALL →</span>
+                </Link>
+
+                <Link
+                  to="/stalls"
+                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 rounded-full border border-white/30 bg-white/10 hover:bg-white/15 text-[#FFFAF2] text-xs font-sans tracking-[0.2em] uppercase transition-all backdrop-blur-md flex items-center justify-center gap-2"
+                >
+                  <LayoutGrid size={15} className="text-[#D9A441]" />
+                  <span>VIEW FLOOR MAP</span>
+                </Link>
+
+                <a
+                  href={`https://wa.me/${SELLER_WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello Udaan Team, I am interested in ${event.title} (${event.edition}).`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-white border border-[#25D366]/50 text-xs font-sans tracking-[0.2em] uppercase transition-all backdrop-blur-md flex items-center justify-center gap-2"
+                >
+                  <MessageCircle size={15} />
+                  <span>WHATSAPP CONCIERGE</span>
+                </a>
+              </>
+            ) : (
+              <Link
+                to="/archive"
+                className="w-full sm:w-auto btn-gold-luxury px-8 py-4 rounded-full text-xs font-semibold tracking-[0.2em] uppercase shadow-2xl"
+              >
+                EXPLORE ARCHIVE MOMENTS ↓
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Footer Info Strip inside Hero */}
+        <div className="pb-8 z-10 space-y-1 text-center px-4">
+          <div className="text-[10.5px] sm:text-[11px] font-sans font-medium tracking-[0.28em] uppercase text-[#FFFAF2]/70">
+            {event.timings || '11:00 AM – 9:00 PM IST'} • {event.venueDetails?.address || event.venue || 'Patna'}
+          </div>
+          <div className="text-[9px] sm:text-[9.5px] font-mono tracking-widest text-[#D9A441]/90 uppercase">
+            {event.hall || 'TANGERINE GRAND'} • 5-STAR CLIMATE-CONTROLLED VENUE
+          </div>
+        </div>
+      </section>
+
+
+      {/* =========================================================================
+          2. DETAILED EVENT DOSSIER & EXHIBITOR CATALOGUE
+          ========================================================================= */}
+      <div className="max-w-6xl mx-auto px-3.5 sm:px-6 pt-8 sm:pt-12">
+
+        {/* Breadcrumb Navigation & Share Bar */}
+        <div className="flex items-center justify-between gap-2 mb-8 sm:mb-12 border-b border-[#E9AD83]/20 pb-4">
           <div className="flex items-center space-x-1 sm:space-x-2 text-[11px] sm:text-xs font-sans text-[#6B5860] overflow-x-auto whitespace-nowrap scrollbar-none py-1 min-w-0 flex-1 pr-1.5">
             <Link to="/" className="hover:text-[#B96535] shrink-0">HOME</Link>
             <span className="text-[#6B5860]/40 shrink-0">/</span>
@@ -101,125 +248,6 @@ export default function EventDetailPage({ onOpenBooking }) {
             </button>
           </div>
         </div>
-
-
-        {/* =========================================================================
-            1. HERO SHOWCASE (Mobile-Optimized Padding, Aspects, Typography)
-            ========================================================================= */}
-        <section className="mb-8 sm:mb-16 rounded-2xl sm:rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/40 shadow-xl overflow-hidden p-4 sm:p-8 lg:p-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-center">
-            
-            {/* Event Media: Mobile 16/10 so image doesn't take whole screen; 4/5 on desktop */}
-            <div className="lg:col-span-5 relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[16/10] max-h-[250px] sm:max-h-none sm:aspect-[4/5] shadow-md border border-[#E9AD83]/30">
-              <img
-                src={event.coverImage || event.poster}
-                alt={event.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 px-2.5 sm:px-3 py-1 rounded-full bg-[#B96535] text-white text-[9px] sm:text-[10px] font-sans font-bold tracking-wider uppercase shadow-md flex items-center space-x-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                <span>{isPast ? 'Archived Edition' : event.bookingStatus || 'Stall Bookings Open'}</span>
-              </div>
-            </div>
-
-            {/* Event Header Information */}
-            <div className="lg:col-span-7 space-y-3.5 sm:space-y-5">
-              <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full border border-[#B96535]/30 bg-[#FFF1D9] text-[9.5px] sm:text-[10px] font-sans font-bold tracking-[0.2em] text-[#B96535] uppercase">
-                <UdaanDiamond size={9} />
-                <span>{event.edition}</span>
-              </div>
-
-              <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl leading-tight break-words font-bold">
-                <span className="text-shimmer-maroon">{event.title}</span>
-              </h1>
-
-              <p className="text-xs sm:text-base text-[#5E4A55] font-sans font-light leading-relaxed">
-                {event.description || event.shortDescription}
-              </p>
-
-              {/* Event Metadata Dossier */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3.5 pt-2 border-t border-[#E9AD83]/20 text-xs font-sans text-[#5E4A55]">
-                <div className="flex items-center space-x-2 bg-[#FFF1D9]/40 sm:bg-transparent p-2 sm:p-0 rounded-lg">
-                  <Calendar size={14} className="text-[#B96535] shrink-0" />
-                  <span className="text-[#2A1C24] font-medium leading-tight">{event.dates || event.date}</span>
-                </div>
-                <div className="flex items-center space-x-2 bg-[#FFF1D9]/40 sm:bg-transparent p-2 sm:p-0 rounded-lg">
-                  <Clock size={14} className="text-[#B96535] shrink-0" />
-                  <span className="leading-tight">{event.timings || '11:00 AM – 9:00 PM IST'}</span>
-                </div>
-                <div className="flex items-center space-x-2 sm:col-span-2 bg-[#FFF1D9]/40 sm:bg-transparent p-2 sm:p-0 rounded-lg">
-                  <MapPin size={14} className="text-[#B96535] shrink-0" />
-                  <span className="truncate leading-tight">{event.hall || 'Tangerine Grand'}, {event.venue}</span>
-                </div>
-              </div>
-
-              {/* Upcoming Event Real-Time Countdown Timer */}
-              {!isPast && countdown && (
-                <div className="pt-2.5 pb-1 border-t border-[#E9AD83]/20 space-y-1.5 animate-fadeIn">
-                  <div className="flex items-center space-x-1.5 text-[9px] sm:text-[10px] font-sans font-bold tracking-[0.2em] text-[#B96535] uppercase">
-                    <Clock size={12} className="text-[#B96535] animate-pulse" />
-                    <span>COUNTDOWN TO DOORS OPEN</span>
-                  </div>
-                  <div className="grid grid-cols-4 gap-2 sm:gap-2.5 text-center">
-                    {[
-                      { val: countdown.days, unit: 'DAYS' },
-                      { val: countdown.hours, unit: 'HOURS' },
-                      { val: countdown.minutes, unit: 'MINS' },
-                      { val: countdown.seconds, unit: 'SECS' },
-                    ].map((cd, idx) => (
-                      <div
-                        key={idx}
-                        className="py-1.5 px-1 sm:py-2 rounded-xl bg-[#FFF1D9] border border-[#E9AD83]/50 shadow-xs"
-                      >
-                        <span className="block font-serif text-lg sm:text-2xl font-bold text-[#4A1620] leading-none">
-                          {String(cd.val).padStart(2, '0')}
-                        </span>
-                        <span className="block text-[7.5px] sm:text-[8.5px] font-mono tracking-widest text-[#B96535] uppercase pt-1 font-semibold">
-                          {cd.unit}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Action CTAs: Prominent primary with 2-col secondary actions on phones */}
-              <div className="pt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
-                {!isPast && (
-                  <Link
-                    to={`/book-a-stall?event=${encodeURIComponent(event.title)}`}
-                    className="btn-sunset-gold btn-shimmer-hover w-full sm:w-auto px-6 py-3.5 rounded-full font-bold text-xs tracking-wider uppercase flex items-center justify-center space-x-2 text-[#2A1C24] shadow-md min-h-[46px] active:scale-98 transition-transform"
-                  >
-                    <Store size={15} />
-                    <span>Book Your Stall (From ₹20,000)</span>
-                    <ArrowRight size={14} />
-                  </Link>
-                )}
-
-                <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-3">
-                  <Link
-                    to="/stalls"
-                    className="px-3 sm:px-5 py-3 rounded-full text-xs font-sans font-semibold tracking-wider uppercase border border-[#B96535]/50 bg-white hover:bg-[#FFF1D9] text-[#4A1620] transition-colors flex items-center justify-center space-x-1.5 min-h-[44px] active:scale-98"
-                  >
-                    <LayoutGrid size={14} className="text-[#B96535]" />
-                    <span>Floor Map</span>
-                  </Link>
-
-                  <a
-                    href={`https://wa.me/${SELLER_WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello Udaan Team, I am interested in ${event.title} (${event.edition}).`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 sm:px-5 py-3 rounded-full text-xs font-sans font-semibold tracking-wider uppercase bg-[#25D366]/15 hover:bg-[#25D366] text-[#128C7E] hover:text-white border border-[#25D366]/40 transition-colors flex items-center justify-center space-x-1.5 min-h-[44px] active:scale-98"
-                  >
-                    <MessageCircle size={15} />
-                    <span>WhatsApp</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
 
 
 
