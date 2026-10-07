@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { X, CheckCircle, Send, ShieldCheck, Maximize2 } from 'lucide-react';
+import { X, CheckCircle, Send, ShieldCheck, Maximize2, MessageCircle } from 'lucide-react';
 import { UdaanDiamond } from './UdaanIcons';
 import confetti from 'canvas-confetti';
 import { CATEGORIES } from '../data/eventData';
@@ -105,12 +105,23 @@ export default function BookingModal({ isOpen, onClose, preselectedStall, presel
               Our curation committee will contact you on <strong className="text-[#2A1C24]">{formData.phone}</strong> within 24 hours to confirm category exclusivity, verify portfolio images, and send the official reservation invoice.
             </p>
 
-            <button
-              onClick={onClose}
-              className="mt-6 btn-sunset-gold px-8 py-3 rounded-full text-xs font-sans tracking-[0.22em] uppercase transition-colors text-[#1E121B]"
-            >
-              Done
-            </button>
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href={`https://wa.me/918578009900?text=${encodeURIComponent(`Hi Udaan Concierge, I have submitted application ${appId} for ${formData.brandName || formData.founderName} (Stall: ${formData.stallId || 'Open Selection'}).`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-6 py-3 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all"
+              >
+                <MessageCircle size={15} />
+                <span>Chat on WhatsApp</span>
+              </a>
+              <button
+                onClick={onClose}
+                className="w-full sm:w-auto btn-sunset-gold px-8 py-3 rounded-full text-xs font-sans tracking-[0.22em] uppercase transition-colors text-[#1E121B]"
+              >
+                Done
+              </button>
+            </div>
           </div>
         ) : (
           <div>

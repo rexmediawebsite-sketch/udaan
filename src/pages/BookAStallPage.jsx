@@ -22,7 +22,7 @@ import { UdaanDiamond, UdaanEmblem } from '../components/UdaanIcons';
 import { STALLS_DATA, CATEGORIES, FEATURED_EVENT } from '../data/eventData';
 
 // Official Udaan Seller / Concierge WhatsApp Number
-export const SELLER_WHATSAPP_NUMBER = '919123456789';
+export const SELLER_WHATSAPP_NUMBER = '918578009900';
 
 // 3 Curated Stall Packages (20k, 30k, 50k) - Exactly matching screenshot & specifications
 export const STALL_TIERS = [

@@ -130,7 +130,7 @@ export const EVENTS_CATALOG = [
       parking: "Complimentary Valet Parking at Lemon Tree Premier Main Porch",
       payment: "UPI, Cards, and Cash Accepted by All Exhibitors",
       climate: "Fully Climate-Controlled 5-Star Pillarless Hall",
-      contactPhone: "+91 98765 43210",
+      contactPhone: "+91 85780 09900",
       contactEmail: "contact@udaanbihar.in"
     },
     

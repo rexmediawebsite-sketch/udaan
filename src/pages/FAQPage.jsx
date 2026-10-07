@@ -32,7 +32,7 @@ export default function FAQPage() {
             Contact Desk
           </Link>
           <a
-            href="https://wa.me/919123456789"
+            href="https://wa.me/918578009900"
             target="_blank"
             rel="noreferrer"
             className="btn-sunset-ghost-light px-6 py-2.5 rounded-full border border-[#E9AD83]/50 text-xs tracking-widest uppercase text-[#B96535] hover:text-[#2A1C24]"

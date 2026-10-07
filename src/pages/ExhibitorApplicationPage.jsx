@@ -156,7 +156,7 @@ export default function ExhibitorApplicationPage() {
             {/* Quick Action CTAs */}
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
               <a
-                href={`https://wa.me/919876543210?text=Hi%20Udaan%20Concierge,%20I%20have%20submitted%20my%20Exhibitor%20Application%20${appId}%20for%20${encodeURIComponent(formData.brandName)}`}
+                href={`https://wa.me/918578009900?text=Hi%20Udaan%20Concierge,%20I%20have%20submitted%20my%20Exhibitor%20Application%20${appId}%20for%20${encodeURIComponent(formData.brandName)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-6 py-3 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all"
@@ -267,7 +267,7 @@ export default function ExhibitorApplicationPage() {
                 </p>
                 <div className="mt-3 flex items-center gap-3 text-xs font-sans font-medium text-[#D9A441]">
                   <Phone size={14} />
-                  <span>+91 98765 43210 / concierge@udaanbihar.in</span>
+                  <span>+91 85780 09900 / concierge@udaanbihar.in</span>
                 </div>
               </div>
             </div>

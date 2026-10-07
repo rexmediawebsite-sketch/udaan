@@ -70,7 +70,7 @@ export default function ContactSection() {
                     Fast response for stall bookings & layout inquiries.
                   </p>
                   <a
-                    href="https://wa.me/919123456789?text=Hello%20Udaan%20Team,%20I%20am%20interested%20in%20Glamour%20Gala%20Diwali%20Edition%205"
+                    href="https://wa.me/918578009900?text=Hello%20Udaan%20Team,%20I%20am%20interested%20in%20Glamour%20Gala%20Diwali%20Edition%205"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center space-x-1.5 mt-2.5 px-4 py-1.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/40 text-[#128C7E] font-semibold text-[11px] tracking-wider uppercase hover:bg-[#25D366] hover:text-white transition-colors"
