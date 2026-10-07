@@ -117,9 +117,9 @@ export default function AboutPage({ onOpenBooking }) {
               <span className="text-xs uppercase tracking-[0.3em] font-sans font-semibold text-[#9E1B28] block">
                 The Origin Chronicle
               </span>
-              <h1 className="font-serif font-bold text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] text-[#9E1B28] leading-[0.98] tracking-tight uppercase">
-                Three Women.<br />
-                One Vision.<br />
+              <h1 className="font-serif font-bold text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.98] tracking-tight uppercase">
+                <span className="text-shimmer-crimson">Three Women.</span><br />
+                <span className="text-shimmer-crimson">One Vision.</span><br />
                 <span className="italic font-normal text-[#2B1B17]">A Movement In The Making.</span>
               </h1>
             </div>

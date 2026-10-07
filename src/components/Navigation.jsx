@@ -24,7 +24,12 @@ export default function Navigation({ onOpenBooking }) {
 
   const navLinksLeft = [
     { name: 'Exhibitions', path: '/events' },
-    { name: 'Pavilions', path: '/events/glamour-gala-5' },
+    { 
+      name: 'Events', 
+      path: '/events/glamour-gala-5',
+      hasBlinkingBadge: true,
+      badgeText: 'Diwali 5'
+    },
     { name: 'Floor Map', path: '/stalls' },
   ];
 
@@ -56,16 +61,16 @@ export default function Navigation({ onOpenBooking }) {
   return (
     <>
       <header
-        className="fixed top-0 left-0 w-full z-50 flex items-center justify-center pt-5 px-4 pointer-events-none transition-all duration-500"
+        className="fixed top-0 left-0 w-full z-50 flex items-center justify-center pt-3 sm:pt-5 px-2.5 sm:px-4 pointer-events-none transition-all duration-500"
       >
         {/* Unified Solid Blurred Pill (Awards Standard) */}
         <nav
-          className={`nav-unified-pill pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 rounded-full transition-all duration-400 ${
+          className={`nav-unified-pill pointer-events-auto flex items-center justify-between gap-2 sm:gap-6 px-3 sm:px-6 rounded-full transition-all duration-400 ${
             isScrolled
               ? 'scrolled py-1.5'
-              : 'py-2.5'
+              : 'py-2 sm:py-2.5'
           }`}
-          style={{ width: 'min(94vw, 1080px)' }}
+          style={{ width: 'min(96vw, 1080px)' }}
         >
           {/* Left Nav Links */}
           <div className="flex items-center gap-2">
@@ -77,13 +82,21 @@ export default function Navigation({ onOpenBooking }) {
                     key={link.name}
                     to={link.path}
                     data-cursor="View"
-                    className={`nav-link-indicator py-1 transition-colors duration-300 ${
+                    className={`nav-link-indicator py-1 transition-colors duration-300 relative inline-flex items-center gap-1.5 ${
                       active
                         ? 'text-[#D9A441] font-semibold active'
                         : 'text-[#FFFAF2]/80 hover:text-[#D9A441]'
                     }`}
                   >
-                    {link.name}
+                    <span>{link.name}</span>
+                    {link.hasBlinkingBadge && (
+                      <span className="relative flex items-center">
+                        <span className="px-1.5 py-0.2 rounded-full text-[8.5px] font-sans font-bold uppercase tracking-wider bg-gradient-to-r from-[#D9A441] to-[#F5D89D] text-[#2B1B17] shadow-sm flex items-center gap-1 animate-pulse">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#B96535] animate-ping" />
+                          <span>{link.badgeText || 'LIVE'}</span>
+                        </span>
+                      </span>
+                    )}
                   </Link>
                 );
               })}
@@ -93,25 +106,25 @@ export default function Navigation({ onOpenBooking }) {
           {/* Central Luxury Logo Emblem */}
           <Link
             to="/"
-            className="flex items-center gap-2 group px-2 select-none"
+            className="flex items-center gap-1.5 sm:gap-2 group px-1 sm:px-2 select-none shrink-0"
             title="UDAAN — महिलाओं की नई पहचान"
             data-cursor="Udaan"
           >
-            <div className="w-7 h-7 rounded-full border border-[#D9A441]/60 bg-gradient-to-br from-[#D9A441]/25 to-transparent flex items-center justify-center text-[#D9A441] group-hover:scale-110 group-hover:border-[#D9A441] transition-all duration-300 shadow-[0_0_10px_rgba(217,164,65,0.3)]">
-              <UdaanEmblem size={14} className="text-[#D9A441] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-[#D9A441]/60 bg-gradient-to-br from-[#D9A441]/25 to-transparent flex items-center justify-center text-[#D9A441] group-hover:scale-110 group-hover:border-[#D9A441] transition-all duration-300 shadow-[0_0_10px_rgba(217,164,65,0.3)]">
+              <UdaanEmblem size={13} className="text-[#D9A441] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
             <div className="flex flex-col text-left">
-              <span className="font-serif tracking-[0.22em] text-base sm:text-lg font-bold text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors leading-none">
+              <span className="font-serif tracking-[0.2em] text-sm sm:text-lg font-bold text-[#FFFAF2] group-hover:text-[#D9A441] transition-colors leading-none">
                 UDAAN
               </span>
-              <span className="font-hindi text-[9px] text-[#D9A441]/90 tracking-wider leading-tight">
+              <span className="font-hindi text-[8px] sm:text-[9px] text-[#D9A441]/90 tracking-wider leading-tight hidden xs:block">
                 महिलाओं की नई पहचान
               </span>
             </div>
           </Link>
 
           {/* Right Nav Links & Integrated Call-To-Action */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-2 sm:gap-6 shrink-0">
             <div className="hidden lg:flex items-center space-x-6 text-[13px] font-sans font-medium tracking-wide">
               {navLinksRight.map((link) => {
                 const active = isCurrentActive(link.path);
@@ -132,14 +145,13 @@ export default function Navigation({ onOpenBooking }) {
               })}
             </div>
 
-            {/* Embedded Book a Stall Button with Shimmer Sweep */}
-            <MagneticButton
-              onClick={() => onOpenBooking()}
-              cursorLabel="Book"
-              className="btn-gold-luxury px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-semibold tracking-wider shadow-md hover:shadow-lg"
+            {/* Embedded Book a Stall Button - Direct Link to Separate Dedicated Page */}
+            <Link
+              to="/book-a-stall"
+              className="btn-gold-luxury btn-shimmer-hover px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider shadow-md hover:shadow-lg inline-flex items-center select-none shrink-0 active:scale-95"
             >
               <span>Book Stall</span>
-            </MagneticButton>
+            </Link>
 
             {/* Mobile Hamburger Drawer Toggle */}
             <button
@@ -155,7 +167,7 @@ export default function Navigation({ onOpenBooking }) {
 
       {/* Mobile Drawer (Responsive fallback) */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#4A1620] lg:hidden flex flex-col justify-between px-8 py-10 transition-all animate-fadeIn overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-[#4A1620] lg:hidden flex flex-col justify-between px-6 sm:px-8 py-6 sm:py-10 safe-area-pt safe-area-pb transition-all animate-fadeIn overflow-y-auto">
           <div className="flex items-center justify-between border-b border-[#D9A441]/30 pb-4">
             <div className="flex items-center space-x-2.5">
               <UdaanEmblem size={20} className="text-[#D9A441]" />
@@ -191,15 +203,13 @@ export default function Navigation({ onOpenBooking }) {
           </div>
 
           <div className="pt-4 border-t border-[#D9A441]/30 flex flex-col w-full space-y-3 shrink-0">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenBooking();
-              }}
+            <Link
+              to="/book-a-stall"
+              onClick={() => setMobileMenuOpen(false)}
               className="btn-gold-luxury w-full text-center py-3.5 rounded-full text-xs tracking-widest uppercase font-semibold"
             >
               Book a Stall
-            </button>
+            </Link>
             <Link
               to="/archive"
               onClick={() => setMobileMenuOpen(false)}

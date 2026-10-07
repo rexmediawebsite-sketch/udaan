@@ -5,7 +5,6 @@ import BrandStory from '../components/BrandStory';
 import EventPosterGallery from '../components/EventPosterGallery';
 import HomeFeaturedTeaser from '../components/HomeFeaturedTeaser';
 import HomePavilionsTeaser from '../components/HomePavilionsTeaser';
-import ScrollFrameWalkthrough from '../components/ScrollFrameWalkthrough';
 import HomeStallMapTeaser from '../components/HomeStallMapTeaser';
 import HomeWhyExhibitTeaser from '../components/HomeWhyExhibitTeaser';
 import ReleaseYourUdaanFinale from '../components/ReleaseYourUdaanFinale';
@@ -31,8 +30,6 @@ export default function HomePage({ onOpenBooking, onSelectStall }) {
       {/* 6. Six Curated Exhibition Pavilions */}
       <HomePavilionsTeaser />
 
-      {/* 7. Apple-Style Pinned Scroll Frame Walkthrough: Tangerine Grand Architectural Journey */}
-      <ScrollFrameWalkthrough onOpenBooking={onOpenBooking} />
 
       {/* 8. Interactive Tangerine Grand Stall Map Console */}
       <HomeStallMapTeaser onOpenBooking={onOpenBooking} onSelectStall={onSelectStall} />

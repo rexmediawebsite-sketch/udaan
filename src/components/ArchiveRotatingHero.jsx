@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom';
 import { 
   ArrowRight, 
   ArrowUpRight, 
-  ChevronLeft, 
-  ChevronRight, 
-  Play, 
-  Pause, 
   Sparkles, 
-  Maximize2,
-  Compass,
-  RotateCw
+  Maximize2
 } from 'lucide-react';
 import { UdaanDiamond } from './UdaanIcons';
 
@@ -107,18 +101,20 @@ export const ARCHIVE_HERO_CARDS = [
 ];
 
 export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, onExploreWall }) {
-  const [rotationAngle, setRotationAngle] = useState(0);
   const [isAutoSpinning, setIsAutoSpinning] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   const containerRef = useRef(null);
+  const ringRef = useRef(null);
   const lastPointerX = useRef(0);
   const velocityRef = useRef(0.22);
   const animFrameRef = useRef(null);
   const currentAngleRef = useRef(0);
+  const lastActiveIndexRef = useRef(0);
 
   const totalCards = ARCHIVE_HERO_CARDS.length;
   const anglePerCard = 360 / totalCards;
@@ -126,6 +122,7 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
   // Responsive radius detection
   useEffect(() => {
     const handleResize = () => {
+      setScreenWidth(window.innerWidth);
       setIsMobile(window.innerWidth < 768);
     };
     handleResize();
@@ -133,22 +130,21 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const carouselRadius = isMobile ? 200 : 320;
-
-  // Keep ref synchronized with state to avoid re-binding loops
-  useEffect(() => {
-    currentAngleRef.current = rotationAngle;
-  }, [rotationAngle]);
+  const isSmallPhone = screenWidth < 400;
+  const carouselRadius = isMobile ? (isSmallPhone ? 170 : 205) : 320;
+  const cardWidth = isMobile ? (isSmallPhone ? 142 : 162) : 220;
+  const cardHeight = isMobile ? (isSmallPhone ? 205 : 232) : 310;
+  const cardHalfW = cardWidth / 2;
+  const cardHalfH = cardHeight / 2;
 
   // Compute active front card based on current angle
   const computeActiveIndex = useCallback((angle) => {
-    // Front card corresponds to card closest to (360 - (normalizedAngle % 360))
     const normalized = ((-angle % 360) + 360) % 360;
     const closestIdx = Math.round(normalized / anglePerCard) % totalCards;
     return closestIdx;
   }, [anglePerCard, totalCards]);
 
-  // 60FPS continuous rotation loop
+  // Ultra-smooth 60FPS continuous rotation loop with direct DOM transform & zero state-flicker
   useEffect(() => {
     let lastTimestamp = performance.now();
 
@@ -158,16 +154,25 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
 
       if (!isDragging) {
         if (isAutoSpinning && !isHovered) {
-          // Normal auto-rotation speed
-          currentAngleRef.current += 0.22 * (delta / 16.6);
-        } else if (Math.abs(velocityRef.current) > 0.02) {
+          // Normal auto-rotation speed (smoothened)
+          currentAngleRef.current += 0.18 * (delta / 16.6);
+        } else if (Math.abs(velocityRef.current) > 0.01) {
           // Coasting inertia after release
           currentAngleRef.current += velocityRef.current;
-          velocityRef.current *= 0.94; // friction
+          velocityRef.current *= 0.95; // smooth friction
         }
 
-        setRotationAngle(currentAngleRef.current);
-        setActiveCardIndex(computeActiveIndex(currentAngleRef.current));
+        // Apply direct transform to avoid React re-rendering all cards 60 times a second
+        if (ringRef.current) {
+          ringRef.current.style.transform = `translate3d(0,0,0) rotateX(-5deg) rotateY(${currentAngleRef.current}deg)`;
+        }
+
+        // Only trigger state update when active card actually changes
+        const newActiveIdx = computeActiveIndex(currentAngleRef.current);
+        if (newActiveIdx !== lastActiveIndexRef.current) {
+          lastActiveIndexRef.current = newActiveIdx;
+          setActiveCardIndex(newActiveIdx);
+        }
       }
 
       animFrameRef.current = requestAnimationFrame(loop);
@@ -193,11 +198,19 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
     const deltaX = clientX - lastPointerX.current;
     lastPointerX.current = clientX;
 
-    const dragSensitivity = isMobile ? 0.45 : 0.35;
+    const dragSensitivity = isMobile ? 0.35 : 0.28;
     currentAngleRef.current += deltaX * dragSensitivity;
     velocityRef.current = deltaX * dragSensitivity;
-    setRotationAngle(currentAngleRef.current);
-    setActiveCardIndex(computeActiveIndex(currentAngleRef.current));
+
+    if (ringRef.current) {
+      ringRef.current.style.transform = `translate3d(0,0,0) rotateX(-5deg) rotateY(${currentAngleRef.current}deg)`;
+    }
+
+    const newActiveIdx = computeActiveIndex(currentAngleRef.current);
+    if (newActiveIdx !== lastActiveIndexRef.current) {
+      lastActiveIndexRef.current = newActiveIdx;
+      setActiveCardIndex(newActiveIdx);
+    }
   };
 
   const handlePointerUp = () => {
@@ -208,21 +221,32 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
   const rotateNext = () => {
     const target = Math.round((currentAngleRef.current - anglePerCard) / anglePerCard) * anglePerCard;
     currentAngleRef.current = target;
-    setRotationAngle(target);
-    setActiveCardIndex(computeActiveIndex(target));
+    if (ringRef.current) {
+      ringRef.current.style.transform = `translate3d(0,0,0) rotateX(-5deg) rotateY(${target}deg)`;
+    }
+    const newIdx = computeActiveIndex(target);
+    lastActiveIndexRef.current = newIdx;
+    setActiveCardIndex(newIdx);
   };
 
   const rotatePrev = () => {
     const target = Math.round((currentAngleRef.current + anglePerCard) / anglePerCard) * anglePerCard;
     currentAngleRef.current = target;
-    setRotationAngle(target);
-    setActiveCardIndex(computeActiveIndex(target));
+    if (ringRef.current) {
+      ringRef.current.style.transform = `translate3d(0,0,0) rotateX(-5deg) rotateY(${target}deg)`;
+    }
+    const newIdx = computeActiveIndex(target);
+    lastActiveIndexRef.current = newIdx;
+    setActiveCardIndex(newIdx);
   };
 
   const rotateToCard = (index) => {
     const target = -index * anglePerCard;
     currentAngleRef.current = target;
-    setRotationAngle(target);
+    if (ringRef.current) {
+      ringRef.current.style.transform = `translate3d(0,0,0) rotateX(-5deg) rotateY(${target}deg)`;
+    }
+    lastActiveIndexRef.current = index;
     setActiveCardIndex(index);
     if (onInspectCard) {
       onInspectCard(index);
@@ -232,44 +256,42 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
   const currentFrontCard = ARCHIVE_HERO_CARDS[activeCardIndex] || ARCHIVE_HERO_CARDS[0];
 
   return (
-    <section className="relative w-full min-h-[92vh] lg:min-h-screen bg-[#0E0B0A] text-[#FFFAF2] overflow-hidden flex flex-col justify-between pt-24 pb-8 select-none">
+    <section className="relative w-full min-h-[92vh] lg:min-h-screen bg-[#FAF4EB] text-[#2A1C24] overflow-hidden flex flex-col justify-between pt-20 sm:pt-24 pb-8 select-none">
       
-      {/* Background Ambient Glows & Subtle Vignette */}
+      {/* Background Ambient Glows & Subtle Warm Gradients matching website theme */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Soft Warm Amber / Maroon Radial Spotlights */}
-        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#4A1620]/25 rounded-full blur-[140px]" />
-        <div className="absolute top-1/2 right-1/4 w-[650px] h-[650px] bg-[#D9A441]/15 rounded-full blur-[160px]" />
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#B85C38]/12 rounded-full blur-[150px]" />
-        {/* Film grain subtle overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(14,11,10,0.85)_100%)]" />
+        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#B96535]/8 rounded-full blur-[140px]" />
+        <div className="absolute top-1/2 right-1/4 w-[650px] h-[650px] bg-[#D9A441]/12 rounded-full blur-[160px]" />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#4A1620]/6 rounded-full blur-[150px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(250,244,235,0.8)_100%)]" />
       </div>
 
       {/* Main Hero Container */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 lg:px-12 my-auto py-8">
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 my-auto py-6 sm:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* ========================================================
               LEFT COLUMN: Editorial Typography & Value Proposition
-              Inspired by Velara Studio design with rich UDAAN heritage
               ======================================================== */}
           <div className="lg:col-span-5 flex flex-col justify-center text-left space-y-6">
             
             {/* Top Category Badge */}
-            <div className="inline-flex items-center space-x-2 text-[11px] font-mono tracking-[0.25em] text-[#D9A441] uppercase">
-              <span className="text-[#D9A441]/70">(UDAAN CHRONICLES • 2022 — 2026)</span>
+            <div className="inline-flex items-center space-x-2 text-[11px] font-sans font-semibold tracking-[0.25em] text-[#B96535] uppercase">
+              <UdaanDiamond size={10} className="text-[#B96535]" />
+              <span>UDAAN CHRONICLES • 2022 — 2026</span>
             </div>
 
             {/* Oversized Headline */}
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-[4.25rem] font-normal leading-[1.04] tracking-tight text-[#FFFAF2]">
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-[4.25rem] font-normal leading-[1.04] tracking-tight text-[#2A1C24]">
               Every moment<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFFAF2] via-[#F5D89D] to-[#D9A441] italic font-normal">
+              <span className="italic font-normal text-shimmer-maroon">
                 became a memory
               </span><br />
               that built Udaan.
             </h1>
 
             {/* Editorial Body Copy */}
-            <p className="text-sm sm:text-base font-sans text-[#FFFAF2]/70 font-light leading-relaxed max-w-lg">
+            <p className="text-sm sm:text-base font-sans text-[#5E4A55] font-light leading-relaxed max-w-lg">
               A living visual archive of women who built brands. Step inside four landmark exhibitions, 120+ ateliers, master craftsmanship, and the festive spirit that transformed Patna’s luxury landscape.
             </p>
 
@@ -277,23 +299,23 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
             <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
               <button
                 onClick={onExploreTimeline}
-                className="group inline-flex items-center space-x-2 text-sm font-sans tracking-wide text-[#FFFAF2] border-b border-[#D9A441]/70 pb-1 hover:text-[#D9A441] hover:border-[#D9A441] transition-all cursor-pointer"
+                className="group inline-flex items-center space-x-2 text-sm font-sans tracking-wide text-[#2A1C24] border-b border-[#B96535]/70 pb-1 hover:text-[#B96535] hover:border-[#B96535] transition-all cursor-pointer font-medium"
               >
-                <span className="font-medium">Explore Chapters</span>
-                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform text-[#D9A441]" />
+                <span>Explore Chapters</span>
+                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform text-[#B96535]" />
               </button>
 
               <button
                 onClick={onExploreWall}
-                className="group inline-flex items-center space-x-1.5 text-xs font-sans tracking-widest uppercase text-[#FFFAF2]/60 hover:text-[#FFFAF2] transition-colors cursor-pointer"
+                className="group inline-flex items-center space-x-1.5 text-xs font-sans tracking-widest uppercase text-[#5E4A55] hover:text-[#2A1C24] transition-colors cursor-pointer"
               >
                 <span>The Photo Wall</span>
-                <ArrowUpRight size={13} className="text-[#D9A441]/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ArrowUpRight size={13} className="text-[#B96535] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </button>
 
               <Link
                 to="/book-a-stall"
-                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-[#4A1620]/80 hover:bg-[#4A1620] border border-[#D9A441]/40 text-xs font-sans text-[#FFE8B3] tracking-wider uppercase transition-all shadow-lg hover:shadow-[#D9A441]/10"
+                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-[#4A1620] hover:bg-[#641F2C] border border-[#D9A441]/40 text-xs font-sans text-[#FFE8B3] tracking-wider uppercase transition-all shadow-md hover:shadow-lg"
               >
                 <UdaanDiamond size={11} className="text-[#D9A441]" />
                 <span>Exhibit in 2026</span>
@@ -301,18 +323,18 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
             </div>
 
             {/* Live Milestones Metrics Grid */}
-            <div className="pt-6 border-t border-white/10 grid grid-cols-3 gap-4 max-w-md">
+            <div className="pt-6 border-t border-[#E9AD83]/30 grid grid-cols-3 gap-4 max-w-md">
               <div>
-                <span className="block font-serif text-2xl sm:text-3xl font-medium text-[#FFFAF2]">04</span>
-                <span className="block text-[10px] font-sans tracking-widest uppercase text-[#D9A441]/80">Editions</span>
+                <span className="block font-serif text-2xl sm:text-3xl font-medium text-[#2A1C24]">04</span>
+                <span className="block text-[10px] font-sans tracking-widest uppercase text-[#B96535]">Editions</span>
               </div>
               <div>
-                <span className="block font-serif text-2xl sm:text-3xl font-medium text-[#FFFAF2]">120+</span>
-                <span className="block text-[10px] font-sans tracking-widest uppercase text-[#D9A441]/80">Founders</span>
+                <span className="block font-serif text-2xl sm:text-3xl font-medium text-[#2A1C24]">120+</span>
+                <span className="block text-[10px] font-sans tracking-widest uppercase text-[#B96535]">Founders</span>
               </div>
               <div>
-                <span className="block font-serif text-2xl sm:text-3xl font-medium text-[#FFFAF2]">18K+</span>
-                <span className="block text-[10px] font-sans tracking-widest uppercase text-[#D9A441]/80">Patrons</span>
+                <span className="block font-serif text-2xl sm:text-3xl font-medium text-[#2A1C24]">18K+</span>
+                <span className="block text-[10px] font-sans tracking-widest uppercase text-[#B96535]">Patrons</span>
               </div>
             </div>
 
@@ -321,7 +343,6 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
 
           {/* ========================================================
               RIGHT COLUMN: 3D ROTATING CYLINDRICAL CAROUSEL
-              Matches Velara 3D perspective orbital cylinder
               ======================================================== */}
           <div 
             className="lg:col-span-7 relative flex flex-col items-center justify-center min-h-[500px] sm:min-h-[560px] lg:min-h-[620px]"
@@ -331,7 +352,7 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
               setIsDragging(false);
             }}
           >
-            {/* 3D Viewport with Perspective (Dedicated Height for 3D Ring) */}
+            {/* 3D Viewport with Perspective */}
             <div 
               ref={containerRef}
               className="relative w-full h-[360px] sm:h-[410px] lg:h-[450px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y"
@@ -349,10 +370,12 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
 
               {/* 3D Rotating Ring Cylinder */}
               <div 
-                className="relative w-0 h-0 flex items-center justify-center transition-transform"
+                ref={ringRef}
+                className="relative w-0 h-0 flex items-center justify-center pointer-events-auto"
                 style={{
                   transformStyle: 'preserve-3d',
-                  transform: `rotateY(${rotationAngle}deg) rotateX(-5deg)`,
+                  transform: `translate3d(0,0,0) rotateX(-5deg) rotateY(0deg)`,
+                  willChange: 'transform',
                 }}
               >
                 {ARCHIVE_HERO_CARDS.map((card, idx) => {
@@ -363,19 +386,21 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
                     <div
                       key={card.id}
                       onClick={() => rotateToCard(idx)}
-                      className={`absolute select-none cursor-pointer rounded-2xl md:rounded-[22px] overflow-hidden border transition-all duration-300 group ${
+                      className={`absolute select-none cursor-pointer rounded-2xl md:rounded-[22px] overflow-hidden border group transition-[border-color,box-shadow,opacity] duration-300 ${
                         isCurrentFront 
-                          ? 'border-[#D9A441] shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(217,164,65,0.35)] scale-105' 
-                          : 'border-white/15 hover:border-white/40 shadow-[0_16px_40px_rgba(0,0,0,0.7)] hover:scale-[1.02]'
+                          ? 'border-[#B96535] shadow-[0_20px_50px_rgba(74,22,32,0.25),0_0_25px_rgba(217,164,65,0.3)] opacity-100 z-10 ring-2 ring-[#D9A441]/40' 
+                          : 'border-[#E9AD83]/40 hover:border-[#B96535]/60 shadow-[0_12px_32px_rgba(0,0,0,0.12)] opacity-80 hover:opacity-100'
                       }`}
                       style={{
-                        width: isMobile ? '160px' : '220px',
-                        height: isMobile ? '230px' : '310px',
-                        left: isMobile ? '-80px' : '-110px',
-                        top: isMobile ? '-115px' : '-155px',
-                        transform: `rotateY(${cardAngle}deg) translateZ(${carouselRadius}px)`,
-                        backfaceVisibility: 'visible',
+                        width: `${cardWidth}px`,
+                        height: `${cardHeight}px`,
+                        left: `-${cardHalfW}px`,
+                        top: `-${cardHalfH}px`,
+                        transform: `rotateY(${cardAngle}deg) translateZ(${carouselRadius}px) translate3d(0,0,0)`,
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
                         transformStyle: 'preserve-3d',
+                        willChange: 'transform',
                       }}
                     >
                       {/* Image background */}
@@ -387,11 +412,11 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
                       />
 
                       {/* Subtle Dark Vignette & Gradient Overlays */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0E0B0A]/95 via-[#0E0B0A]/35 to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#2A1C24]/90 via-[#2A1C24]/30 to-transparent pointer-events-none" />
 
                       {/* Top Pill Badge */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider bg-black/60 backdrop-blur-md text-[#FFFAF2]/90 border border-white/10 uppercase">
+                        <span className="px-2 py-0.5 rounded-full text-[9px] font-sans font-semibold tracking-wider bg-black/60 backdrop-blur-md text-[#FFFBF5] border border-white/10 uppercase">
                           {card.badge}
                         </span>
                         {isCurrentFront && (
@@ -404,21 +429,21 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
 
                       {/* Bottom Editorial Caption */}
                       <div className="absolute bottom-3 left-3 right-3 text-left pointer-events-none">
-                        <p className="text-[10px] font-mono tracking-widest text-[#D9A441] uppercase">
+                        <p className="text-[10px] font-sans font-semibold tracking-widest text-[#D9A441] uppercase">
                           {card.edition}
                         </p>
-                        <h3 className="font-serif text-sm md:text-base font-medium text-[#FFFAF2] leading-tight line-clamp-1">
+                        <h3 className="font-serif text-sm md:text-base font-medium text-[#FFFBF5] leading-tight line-clamp-1">
                           {card.title}
                         </h3>
-                        <p className="text-[10px] font-sans text-white/70 line-clamp-1 pt-0.5 font-light">
+                        <p className="text-[10px] font-sans text-white/80 line-clamp-1 pt-0.5 font-light">
                           {card.subtitle}
                         </p>
                       </div>
 
                       {/* Hover / Expand Overlay Hint */}
-                      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                        <div className="px-3 py-1.5 rounded-full bg-[#0E0B0A]/85 border border-[#D9A441]/60 text-[10px] font-sans uppercase tracking-widest text-[#FFE8B3] flex items-center space-x-1.5 shadow-xl">
-                          <Maximize2 size={11} className="text-[#D9A441]" />
+                      <div className="absolute inset-0 bg-[#2A1C24]/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                        <div className="px-3 py-1.5 rounded-full bg-[#FAF4EB] border border-[#B96535] text-[10px] font-sans uppercase tracking-widest text-[#2A1C24] font-semibold flex items-center space-x-1.5 shadow-xl">
+                          <Maximize2 size={11} className="text-[#B96535]" />
                           <span>Inspect Moment</span>
                         </div>
                       </div>
@@ -428,91 +453,36 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
               </div>
             </div>
 
-            {/* ========================================================
-                ROYAL WINE & GOLD 3D VAULT CONTROLLER DOCK
-                Cleanly shifted below the rotating ring with zero card overlap
-                ======================================================== */}
+            {/* Active Card Info Card (Clean, elegant, removed step/spin buttons as requested) */}
             <div 
               className="relative z-20 pointer-events-auto flex flex-col items-center space-y-2 select-none pt-4 sm:pt-6 pb-1"
             >
-              {/* Unified Royal Frosted Pill using exact website navbar styles */}
               <div 
-                className="nav-unified-pill flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full"
+                className="nav-unified-pill flex items-center gap-3 sm:gap-5 px-5 sm:px-6 py-2 rounded-full shadow-lg"
               >
-                {/* Left: Diamond Emblem + Active Card Title */}
-                <div className="flex items-center space-x-3">
-                  <div className="w-7 h-7 rounded-full border border-[#D9A441]/60 bg-gradient-to-br from-[#D9A441]/25 to-transparent flex items-center justify-center text-[#D9A441] shadow-[0_0_10px_rgba(217,164,65,0.3)] shrink-0">
-                    <UdaanDiamond size={12} className="text-[#D9A441]" />
-                  </div>
-
-                  <div className="flex flex-col text-left pr-2">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-[10px] font-sans font-semibold tracking-[0.2em] text-[#D9A441] uppercase">
-                        {currentFrontCard.badge || 'UDAAN 3D ARCHIVE'}
-                      </span>
-                      <span className="text-[10px] text-[#FFFAF2]/40 hidden md:inline">•</span>
-                      <span className="text-[10px] font-sans text-[#FFFAF2]/60 hidden md:inline">
-                        {currentFrontCard.edition}
-                      </span>
-                    </div>
-                    <h4 className="font-serif tracking-wide text-sm sm:text-base font-bold text-[#FFFAF2] leading-tight line-clamp-1">
-                      {currentFrontCard.title}
-                    </h4>
-                  </div>
+                <div className="w-7 h-7 rounded-full border border-[#D9A441]/60 bg-gradient-to-br from-[#D9A441]/25 to-transparent flex items-center justify-center text-[#D9A441] shadow-[0_0_10px_rgba(217,164,65,0.3)] shrink-0">
+                  <UdaanDiamond size={12} className="text-[#D9A441]" />
                 </div>
 
-                {/* Right: Step & Spin Controls */}
-                <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      rotatePrev();
-                    }}
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 hover:bg-[#D9A441]/20 border border-[#D9A441]/30 text-[#FFFAF2]/90 hover:text-[#D9A441] flex items-center justify-center transition-all cursor-pointer"
-                    title="Previous Card"
-                    aria-label="Previous Archival Card"
-                  >
-                    <ChevronLeft size={15} />
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsAutoSpinning(!isAutoSpinning);
-                    }}
-                    className="btn-gold-luxury px-3.5 sm:px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-wider flex items-center space-x-1.5 shadow-md hover:shadow-lg cursor-pointer"
-                    title={isAutoSpinning ? "Pause Auto-Rotation" : "Start Auto-Rotation"}
-                  >
-                    {isAutoSpinning ? (
-                      <>
-                        <Pause size={11} className="fill-[#2B1B17] text-[#2B1B17]" />
-                        <span>Spinning</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play size={11} className="fill-[#2B1B17] text-[#2B1B17]" />
-                        <span>Resume</span>
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      rotateNext();
-                    }}
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 hover:bg-[#D9A441]/20 border border-[#D9A441]/30 text-[#FFFAF2]/90 hover:text-[#D9A441] flex items-center justify-center transition-all cursor-pointer"
-                    title="Next Card"
-                    aria-label="Next Archival Card"
-                  >
-                    <ChevronRight size={15} />
-                  </button>
+                <div className="flex flex-col text-left">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-sans font-semibold tracking-[0.2em] text-[#D9A441] uppercase">
+                      {currentFrontCard.badge || 'UDAAN ARCHIVE'}
+                    </span>
+                    <span className="text-[10px] text-[#FFFAF2]/40 hidden md:inline">•</span>
+                    <span className="text-[10px] font-sans text-[#FFFAF2]/70 hidden md:inline">
+                      {currentFrontCard.edition}
+                    </span>
+                  </div>
+                  <h4 className="font-serif tracking-wide text-sm sm:text-base font-bold text-[#FFFAF2] leading-tight line-clamp-1">
+                    {currentFrontCard.title}
+                  </h4>
                 </div>
               </div>
 
-              {/* Subdued Gold Drag/Swipe Hint matching website typography */}
-              <div className="flex items-center space-x-2 text-[10px] font-sans tracking-[0.2em] text-[#FFFAF2]/50 uppercase pt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A441]" />
+              {/* Subdued Drag/Swipe Hint */}
+              <div className="flex items-center space-x-2 text-[10px] font-sans tracking-[0.2em] text-[#5E4A55] uppercase pt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#B96535]" />
                 <span>Drag or swipe to rotate 3D ring</span>
               </div>
             </div>
@@ -521,25 +491,21 @@ export default function ArchiveRotatingHero({ onInspectCard, onExploreTimeline, 
         </div>
       </div>
 
-
-      {/* ========================================================
-          BOTTOM FOOTER BAR: Editorial Metadata
-          Matches the bottom copyright & location info in the screenshot
-          ======================================================== */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 lg:px-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono tracking-wider text-[#FFFAF2]/50 gap-4">
+      {/* BOTTOM FOOTER BAR */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 lg:px-12 pt-6 border-t border-[#E9AD83]/30 flex flex-col sm:flex-row items-center justify-between text-[11px] font-sans tracking-wider text-[#5E4A55] gap-4">
         <div>
           <span>© 2022–2026 UDAAN Living Archive</span>
         </div>
-        <div className="hidden md:flex items-center space-x-2 text-center text-[#FFFAF2]/60">
+        <div className="hidden md:flex items-center space-x-2 text-center text-[#5E4A55]">
           <span>Hotel Maurya (2022)</span>
-          <span className="text-[#D9A441]">•</span>
+          <span className="text-[#B96535]">•</span>
           <span>Lemon Tree Premier (2023)</span>
-          <span className="text-[#D9A441]">•</span>
+          <span className="text-[#B96535]">•</span>
           <span>Tangerine Grand (2024)</span>
         </div>
         <div className="flex items-center space-x-2">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <Link to="/book-a-stall" className="hover:text-[#D9A441] transition-colors">
+          <Link to="/book-a-stall" className="hover:text-[#B96535] transition-colors font-medium">
             Diwali Edition 5 • October 2026
           </Link>
         </div>

@@ -363,8 +363,8 @@ export default function ArchivePage({ onOpenBooking }) {
             <span className="text-[10px] tracking-[0.3em] font-sans text-[#B85C38] uppercase font-semibold">
               CHRONICLE OF MILESTONES
             </span>
-            <h2 className="font-serif text-4xl sm:text-5xl text-[#2B1B17] font-normal tracking-tight">
-              THE JOURNEY
+            <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight">
+              <span className="text-shimmer-maroon">THE JOURNEY</span>
             </h2>
             <p className="font-serif italic text-base sm:text-lg text-[#2B1B17]/75">
               A timeline of the moments that shaped Udaan.

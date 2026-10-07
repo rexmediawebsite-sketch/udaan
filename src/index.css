@@ -156,20 +156,133 @@ body {
 }
 
 
-/* Shimmering Metallic Gold Text */
+/* Shimmering Metallic Gold Text (Slow, Elegant Sweep) */
 .text-shimmer-gold {
   background: linear-gradient(
-    90deg,
+    110deg,
     #D9A441 0%,
-    #FFE8B3 25%,
-    #D9A441 50%,
-    #B8801F 75%,
+    #D9A441 35%,
+    #FFE8B3 47%,
+    #FFFFFF 50%,
+    #FFE8B3 53%,
+    #D9A441 65%,
     #D9A441 100%
   );
-  background-size: 200% auto;
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer-sweep 5s linear infinite;
+  display: inline-block;
+  animation: shimmer-crimson-sweep 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Crimson Luxury Shining Text (User-requested "THREE WOMEN. ONE VISION." style - Slow Graceful Glide) */
+@keyframes shimmer-crimson-sweep {
+  0% {
+    background-position: -250% center;
+  }
+  100% {
+    background-position: 250% center;
+  }
+}
+
+.text-shimmer-crimson {
+  background: linear-gradient(
+    110deg,
+    #9E1B28 0%,
+    #9E1B28 35%,
+    #D9A441 46%,
+    #FFF8EB 50%,
+    #D9A441 54%,
+    #9E1B28 65%,
+    #9E1B28 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  animation: shimmer-crimson-sweep 11s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Deep Imperial Maroon Shining Text (Slow & Regal) */
+.text-shimmer-maroon {
+  background: linear-gradient(
+    110deg,
+    #4A1620 0%,
+    #4A1620 35%,
+    #B96535 46%,
+    #FFE8B3 50%,
+    #D9A441 54%,
+    #4A1620 65%,
+    #4A1620 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  animation: shimmer-crimson-sweep 11.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Warm Terracotta / Amber Shining Text (Slow & Warm) */
+.text-shimmer-terracotta {
+  background: linear-gradient(
+    110deg,
+    #B85C38 0%,
+    #B85C38 35%,
+    #E9AD83 46%,
+    #FFF8EB 50%,
+    #D9A441 54%,
+    #B85C38 65%,
+    #B85C38 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  animation: shimmer-crimson-sweep 10.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Micro-interaction: Interactive Button Sheen Sweep */
+.btn-shimmer-hover {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-shimmer-hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  transition: none;
+}
+
+.btn-shimmer-hover:hover::after {
+  left: 135%;
+  transition: all 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-shimmer-hover:active {
+  transform: scale(0.97);
+}
+
+/* Micro-interaction: Luxury Interactive Card Hover */
+.card-interactive {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -10px rgba(74, 22, 32, 0.12), 0 0 1px rgba(185, 101, 53, 0.3);
 }
 
 /* Elevated Luxury Icon Disc */
@@ -506,3 +619,30 @@ body {
     animation: none !important;
   }
 }
+
+/* =========================================================================
+   MOBILE PHONE OPTIMIZATIONS & SAFE AREA UTILITIES
+   ========================================================================= */
+.safe-area-pb {
+  padding-bottom: max(0.65rem, env(safe-area-inset-bottom, 0.65rem));
+}
+
+.safe-area-pt {
+  padding-top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
+}
+
+@media (max-width: 640px) {
+  /* Prevent horizontal scroll jitter on touch devices */
+  html, body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Tap highlight removal for crisp native mobile feel */
+  a, button, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+

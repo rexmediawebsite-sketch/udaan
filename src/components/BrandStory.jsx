@@ -63,7 +63,7 @@ export default function BrandStory({ onOpenBooking }) {
 
               <h2 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-[#2B1B17] leading-[1.08] tracking-tight">
                 Where Women <br />
-                <span className="italic font-normal text-[#B85C38]">Build Brands.</span>
+                <span className="italic font-normal text-shimmer-terracotta">Build Brands.</span>
               </h2>
 
               <div className="mt-4 flex items-center space-x-3 text-sm font-sans tracking-[0.2em] text-[#2B1B17]/70">
