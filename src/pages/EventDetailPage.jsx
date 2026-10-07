@@ -22,22 +22,14 @@ import {
 import { UdaanDiamond, UdaanEmblem } from '../components/UdaanIcons';
 import { getEventBySlug, EVENTS_CATALOG } from '../data/eventsCatalog';
 import { SELLER_WHATSAPP_NUMBER } from './BookAStallPage';
-import { getConfirmedCountdown, getEventLifecycleState, LIFECYCLE_STATES } from '../utils/eventLifecycle';
-import EventStateSimulatorBar from '../components/event/EventStateSimulatorBar';
+import { getConfirmedCountdown } from '../utils/eventLifecycle';
 
 export default function EventDetailPage({ onOpenBooking }) {
   const { slug } = useParams();
   const navigate = useNavigate();
   const event = getEventBySlug(slug) || EVENTS_CATALOG[0];
 
-  // Administrative simulation state (allows previewing AUTO, UPCOMING, LIVE, and ARCHIVED)
-  const [simulationState, setSimulationState] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
-
-  // Compute active lifecycle state (Asia/Kolkata standard)
-  const lifecycleState = getEventLifecycleState(event, simulationState);
-  const activeMode = simulationState ? 'MANUAL' : (event?.statusMode || 'AUTO');
-
   const [countdown, setCountdown] = useState(() => getConfirmedCountdown(event?.startDate));
 
   useEffect(() => {
@@ -74,86 +66,79 @@ export default function EventDetailPage({ onOpenBooking }) {
     );
   }
 
-  const isPast = lifecycleState === LIFECYCLE_STATES.ARCHIVED;
+  const isPast = event.status === 'past';
 
   return (
     <div className="bg-[#FAF4EB] min-h-screen text-[#2A1C24] pb-32 sm:pb-24">
 
-      {/* 0. Live State Simulator & Timezone Control Bar (Shown in screenshot) */}
-      <EventStateSimulatorBar
-        currentState={lifecycleState}
-        activeMode={activeMode}
-        onSelectState={(state) => setSimulationState(state)}
-        onResetAuto={() => setSimulationState(null)}
-        eventName={`${event.title} ${event.edition}`}
-      />
-
       {/* =========================================================================
-          1. CINEMATIC HERO (Exact match for screenshot: THE NEXT CHAPTER IS ALMOST HERE)
+          1. CINEMATIC ROYAL HERO (Harmonized with UDAAN Brand Palette)
+          Deep royal maroon & espresso lighting, golden glow, and horology countdown
           ========================================================================= */}
-      <section className="relative w-full min-h-[92vh] sm:min-h-[96vh] overflow-hidden text-center flex flex-col justify-between items-center select-none bg-[#12090F] text-[#FFFAF2] transition-colors duration-700">
+      <section className="relative w-full min-h-[90vh] sm:min-h-[94vh] overflow-hidden text-center flex flex-col justify-between items-center select-none bg-[#2B1B17] text-[#FFFAF2]">
         
-        {/* Background Hall Image with Atmospheric Overlays */}
+        {/* Background Hall Image with Warm Ambient Tone */}
         <div 
-          className="absolute inset-0 z-0 bg-cover bg-center filter saturate-[1.1] contrast-[1.08] transition-all duration-1000"
+          className="absolute inset-0 z-0 bg-cover bg-center filter contrast-[1.05] brightness-[0.78] saturate-[1.12] transition-all duration-1000"
           style={{
             backgroundImage: `url('${event.heroImage || event.coverImage || event.poster}')`,
-            opacity: isPast ? 0.38 : 0.45,
+            opacity: 0.38,
           }}
         />
 
-        {/* Cinematic Vignettes */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#171416]/90 via-[#4A1620]/35 to-[#12090F]/95 pointer-events-none" />
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(18,9,15,0.85)_100%)] pointer-events-none" />
+        {/* Brand Harmonization: Royal Maroon & Sunset Vignettes */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#2B1B17]/95 via-[#4A1620]/65 to-[#2B1B17]/95 pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_38%,rgba(217,164,65,0.22)_0%,transparent_70%)] pointer-events-none" />
 
         {/* Top Eyebrow Status Pill */}
-        <div className="pt-28 sm:pt-36 z-10 animate-fadeIn">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-[#D9A441]/40 bg-[#171416]/80 backdrop-blur-md text-[10px] sm:text-[11px] font-sans font-medium tracking-[0.28em] text-[#D9A441] uppercase shadow-sm">
-            <UdaanDiamond size={10} className="text-[#D9A441]" />
-            <span>{isPast ? 'ARCHIVED CHAPTER' : lifecycleState === LIFECYCLE_STATES.LIVE ? '● LIVE NOW' : (event.bookingStatus || 'STALL BOOKINGS OPEN')}</span>
+        <div className="pt-24 sm:pt-32 z-10 animate-fadeIn">
+          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full border border-[#D9A441]/50 bg-[#2B1B17]/65 backdrop-blur-2xl text-[10.5px] sm:text-xs font-sans font-semibold tracking-[0.25em] text-[#FFE8B3] uppercase shadow-[0_8px_30px_rgba(0,0,0,0.45)]">
+            <UdaanDiamond size={11} className="text-[#D9A441]" />
+            <span>{isPast ? 'ARCHIVED CHAPTER' : event.bookingStatus || 'STALL BOOKINGS OPEN'}</span>
           </div>
         </div>
 
         {/* Hero Center Editorial Composition */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 my-auto space-y-3.5 sm:space-y-5 animate-fadeIn">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 my-auto space-y-4 sm:space-y-5 animate-fadeIn">
           
-          {/* Main Headline (Exact screenshot match: THE NEXT CHAPTER IS ALMOST HERE) */}
+          {/* Main Headline */}
           <h1 className="font-serif tracking-tight leading-[0.96] uppercase">
-            <span className="block text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.14em] text-[#FFFAF2]/90">
-              {lifecycleState === LIFECYCLE_STATES.LIVE ? 'UDAAN' : lifecycleState === LIFECYCLE_STATES.ARCHIVED ? 'THE MOMENT' : 'THE NEXT CHAPTER'}
+            <span className="block text-2xl sm:text-4xl md:text-5xl font-light tracking-[0.18em] text-[#FFFAF2]/90">
+              THE NEXT CHAPTER
             </span>
-            <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-[6.2rem] font-bold tracking-[0.12em] text-[#FFFAF2] drop-shadow-[0_8px_35px_rgba(0,0,0,0.9)] mt-1 sm:mt-2">
-              {lifecycleState === LIFECYCLE_STATES.LIVE ? 'IS LIVE.' : lifecycleState === LIFECYCLE_STATES.ARCHIVED ? 'BECAME A MEMORY.' : 'IS ALMOST HERE.'}
+            <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-bold tracking-[0.06em] text-transparent bg-clip-text bg-gradient-to-r from-[#FFFBF5] via-[#FFE2A4] to-[#FFFBF5] drop-shadow-[0_12px_45px_rgba(0,0,0,0.95)] mt-1 sm:mt-2">
+              IS ALMOST HERE.
             </span>
           </h1>
 
           {/* Golden Cursive / Italic Subtitle */}
-          <div className="font-serif italic text-2xl sm:text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-[#FFFAF2] via-[#F3CE86] to-[#D9A441] tracking-wide pt-1">
+          <div className="font-serif italic text-2xl sm:text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-[#FFF6E3] via-[#F3CE86] to-[#D9A441] tracking-wide">
             {event.title} • {event.edition}
           </div>
 
-          {/* Venue & Date Subtitle */}
-          <p className="text-[11px] sm:text-xs md:text-sm font-sans tracking-[0.18em] uppercase text-[#D9A441] max-w-2xl mx-auto font-light leading-relaxed">
-            {event.dates || event.date} • {event.hall || 'TANGERINE GRAND EXHIBITION HALL'} • {event.city || 'PATNA'}
-          </p>
+          {/* Venue & Date Pill */}
+          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full border border-[#D9A441]/35 bg-[#2B1B17]/55 backdrop-blur-md text-[10.5px] sm:text-xs font-sans tracking-[0.2em] uppercase text-[#D9A441] font-medium shadow-md">
+            <MapPin size={12} className="text-[#D9A441]" />
+            <span>{event.dates || event.date} • {event.hall || 'TANGERINE GRAND'} • {event.city || 'PATNA'}</span>
+          </div>
 
-          {/* Live Real-Time Countdown Timer (Exact match for screenshot: 17 01 08 55) */}
+          {/* Live Real-Time Countdown Timer (Horology Luxury Capsules) */}
           {!isPast && countdown && (
-            <div className="pt-3 pb-2 flex items-center justify-center gap-2 sm:gap-4 md:gap-5 text-center select-none animate-fadeIn">
+            <div className="pt-2 pb-2 flex items-center justify-center gap-2.5 sm:gap-4 md:gap-5 text-center select-none animate-fadeIn">
               {[
                 { val: countdown.days, unit: 'DAYS' },
                 { val: countdown.hours, unit: 'HOURS' },
-                { val: countdown.minutes, unit: 'MINUTES' },
-                { val: countdown.seconds, unit: 'SECONDS' },
+                { val: countdown.minutes, unit: 'MINS' },
+                { val: countdown.seconds, unit: 'SECS' },
               ].map((cd, idx) => (
                 <div 
                   key={idx}
-                  className="px-3.5 py-2 sm:px-5 sm:py-3.5 rounded-2xl bg-black/55 border border-[#D9A441]/40 backdrop-blur-md min-w-[62px] sm:min-w-[85px] shadow-xl"
+                  className="countdown-capsule px-4 py-3 sm:px-6 sm:py-4 rounded-2xl sm:rounded-3xl min-w-[68px] sm:min-w-[92px]"
                 >
-                  <span className="block font-serif text-2xl sm:text-4xl font-bold text-[#FFFAF2] leading-none">
+                  <span className="countdown-numeral block text-2xl sm:text-4xl md:text-5xl font-bold leading-none">
                     {String(cd.val).padStart(2, '0')}
                   </span>
-                  <span className="block text-[7.5px] sm:text-[9px] font-mono tracking-widest text-[#D9A441] uppercase pt-1 font-semibold">
+                  <span className="block text-[8px] sm:text-[9.5px] font-sans font-semibold tracking-[0.25em] text-[#D9A441] uppercase pt-1.5">
                     {cd.unit}
                   </span>
                 </div>
@@ -161,7 +146,7 @@ export default function EventDetailPage({ onOpenBooking }) {
             </div>
           )}
 
-          {/* Action CTAs */}
+          {/* Action CTAs Matching Website Design Language */}
           <div className="pt-3 sm:pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             {!isPast ? (
               <>
@@ -175,7 +160,7 @@ export default function EventDetailPage({ onOpenBooking }) {
 
                 <Link
                   to="/stalls"
-                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 rounded-full border border-white/30 bg-white/10 hover:bg-white/15 text-[#FFFAF2] text-xs font-sans tracking-[0.2em] uppercase transition-all backdrop-blur-md flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 rounded-full border border-white/30 bg-white/10 hover:bg-white/15 text-[#FFFAF2] text-xs font-sans tracking-[0.2em] uppercase transition-all backdrop-blur-md flex items-center justify-center gap-2 active:scale-98"
                 >
                   <LayoutGrid size={15} className="text-[#D9A441]" />
                   <span>VIEW FLOOR MAP</span>
@@ -185,7 +170,7 @@ export default function EventDetailPage({ onOpenBooking }) {
                   href={`https://wa.me/${SELLER_WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello Udaan Team, I am interested in ${event.title} (${event.edition}).`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-white border border-[#25D366]/50 text-xs font-sans tracking-[0.2em] uppercase transition-all backdrop-blur-md flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-white border border-[#25D366]/50 text-xs font-sans tracking-[0.2em] uppercase transition-all backdrop-blur-md flex items-center justify-center gap-2 active:scale-98"
                 >
                   <MessageCircle size={15} />
                   <span>WHATSAPP CONCIERGE</span>
@@ -202,15 +187,18 @@ export default function EventDetailPage({ onOpenBooking }) {
           </div>
         </div>
 
-        {/* Bottom Footer Info Strip inside Hero */}
+        {/* Bottom Footer Info Strip inside Hero with Subtle Gradient Feathering */}
         <div className="pb-8 z-10 space-y-1 text-center px-4">
-          <div className="text-[10.5px] sm:text-[11px] font-sans font-medium tracking-[0.28em] uppercase text-[#FFFAF2]/70">
+          <div className="text-[10.5px] sm:text-[11px] font-sans font-medium tracking-[0.25em] uppercase text-[#FFFAF2]/75">
             {event.timings || '11:00 AM – 9:00 PM IST'} • {event.venueDetails?.address || event.venue || 'Patna'}
           </div>
-          <div className="text-[9px] sm:text-[9.5px] font-mono tracking-widest text-[#D9A441]/90 uppercase">
+          <div className="text-[9px] sm:text-[9.5px] font-mono tracking-widest text-[#D9A441] uppercase">
             {event.hall || 'TANGERINE GRAND'} • 5-STAR CLIMATE-CONTROLLED VENUE
           </div>
         </div>
+
+        {/* Ambient Bottom Feathering to Seamlessly Blend into Warm Ivory Page */}
+        <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#FAF4EB] via-[#FAF4EB]/20 to-transparent pointer-events-none" />
       </section>
 
 
@@ -252,23 +240,23 @@ export default function EventDetailPage({ onOpenBooking }) {
 
 
         {/* =========================================================================
-            2. KEY HIGHLIGHTS GRID (Compact 2x2 on Mobile)
+            2. KEY HIGHLIGHTS GRID (Compact 2x2 on Mobile with Scroll Reveal)
             ========================================================================= */}
-        <section className="mb-10 sm:mb-16">
+        <section className="mb-10 sm:mb-16 scroll-reveal">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6 text-center">
-            <div className="p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
+            <div className="card-interactive scroll-reveal scroll-delay-1 p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
               <span className="font-serif text-xl sm:text-3xl font-bold text-[#4A1620]">12,000</span>
               <span className="block text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wider text-[#B96535] mt-0.5">Sq.Ft 5-Star Hall</span>
             </div>
-            <div className="p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
+            <div className="card-interactive scroll-reveal scroll-delay-2 p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
               <span className="font-serif text-xl sm:text-3xl font-bold text-[#4A1620]">5,000+</span>
               <span className="block text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wider text-[#B96535] mt-0.5">Festive Shoppers</span>
             </div>
-            <div className="p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
+            <div className="card-interactive scroll-reveal scroll-delay-3 p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
               <span className="font-serif text-xl sm:text-3xl font-bold text-[#4A1620]">48</span>
               <span className="block text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wider text-[#B96535] mt-0.5">Curated Ateliers</span>
             </div>
-            <div className="p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
+            <div className="card-interactive scroll-reveal scroll-delay-4 p-3.5 sm:p-5 rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-xs">
               <span className="font-serif text-xl sm:text-3xl font-bold text-[#4A1620]">100%</span>
               <span className="block text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-wider text-[#B96535] mt-0.5">Turnkey Setup</span>
             </div>
@@ -280,7 +268,7 @@ export default function EventDetailPage({ onOpenBooking }) {
             3. STALL PLANS & PRICING SUMMARY (Mobile Touch-Friendly Cards)
             ========================================================================= */}
         {!isPast && (
-          <section className="mb-10 sm:mb-16">
+          <section className="mb-10 sm:mb-16 scroll-reveal">
             <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 space-y-1">
               <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
                 STALL TIERS &amp; PRICING
@@ -320,7 +308,7 @@ export default function EventDetailPage({ onOpenBooking }) {
               ].map((tier, idx) => (
                 <div
                   key={idx}
-                  className={`card-interactive p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#FFFBF5] border flex flex-col justify-between shadow-sm transition-all ${
+                  className={`card-interactive scroll-reveal scroll-delay-${idx + 1} p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#FFFBF5] border flex flex-col justify-between shadow-sm transition-all ${
                     tier.isPopular ? 'border-[#B96535] ring-2 ring-[#B96535]/30' : 'border-[#E9AD83]/30'
                   }`}
                 >
@@ -357,7 +345,7 @@ export default function EventDetailPage({ onOpenBooking }) {
             4. CURATED CATEGORIES (Mobile 2-Column Responsive Grid)
             ========================================================================= */}
         {event.categories && event.categories.length > 0 && (
-          <section className="mb-10 sm:mb-16">
+          <section className="mb-10 sm:mb-16 scroll-reveal">
             <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 space-y-1">
               <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
                 EXHIBITION DOMAINS
@@ -371,7 +359,7 @@ export default function EventDetailPage({ onOpenBooking }) {
               {event.categories.map((cat, idx) => (
                 <div
                   key={idx}
-                  className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 text-center shadow-xs flex flex-col items-center justify-center min-h-[90px]"
+                  className="card-interactive scroll-reveal scroll-delay-1 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FFFBF5] border border-[#E9AD83]/30 text-center shadow-xs flex flex-col items-center justify-center min-h-[90px]"
                 >
                   <Sparkles size={14} className="text-[#B96535] mb-1.5" />
                   <span className="font-serif text-xs sm:text-sm font-medium text-[#2A1C24] leading-tight">
@@ -387,7 +375,7 @@ export default function EventDetailPage({ onOpenBooking }) {
         {/* =========================================================================
             5. VENUE & VISITOR CONCIERGE (Stack neatly on phones)
             ========================================================================= */}
-        <section className="mb-10 sm:mb-16 p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md">
+        <section className="mb-10 sm:mb-16 p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#FFFBF5] border border-[#E9AD83]/30 shadow-md scroll-reveal">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
             <div className="space-y-3 sm:space-y-4">
               <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
@@ -442,7 +430,7 @@ export default function EventDetailPage({ onOpenBooking }) {
             6. FAQS (Touch-friendly accordions)
             ========================================================================= */}
         {event.faqs && event.faqs.length > 0 && (
-          <section className="mb-10 sm:mb-16">
+          <section className="mb-10 sm:mb-16 scroll-reveal">
             <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8 space-y-1">
               <span className="text-[10px] tracking-[0.25em] text-[#B96535] uppercase font-semibold font-sans">
                 GUIDELINES

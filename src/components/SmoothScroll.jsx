@@ -38,11 +38,48 @@ export default function SmoothScroll({ children }) {
     };
   }, []);
 
-  // Handle route change: reset scroll, kill old triggers, refresh ScrollTrigger
+  // Handle route change: reset scroll, kill old triggers, refresh ScrollTrigger & re-arm scroll reveals
   useEffect(() => {
     window.scrollTo(0, 0);
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     ScrollTrigger.refresh();
+
+    // Universal Luxury Scroll Reveal
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const timer = setTimeout(() => {
+      const targets = document.querySelectorAll(
+        '.scroll-reveal, [data-reveal], section, .card-interactive, .card-luxury-hover'
+      );
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          rootMargin: '0px 0px -40px 0px',
+          threshold: 0.08,
+        }
+      );
+
+      targets.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+          el.classList.add('revealed');
+        } else {
+          el.classList.add('scroll-reveal');
+          observer.observe(el);
+        }
+      });
+    }, 120);
+
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
   return <>{children}</>;
